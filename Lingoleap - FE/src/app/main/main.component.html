@@ -1,5 +1,5 @@
 <div class="center">
-  <mat-card class="card" appearance="outlined">
+  <mat-card class="card component-bg-global" appearance="outlined">
     <div class="header-container">
       <div>
         <span class="counter green-text">{{ correctAnswerCounter }}</span> /
@@ -54,10 +54,6 @@
         </div>
         <div>
           <button [disabled]="settings || !englishToPolish" mat-raised-button color="accent" (click)="readText()">
-            <span class="material-icons">volume_up</span>
-          </button>
-
-          <button mat-raised-button color="accent" (click)="openDialog()">
             <span class="material-icons">volume_up</span>
           </button>
         </div>

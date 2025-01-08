@@ -1,0 +1,14 @@
+.dialog{
+  background: rgb(56, 70, 88) !important;
+  width: 500px;
+  height: 500px;
+  border-radius: 20%;
+}
+
+:host ::ng-deep .mat-mdc-dialog-container {
+  background: none !important;
+}
+
+:host ::ng-deep .mdc-dialog__surface {
+  background: none !important;
+}
