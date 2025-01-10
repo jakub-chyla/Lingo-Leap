@@ -1,14 +1,31 @@
-.dialog{
-  background: rgb(56, 70, 88) !important;
-  width: 500px;
-  height: 500px;
-  border-radius: 20%;
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
 }
 
-:host ::ng-deep .mat-mdc-dialog-container {
-  background: none !important;
+.card {
+  border-radius: 10px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 1);
+  padding: 20px;
+  margin: 20px auto;
 }
 
-:host ::ng-deep .mdc-dialog__surface {
-  background: none !important;
+.container {
+  width: 30vw;
+  min-width: 350px;
+  height: 340px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 10px;
 }

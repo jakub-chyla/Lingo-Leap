@@ -1,10 +1,9 @@
-import {Component, inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatToolbar} from "@angular/material/toolbar";
 import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatTooltip} from "@angular/material/tooltip";
-import {LogInComponent} from "../log-in/log-in.component";
-import {MatDialog} from "@angular/material/dialog";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-top-bar',
@@ -19,13 +18,14 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrl: './top-bar.component.scss'
 })
 export class TopBarComponent {
-  readonly dialog = inject(MatDialog);
+  constructor(private router: Router) {
+  }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(LogInComponent);
+  navigateToLogin(): void {
+    this.router.navigate(['/log-in']);
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+  navigateToMain(): void {
+    this.router.navigate(['/main']);
   }
 }

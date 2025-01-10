@@ -2,7 +2,8 @@
   <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
     <mat-icon>menu</mat-icon>
   </button>
-  <span>Lingo Leap</span>
+  <div class="logo"><a (click)="navigateToMain()">Lingo Leap</a></div>
+
   <span class="example-spacer"></span>
   <span class="icon-spacer"></span>
 
@@ -14,8 +15,9 @@
 
   <button mat-icon-button class="example-icon favorite-icon"
           aria-label="Example icon-button with heart icon"
-          (click)="openDialog()"
-          matTooltip="Log out">
+          matTooltip="Log in"
+          (click)="navigateToLogin()">
     <mat-icon>login</mat-icon>
   </button>
+
 </mat-toolbar>
