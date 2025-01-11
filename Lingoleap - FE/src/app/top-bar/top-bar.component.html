@@ -9,15 +9,22 @@
 
   <button mat-icon-button class="example-icon favorite-icon"
           aria-label="Example icon-button with heart icon"
-          matTooltip="Log out">
-    <mat-icon>logout</mat-icon>
+          matTooltip="Log in"
+          (click)="navigateToLogin()">
+    <mat-icon>login</mat-icon>
   </button>
 
   <button mat-icon-button class="example-icon favorite-icon"
           aria-label="Example icon-button with heart icon"
           matTooltip="Log in"
-          (click)="navigateToLogin()">
+          (click)="navigateToSingIn()">
     <mat-icon>login</mat-icon>
+  </button>
+
+  <button mat-icon-button class="example-icon favorite-icon"
+          aria-label="Example icon-button with heart icon"
+          matTooltip="Log out">
+    <mat-icon>logout</mat-icon>
   </button>
 
 </mat-toolbar>

@@ -21,6 +21,10 @@ export class TopBarComponent {
   constructor(private router: Router) {
   }
 
+  navigateToSingIn(): void {
+    this.router.navigate(['/sign-in']);
+  }
+
   navigateToLogin(): void {
     this.router.navigate(['/log-in']);
   }

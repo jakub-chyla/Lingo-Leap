@@ -1,19 +1,19 @@
 <div class="center">
   <mat-card class="card component-bg-global" appearance="outlined">
     <mat-card-header>
-      <mat-card-title>Log in</mat-card-title>
+      <mat-card-title>Sign in</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]="myForm">
         <div class="grid grid-cols-1 gap-4">
           <div>
-            <mat-form-field appearance="fill" class="input">
+            <mat-form-field appearance="fill" hideRequiredMarker="true" class="input">
               <mat-label>User</mat-label>
               <input type="text" matInput formControlName="username">
             </mat-form-field>
           </div>
           <div>
-            <mat-form-field appearance="fill" class="input">
+            <mat-form-field appearance="fill" hideRequiredMarker="true" class="input">
               <mat-label>Password</mat-label>
               <input type="text" matInput formControlName="password">
             </mat-form-field>
@@ -24,13 +24,13 @@
     <mat-card-footer>
       <div style="display: flex; justify-content: center">
         <div class="left-button">
-          <button mat-raised-button color="primary" (click)="logIn()" [disabled]="myForm.invalid "
+          <button mat-raised-button color="primary" (click)="signIn()" [disabled]="myForm.invalid "
                   type="submit">Log in
           </button>
         </div>
         <div>
-          <button mat-raised-button color="primary" (click)="logIn()" [disabled]="myForm.invalid "
-                  type="submit">Log in
+          <button mat-raised-button color="primary" (click)="signIn()" [disabled]="myForm.invalid "
+                  type="submit">Sign in
           </button>
         </div>
       </div>

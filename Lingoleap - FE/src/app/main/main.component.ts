@@ -1,6 +1,6 @@
 import {Component, inject, model, OnInit, signal} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {Word} from "../word";
+import {Word} from "../model/word";
 import {LogInComponent} from "../log-in/log-in.component";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent} from "@angular/material/card";
