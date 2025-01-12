@@ -1,5 +1,6 @@
 package com.lingo_leap.controller;
 
+import com.lingo_leap.dto.AuthenticationResponseDto;
 import com.lingo_leap.model.AuthenticationResponse;
 import com.lingo_leap.model.User;
 import com.lingo_leap.service.AuthenticationService;
@@ -28,9 +29,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(
-            @RequestBody User request
-    ) {
+    public ResponseEntity<AuthenticationResponseDto> login(@RequestBody User request) {
         return ResponseEntity.ok(authService.authenticate(request));
     }
 

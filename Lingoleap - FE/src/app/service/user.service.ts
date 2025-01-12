@@ -4,6 +4,7 @@ import {User} from "../model/user";
 import {HttpClient} from "@angular/common/http";
 import {LOG_IN, REGISTER} from "../shared/api-url";
 import {AuthRequest} from "../model/auth-request";
+import {AuthResponse} from "../model/auth-response";
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +23,15 @@ export class UserService {
     });
   }
 
-  logIn(authRequest: AuthRequest): Observable<User> {
-    return this.httpClient.post<User>(this.domain + LOG_IN, authRequest).pipe(
-      tap((response: User) => {
+  logIn(authRequest: AuthRequest): Observable<AuthResponse> {
+    return this.httpClient.post<AuthResponse>(this.domain + LOG_IN, authRequest).pipe(
+      tap((response: AuthResponse) => {
         if (response) {
-          this.emitUser(response);
-          // localStorage.setItem('token', String(response.token));
+          let user = new User();
+          user.id = response.id;
+          user.username = authRequest.username;
+          user.token = response.accessToken;
+          this.emitUser(user);
         }
       })
     );

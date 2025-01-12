@@ -1,8 +1,15 @@
 <div class="center">
   <mat-card class="card component-bg-global" appearance="outlined">
-    <mat-card-header>
-      <mat-card-title>Log in</mat-card-title>
-    </mat-card-header>
+    <div class="header-container">
+      <div class="header" >
+        <span >{{ 'Log In' }}</span>
+      </div>
+      <div>
+        <button style="" mat-icon-button (click)="navigateToLMain()">
+          <mat-icon color="warn">close</mat-icon>
+        </button>
+      </div>
+    </div>
     <mat-card-content>
       <form [formGroup]="myForm">
         <div class="grid grid-cols-1 gap-4">
@@ -24,7 +31,7 @@
     <mat-card-footer>
       <div style="display: flex; justify-content: center">
         <div class="left-button">
-          <button mat-stroked-button (click)="navigateToLMain()">Cancel</button>
+          <button mat-stroked-button (click)="navigateToSingIn()">Sign in</button>
         </div>
         <div>
           <button mat-raised-button color="primary" (click)="logIn()" [disabled]="myForm.invalid "

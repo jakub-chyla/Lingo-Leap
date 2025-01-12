@@ -1,6 +1,7 @@
 package com.lingo_leap.service;
 
 
+import com.lingo_leap.dto.AuthenticationResponseDto;
 import com.lingo_leap.model.AuthenticationResponse;
 import com.lingo_leap.model.Role;
 import com.lingo_leap.model.Token;
@@ -64,7 +65,7 @@ public class AuthenticationService {
 
     }
 
-    public AuthenticationResponse authenticate(User request) {
+    public AuthenticationResponseDto authenticate(User request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
@@ -78,8 +79,14 @@ public class AuthenticationService {
 
         revokeAllTokenByUser(user);
         saveUserToken(accessToken, refreshToken, user);
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse(accessToken, refreshToken, "User login was successful");
+        AuthenticationResponseDto authenticationResponseDto = new AuthenticationResponseDto();
+        authenticationResponseDto.setId(user.getId());
+        authenticationResponseDto.setAccessToken(authenticationResponse.getAccessToken());
+        authenticationResponseDto.setRefreshToken(authenticationResponse.getRefreshToken());
+        authenticationResponseDto.setMessage(authenticationResponse.getMessage());
 
-        return new AuthenticationResponse(accessToken, refreshToken, "User login was successful");
+        return authenticationResponseDto;
 
     }
     private void revokeAllTokenByUser(User user) {

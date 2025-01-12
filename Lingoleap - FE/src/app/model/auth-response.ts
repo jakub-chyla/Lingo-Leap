@@ -1,0 +1,6 @@
+export class AuthResponse {
+  id?: number;
+  accessToken?: string;
+  refreshToken?: string;
+  message?: string;
+}

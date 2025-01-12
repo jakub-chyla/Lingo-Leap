@@ -20,6 +20,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {UserService} from "../service/user.service";
 import {AuthRequest} from "../model/auth-request";
 import {Router} from "@angular/router";
+import {User} from "../model/user";
 
 @Component({
   selector: 'app-log-in',
@@ -53,6 +54,7 @@ import {Router} from "@angular/router";
 })
 export class LogInComponent implements OnInit {
   myForm!: FormGroup;
+  user?: User;
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -66,6 +68,13 @@ export class LogInComponent implements OnInit {
       username: ['', [Validators.required, Validators.minLength(3),]],
       password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(9)]],
     });
+
+    this.userService.user$.subscribe((user) => {
+      if (user) {
+        this.user = user;
+        console.log(this.user)
+      }
+    });
   }
 
   logIn() {
@@ -76,7 +85,6 @@ export class LogInComponent implements OnInit {
       }
       this.userService.logIn(authRequest).subscribe(
         (response) => {
-          console.log(response)
           this.router.navigate(['/main']);
         },
       );
@@ -85,6 +93,10 @@ export class LogInComponent implements OnInit {
 
   navigateToLMain(): void {
     this.router.navigate(['/main']);
+  }
+
+  navigateToSingIn(): void {
+    this.router.navigate(['/sign-in']);
   }
 
   phoneValidator(): ValidatorFn {
