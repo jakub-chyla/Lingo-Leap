@@ -13,5 +13,5 @@ export const TRAININGS: string = '/trainings';
 export const NEXT_TRAININGS: string = '/next-trainings';
 export const DIETS: string = '/diets';
 export const GOALS: string = '/goals';
-export const LOG_IN: string = '/log-in';
+export const LOG_IN: string = '/login';
 export const VALIDATE: string = '/validate';

@@ -2,6 +2,7 @@ package com.lingo_leap.service;
 
 
 import com.lingo_leap.model.AuthenticationResponse;
+import com.lingo_leap.model.Role;
 import com.lingo_leap.model.Token;
 import com.lingo_leap.repository.TokenRepository;
 import com.lingo_leap.repository.UserRepository;
@@ -49,14 +50,9 @@ public class AuthenticationService {
         }
 
         User user = new User();
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-
-
-        user.setRole(request.getRole());
-
+        user.setRole(Role.USER);
         user = repository.save(user);
 
         String accessToken = jwtService.generateAccessToken(user);

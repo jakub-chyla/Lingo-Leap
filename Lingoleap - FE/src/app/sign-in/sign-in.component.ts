@@ -66,4 +66,8 @@ export class SignInComponent implements OnInit {
     this.router.navigate(['/log-in']);
   }
 
+  navigateToLMain(): void {
+    this.router.navigate(['/main']);
+  }
+
 }

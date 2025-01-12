@@ -19,6 +19,7 @@ import {CommonModule} from "@angular/common";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {UserService} from "../service/user.service";
 import {AuthRequest} from "../model/auth-request";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-log-in',
@@ -54,6 +55,8 @@ export class LogInComponent implements OnInit {
   myForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
+              private router: Router,
+              private userService: UserService,
 
   ) {
   }
@@ -71,12 +74,17 @@ export class LogInComponent implements OnInit {
         username: this.myForm.get('username')?.value,
         password: this.myForm.get('password')?.value
       }
-      // this.userService.logIn(authRequest).subscribe(
-      //   (response) => {
-      //     // this.router.navigate(['/main']);
-      //   },
-      // );
+      this.userService.logIn(authRequest).subscribe(
+        (response) => {
+          console.log(response)
+          this.router.navigate(['/main']);
+        },
+      );
     }
+  }
+
+  navigateToLMain(): void {
+    this.router.navigate(['/main']);
   }
 
   phoneValidator(): ValidatorFn {
