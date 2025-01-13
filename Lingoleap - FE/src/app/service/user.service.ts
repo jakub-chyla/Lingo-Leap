@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, tap} from "rxjs";
 import {User} from "../model/user";
 import {HttpClient} from "@angular/common/http";
@@ -13,7 +13,7 @@ export class UserService {
   domain = 'http://localhost:8080'
   private userSource = new BehaviorSubject<User | null>(null);
   user$ = this.userSource.asObservable();
-
+  user?: User;
   constructor(private httpClient: HttpClient) {
   }
 
@@ -27,14 +27,21 @@ export class UserService {
     return this.httpClient.post<AuthResponse>(this.domain + LOG_IN, authRequest).pipe(
       tap((response: AuthResponse) => {
         if (response) {
-          let user = new User();
-          user.id = response.id;
-          user.username = authRequest.username;
-          user.token = response.accessToken;
-          this.emitUser(user);
+          this.user = new User();
+          this.user.id = response.id;
+          this.user.username = authRequest.username;
+          this.user.token = response.accessToken;
+          this.emitUser(this.user);
         }
       })
     );
+  }
+
+  logOut() {
+    if (this.user) {
+      this.user = new User();
+      this.emitUser(this.user);
+    }
   }
 
   emitUser(user: User) {

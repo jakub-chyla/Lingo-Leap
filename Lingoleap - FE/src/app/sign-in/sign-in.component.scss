@@ -17,12 +17,15 @@
 }
 
 .input ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled){
-  color: blue !important;
   background-color: #425062 !important;
 }
 
 .input ::ng-deep .mdc-floating-label {
   color: #f3f3f3 !important;
+}
+
+.input ::ng-deep .mdc-text-field__input{
+  color: white !important;
 }
 
 .container {

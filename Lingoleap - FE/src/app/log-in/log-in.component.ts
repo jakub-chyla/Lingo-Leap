@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MatCard, MatCardContent, MatCardFooter, MatCardHeader, MatCardModule} from "@angular/material/card";
+import {MatCard, MatCardContent, MatCardFooter, MatCardModule} from "@angular/material/card";
 import {MatButton, MatButtonModule} from "@angular/material/button";
 import {
   AbstractControl,
@@ -29,7 +29,6 @@ import {User} from "../model/user";
     MatCard,
     MatButton,
     MatCardContent,
-    MatCardHeader,
     MatCardFooter,
     ReactiveFormsModule,
     MatFormField,
@@ -45,9 +44,7 @@ import {User} from "../model/user";
     CommonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDatepickerModule,
-
-
+    MatDatepickerModule
   ],
   templateUrl: './log-in.component.html',
   styleUrl: './log-in.component.scss'
@@ -58,8 +55,7 @@ export class LogInComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
-              private userService: UserService,
-
+              private userService: UserService
   ) {
   }
 
@@ -72,7 +68,6 @@ export class LogInComponent implements OnInit {
     this.userService.user$.subscribe((user) => {
       if (user) {
         this.user = user;
-        console.log(this.user)
       }
     });
   }
