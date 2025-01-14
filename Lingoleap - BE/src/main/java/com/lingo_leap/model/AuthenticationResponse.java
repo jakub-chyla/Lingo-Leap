@@ -1,7 +1,14 @@
 package com.lingo_leap.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class AuthenticationResponse {
     @JsonProperty("access_token")
     private String accessToken;
@@ -12,21 +19,4 @@ public class AuthenticationResponse {
     @JsonProperty("message")
     private String message;
 
-    public AuthenticationResponse(String accessToken, String refreshToken, String message) {
-        this.accessToken = accessToken;
-        this.message = message;
-        this.refreshToken = refreshToken;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }

@@ -2,12 +2,9 @@ package com.lingo_leap.service;
 
 
 import com.lingo_leap.dto.AuthenticationResponseDto;
-import com.lingo_leap.model.AuthenticationResponse;
-import com.lingo_leap.model.Role;
-import com.lingo_leap.model.Token;
+import com.lingo_leap.model.*;
 import com.lingo_leap.repository.TokenRepository;
 import com.lingo_leap.repository.UserRepository;
-import com.lingo_leap.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
@@ -43,7 +40,7 @@ public class AuthenticationService {
         this.authenticationManager = authenticationManager;
     }
 
-    public AuthenticationResponse register(User request) {
+    public AuthenticationResponse register(AuthRequest request) {
 
         // check if user already exist. if exist than authenticate the user
         if(repository.findByUsername(request.getUsername()).isPresent()) {

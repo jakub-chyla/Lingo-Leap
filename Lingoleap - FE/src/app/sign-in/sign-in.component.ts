@@ -44,6 +44,7 @@ export class SignInComponent implements OnInit {
     this.myForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(3),]],
       password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(9)]],
+      email: ['', [Validators.required, ]]
     });
   }
 
@@ -51,7 +52,8 @@ export class SignInComponent implements OnInit {
     if (this.myForm.valid) {
       const authRequest: AuthRequest = {
         username: this.myForm.get('username')?.value,
-        password: this.myForm.get('password')?.value
+        password: this.myForm.get('password')?.value,
+        email: this.myForm.get('email')?.value
       }
 
       this.userService.createUser(authRequest).subscribe(() =>{

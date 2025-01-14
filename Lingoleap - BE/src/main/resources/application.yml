@@ -21,6 +21,17 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: lingo.leap.email@gmail.com # ${MAIL_USERNAME} # your gmail account
+    password: ${MAIL_PASSWORD} # ${MAIL_PASSWORD} # your gmail password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 application:
   security:
