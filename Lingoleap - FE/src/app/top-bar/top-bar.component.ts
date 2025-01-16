@@ -7,6 +7,9 @@ import {Router} from "@angular/router";
 import {User} from "../model/user";
 import {UserService} from "../service/user.service";
 import {NgIf} from "@angular/common";
+import {PurchaseService} from "../service/purchase.service";
+import {ProductRequest} from "../model/product-request";
+import {StripeResponse} from "../model/stripe-response";
 
 @Component({
   selector: 'app-top-bar',
@@ -25,7 +28,8 @@ export class TopBarComponent implements OnInit {
   user?: User | null;
 
   constructor(private router: Router,
-              private userService: UserService) {
+              private userService: UserService,
+              private purchaseService: PurchaseService) {
   }
 
   ngOnInit() {
@@ -36,6 +40,26 @@ export class TopBarComponent implements OnInit {
 
   logOut() {
     this.userService.logOut();
+  }
+
+  checkout() {
+    const productRequest: ProductRequest = {
+      amount: 100,
+      quantity: 1,
+      name: 'subscription',
+      currency: 'USD',
+    }
+    this.purchaseService.checkout(productRequest).subscribe(
+      (response: StripeResponse) => {
+       console.log(response);
+        if (response.sessionUrl) {
+          // Navigate to the sessionUrl
+          window.location.href = response.sessionUrl;
+        } else {
+          console.error('Session URL is missing in the response.');
+        }
+      }
+    );
   }
 
   navigateToLogin(): void {

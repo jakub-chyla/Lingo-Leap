@@ -8,6 +8,13 @@
   <span class="icon-spacer"></span>
   {{this.user?.username}}
 
+  <button mat-icon-button class="example-icon favorite-icon"
+          aria-label="Example icon-button with heart icon"
+          matTooltip="Log out"
+          (click)="checkout()">
+    <mat-icon>shopping_cart</mat-icon>
+  </button>
+
   <button *ngIf="this.user?.token === undefined || this.user?.token === null" mat-icon-button class="example-icon favorite-icon"
           aria-label="Example icon-button with heart icon"
           matTooltip="Log in"

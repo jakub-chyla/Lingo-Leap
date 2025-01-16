@@ -15,3 +15,4 @@ export const DIETS: string = '/diets';
 export const GOALS: string = '/goals';
 export const LOG_IN: string = '/login';
 export const VALIDATE: string = '/validate';
+export const CHECKOUT: string = '/purchase/checkout';
