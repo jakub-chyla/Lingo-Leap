@@ -33,8 +33,14 @@ export class TopBarComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(localStorage.getItem('token'))
     this.userService.user$.subscribe((user) => {
       this.user = user;
+      if(this.user === null) {
+        this.user = new User();
+        this.user.username = localStorage.getItem('username') ?? undefined;
+        this.user.token = localStorage.getItem('token') ?? undefined; // Converts null to undefined
+      }
     });
   }
 
@@ -51,9 +57,8 @@ export class TopBarComponent implements OnInit {
     }
     this.purchaseService.checkout(productRequest).subscribe(
       (response: StripeResponse) => {
-       console.log(response);
+        console.log(response);
         if (response.sessionUrl) {
-          // Navigate to the sessionUrl
           window.location.href = response.sessionUrl;
         } else {
           console.error('Session URL is missing in the response.');

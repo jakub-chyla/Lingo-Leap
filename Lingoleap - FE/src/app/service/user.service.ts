@@ -14,6 +14,7 @@ export class UserService {
   private userSource = new BehaviorSubject<User | null>(null);
   user$ = this.userSource.asObservable();
   user?: User;
+
   constructor(private httpClient: HttpClient) {
   }
 
@@ -31,6 +32,8 @@ export class UserService {
           this.user.id = response.id;
           this.user.username = authRequest.username;
           this.user.token = response.accessToken;
+          localStorage.setItem('username', String(authRequest.username));
+          localStorage.setItem('token', String(response.accessToken));
           this.emitUser(this.user);
         }
       })
@@ -38,10 +41,12 @@ export class UserService {
   }
 
   logOut() {
-    if (this.user) {
-      this.user = new User();
-      this.emitUser(this.user);
-    }
+    this.user = new User();
+    localStorage.removeItem('username');
+    localStorage.removeItem('token');
+    console.log(this.user);
+    this.emitUser(this.user);
+
   }
 
   emitUser(user: User) {
