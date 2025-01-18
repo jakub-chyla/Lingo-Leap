@@ -6,19 +6,18 @@ import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class StripeService {
+
+    private final PurchaseService purchaseService;
 
     @Value("${stripe.secretKey}")
     private String secretKey;
-
-    //stripe -API
-    //-> productName , amount , quantity , currency
-    //-> return sessionId and url
-
 
 
     public StripeResponse checkoutProducts(ProductRequest productRequest) {
@@ -55,6 +54,8 @@ public class StripeService {
                         .setCancelUrl("http://localhost:8080/cancel")
                         .addLineItem(lineItem)
                         .build();
+
+        purchaseService.buy(productRequest.getUserId());
 
         // Create new session
         Session session = null;

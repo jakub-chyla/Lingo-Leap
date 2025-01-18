@@ -33,7 +33,6 @@ export class TopBarComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(localStorage.getItem('token'))
     this.userService.user$.subscribe((user) => {
       this.user = user;
       if(this.user === null) {
@@ -54,6 +53,7 @@ export class TopBarComponent implements OnInit {
       quantity: 1,
       name: 'subscription',
       currency: 'USD',
+      userId: this.user?.id
     }
     this.purchaseService.checkout(productRequest).subscribe(
       (response: StripeResponse) => {
@@ -65,6 +65,13 @@ export class TopBarComponent implements OnInit {
         }
       }
     );
+  }
+
+demo():void {
+    this.userService.demo().subscribe((result) => {
+      console.log(result);
+    })
+
   }
 
   navigateToLogin(): void {

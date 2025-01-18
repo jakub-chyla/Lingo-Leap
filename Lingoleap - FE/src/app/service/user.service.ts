@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {LOG_IN, REGISTER} from "../shared/api-url";
 import {AuthRequest} from "../model/auth-request";
 import {AuthResponse} from "../model/auth-response";
+import {AuthHelper} from "../shared/auth-helper";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,10 @@ export class UserService {
     return this.httpClient.post(this.domain + REGISTER, authRequest, {
       responseType: 'text'
     });
+  }
+
+  demo(): Observable<string> {
+    return this.httpClient.get<string>('http://localhost:8080/demo', AuthHelper.getHeaderWithToken());
   }
 
   logIn(authRequest: AuthRequest): Observable<AuthResponse> {

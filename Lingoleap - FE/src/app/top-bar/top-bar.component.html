@@ -4,8 +4,14 @@
   </button>
   <div class="logo"><a (click)="navigateToMain()">Lingo Leap</a></div>
 
+  <button mat-icon-button class="example-icon favorite-icon"
+          aria-label="Example icon-button with heart icon"
+          matTooltip="demo"
+          (click)="demo()">
+    <mat-icon>shopping_cart</mat-icon>
+  </button>
+
   <span class="icon-spacer"></span>
-  {{this.user?.username}}
 
   <button mat-icon-button class="example-icon favorite-icon"
           aria-label="Example icon-button with heart icon"
@@ -13,6 +19,8 @@
           (click)="checkout()">
     <mat-icon>shopping_cart</mat-icon>
   </button>
+
+  {{this.user?.username}}
 
   <button *ngIf="this.user?.token === undefined || this.user?.token === null" mat-icon-button class="example-icon favorite-icon"
           aria-label="Example icon-button with heart icon"

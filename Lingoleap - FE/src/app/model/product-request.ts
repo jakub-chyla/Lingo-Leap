@@ -3,4 +3,5 @@ export class ProductRequest {
   quantity?: number;
   name?: string;
   currency?: string;
+  userId?: number;
 }
