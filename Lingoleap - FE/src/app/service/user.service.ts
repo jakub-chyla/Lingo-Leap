@@ -44,7 +44,6 @@ export class UserService {
     this.user = new User();
     localStorage.removeItem('username');
     localStorage.removeItem('token');
-    console.log(this.user);
     this.emitUser(this.user);
 
   }
