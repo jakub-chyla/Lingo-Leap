@@ -10,12 +10,14 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Table(name = "purchases")
 public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "user_id")
     private Long userId;
 
     @CreationTimestamp

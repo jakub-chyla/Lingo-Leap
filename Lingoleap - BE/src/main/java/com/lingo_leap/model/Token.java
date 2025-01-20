@@ -4,7 +4,7 @@ package com.lingo_leap.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "token")
+@Table(name = "tokens")
 public class Token {
 
     @Id

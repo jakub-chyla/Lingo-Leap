@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "_user")
+@Table(name = "_users")
 public class User implements UserDetails {
 
     @Id
