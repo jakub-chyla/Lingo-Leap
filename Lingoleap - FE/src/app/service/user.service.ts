@@ -6,6 +6,7 @@ import {LOG_IN, REGISTER} from "../shared/api-url";
 import {AuthRequest} from "../model/auth-request";
 import {AuthResponse} from "../model/auth-response";
 import {AuthHelper} from "../shared/auth-helper";
+import {PurchaseService} from "./purchase.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class UserService {
   user$ = this.userSource.asObservable();
   user?: User;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private purchaseService: PurchaseService) {
   }
 
   createUser(authRequest: AuthRequest): Observable<string> {
@@ -39,10 +41,23 @@ export class UserService {
           this.user.token = response.accessToken;
           localStorage.setItem('username', String(authRequest.username));
           localStorage.setItem('token', String(response.accessToken));
-          this.emitUser(this.user);
+          this.isPremium();
         }
       })
     );
+
+  }
+
+  isPremium() {
+    let isPremium = false;
+    if (this.user?.id) {
+      this.purchaseService.isPremium(this.user.id).subscribe(respone => {
+        isPremium = respone;
+        this.user!.premium = isPremium;
+        localStorage.setItem('premium', String(isPremium));
+        this.emitUser(this.user!);
+      });
+    }
   }
 
   logOut() {

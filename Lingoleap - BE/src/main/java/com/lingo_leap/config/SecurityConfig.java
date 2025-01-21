@@ -48,7 +48,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/login/**", "/register/**", "/refresh_token/**").permitAll() // Public endpoints
+                        .requestMatchers("/open/**", "/login/**", "/register/**", "/refresh_token/**").permitAll() // Public endpoints
                         .requestMatchers("/admin_only/**").hasAuthority("ADMIN") // Restricted to ADMIN
                         .anyRequest().authenticated() // All other requests must be authenticated
                 )

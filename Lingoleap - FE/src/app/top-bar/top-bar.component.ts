@@ -35,7 +35,7 @@ export class TopBarComponent implements OnInit {
   ngOnInit() {
     this.userService.user$.subscribe((user) => {
       this.user = user;
-      if(this.user === null) {
+      if (this.user === null) {
         this.user = new User();
         this.user.username = localStorage.getItem('username') ?? undefined;
         this.user.token = localStorage.getItem('token') ?? undefined; // Converts null to undefined
@@ -67,7 +67,7 @@ export class TopBarComponent implements OnInit {
     );
   }
 
-demo():void {
+  demo(): void {
     this.userService.demo().subscribe((result) => {
       console.log(result);
     })

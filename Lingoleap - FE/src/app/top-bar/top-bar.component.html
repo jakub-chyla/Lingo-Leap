@@ -20,6 +20,7 @@
     <mat-icon>shopping_cart</mat-icon>
   </button>
 
+  {{this.user?.premium}}
   {{this.user?.username}}
 
   <button *ngIf="this.user?.token === undefined || this.user?.token === null" mat-icon-button class="example-icon favorite-icon"

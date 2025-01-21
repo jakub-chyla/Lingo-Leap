@@ -5,4 +5,5 @@ export class User {
   token?: string;
   role?: string;
   email?: string;
+  premium: boolean = false
 }

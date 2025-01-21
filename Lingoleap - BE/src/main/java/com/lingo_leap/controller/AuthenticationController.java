@@ -6,6 +6,7 @@ import com.lingo_leap.model.AuthenticationResponse;
 import com.lingo_leap.model.User;
 import com.lingo_leap.service.AuthenticationService;
 import com.lingo_leap.service.EmailSenderService;
+import com.lingo_leap.service.PurchaseService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,9 @@ public class AuthenticationController {
 
     private final EmailSenderService emailSenderService;
 
+
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthRequest request) {
-
         emailSenderService.sendEmail(request.getEmail(),
                 "Account created",
                 "Hi, "+ request.getUsername());
@@ -36,7 +37,8 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponseDto> login(@RequestBody User request) {
-        return ResponseEntity.ok(authService.authenticate(request));
+        AuthenticationResponseDto authResponse = authService.authenticate(request);
+        return ResponseEntity.ok(authResponse);
     }
 
     @PostMapping("/refresh_token")
