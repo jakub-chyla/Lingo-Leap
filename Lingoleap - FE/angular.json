@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "lingo-leap": {
+    "lingo-leap-fe": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/lingo-leap",
+            "outputPath": "dist/lingo-leap-fe",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -63,10 +63,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "lingo-leap:build:production"
+              "buildTarget": "lingo-leap-fe:build:production"
             },
             "development": {
-              "buildTarget": "lingo-leap:build:development"
+              "buildTarget": "lingo-leap-fe:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -74,7 +74,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "lingo-leap:build"
+            "buildTarget": "lingo-leap-fe:build"
           }
         },
         "test": {
