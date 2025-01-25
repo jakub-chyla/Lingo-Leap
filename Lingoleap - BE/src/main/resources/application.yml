@@ -38,3 +38,7 @@ application:
 
 stripe:
   secretKey: sk_test_51QeAPYGpbRNj5jwvLtKe8jn4fATduhKKlF0vamt0Ffy0letbgaQ4DYMgE2BqGjYEAkTnM50p65L8dPpneQuxXuap00ZvUlhQH6
+
+cors:
+  allowed:
+    origins: srv10.mikr.us:30201

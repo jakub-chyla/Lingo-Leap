@@ -71,7 +71,12 @@ export class TopBarComponent implements OnInit {
     this.userService.demo().subscribe((result) => {
       console.log(result);
     })
+  }
 
+  open(): void {
+    this.userService.open().subscribe((result) => {
+      console.log(result);
+    })
   }
 
   navigateToLogin(): void {

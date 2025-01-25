@@ -12,7 +12,8 @@ import {PurchaseService} from "./purchase.service";
   providedIn: 'root'
 })
 export class UserService {
-  domain = 'http://localhost:8080'
+  // domain = 'http://localhost:8080'
+  domain = 'http://srv10.mikr.us:20201'
   private userSource = new BehaviorSubject<User | null>(null);
   user$ = this.userSource.asObservable();
   user?: User;
@@ -28,7 +29,11 @@ export class UserService {
   }
 
   demo(): Observable<string> {
-    return this.httpClient.get<string>('http://localhost:8080/demo', AuthHelper.getHeaderWithToken());
+    return this.httpClient.get<string>(this.domain +'/demo', AuthHelper.getHeaderWithToken());
+  }
+
+  open(): Observable<string> {
+    return this.httpClient.get<string>(this.domain +'/open', AuthHelper.getHeaderWithToken());
   }
 
   logIn(authRequest: AuthRequest): Observable<AuthResponse> {

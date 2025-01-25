@@ -5,13 +5,13 @@ import {CHECKOUT, PREMIUM} from "../shared/api-url";
 import {ProductRequest} from "../model/product-request";
 import {StripeResponse} from "../model/stripe-response";
 import {AuthHelper} from "../shared/auth-helper";
-import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PurchaseService {
-  domain = environment.domain;
+  // domain = 'http://localhost:8080'
+  domain = 'http://srv10.mikr.us:20201'
 
   constructor(private httpClient: HttpClient) {
   }
