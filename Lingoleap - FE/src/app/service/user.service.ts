@@ -7,19 +7,22 @@ import {AuthRequest} from "../model/auth-request";
 import {AuthResponse} from "../model/auth-response";
 import {AuthHelper} from "../shared/auth-helper";
 import {PurchaseService} from "./purchase.service";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   // domain = 'http://localhost:8080'
-  domain = 'http://srv10.mikr.us:20201'
+  // domain = 'http://srv10.mikr.us:20201'
+  domain = environment.domain;
   private userSource = new BehaviorSubject<User | null>(null);
   user$ = this.userSource.asObservable();
   user?: User;
 
   constructor(private httpClient: HttpClient,
               private purchaseService: PurchaseService) {
+    console.log(environment.domain)
   }
 
   createUser(authRequest: AuthRequest): Observable<string> {
