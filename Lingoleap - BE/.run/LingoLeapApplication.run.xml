@@ -9,6 +9,7 @@
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.lingo_leap.LingoLeapApplication" />
     <module name="lingo-leap" />
+    <option name="VM_PARAMETERS" value="-Dspring.profiles.active=dev" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.lingo_leap.*" />

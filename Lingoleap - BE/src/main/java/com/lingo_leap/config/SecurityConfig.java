@@ -2,6 +2,7 @@ package com.lingo_leap.config;
 
 import com.lingo_leap.filter.JwtAuthenticationFilter;
 import com.lingo_leap.service.UserDetailsServiceImp;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,9 @@ public class SecurityConfig {
 
     private final CustomLogoutHandler logoutHandler;
 
+    @Value("${cors.allowed.origins}")
+    private String allowedOrigins;
+
     public SecurityConfig(UserDetailsServiceImp userDetailsServiceImp,
                           JwtAuthenticationFilter jwtAuthenticationFilter,
                           CustomLogoutHandler logoutHandler) {
@@ -45,20 +49,20 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http
-                .csrf(csrf -> csrf.disable()) // Disable CSRF
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/open/**", "/login/**", "/register/**", "/refresh_token/**").permitAll() // Public endpoints
-                        .requestMatchers("/admin_only/**").hasAuthority("ADMIN") // Restricted to ADMIN
-                        .anyRequest().authenticated() // All other requests must be authenticated
+                        .requestMatchers("/open/**", "/login/**", "/register/**", "/refresh_token/**").permitAll()
+                        .requestMatchers("/admin_only/**").hasAuthority("ADMIN")
+                        .anyRequest().authenticated()
                 )
                 .userDetailsService(userDetailsServiceImp)
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless session
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // JWT filter
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(e -> e
                         .accessDeniedHandler((request, response, accessDeniedException) -> response.setStatus(HttpStatus.FORBIDDEN.value()))
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))) // Handle auth errors
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .logout(l -> l
                         .logoutUrl("/logout")
                         .addLogoutHandler(logoutHandler)
@@ -69,11 +73,12 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        System.out.println(allowedOrigins);
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://srv10.mikr.us:30201")); // Allow specific origin
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Allowed methods
-        configuration.setAllowedHeaders(List.of("*")); // Allow all headers
-        configuration.setAllowCredentials(true); // Allow credentials (e.g., cookies)
+        configuration.setAllowedOrigins(List.of(allowedOrigins));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
