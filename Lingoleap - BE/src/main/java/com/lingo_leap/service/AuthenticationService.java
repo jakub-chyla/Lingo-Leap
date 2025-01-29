@@ -79,6 +79,7 @@ public class AuthenticationService {
         AuthenticationResponse authenticationResponse = new AuthenticationResponse(accessToken, refreshToken, "User login was successful");
         AuthenticationResponseDto authenticationResponseDto = new AuthenticationResponseDto();
         authenticationResponseDto.setId(user.getId());
+        authenticationResponseDto.setUserName(user.getUsername());
         authenticationResponseDto.setAccessToken(authenticationResponse.getAccessToken());
         authenticationResponseDto.setRefreshToken(authenticationResponse.getRefreshToken());
         authenticationResponseDto.setMessage(authenticationResponse.getMessage());
@@ -135,7 +136,7 @@ public class AuthenticationService {
             revokeAllTokenByUser(user);
             saveUserToken(accessToken, refreshToken, user);
 
-            return new ResponseEntity(new AuthenticationResponse(accessToken, refreshToken, "New token generated"), HttpStatus.OK);
+            return new ResponseEntity(new AuthenticationResponseDto(user.getId(), user.getUsername(), accessToken, refreshToken, "New token generated"), HttpStatus.OK);
         }
 
         return new ResponseEntity(HttpStatus.UNAUTHORIZED);

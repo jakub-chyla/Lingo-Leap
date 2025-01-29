@@ -3,6 +3,7 @@ export class User {
   username?: string;
   password?: string;
   token?: string;
+  refreshToken?: string;
   role?: string;
   email?: string;
   premium: boolean = false

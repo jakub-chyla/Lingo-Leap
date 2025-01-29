@@ -8,6 +8,13 @@ export class AuthHelper {
     };
   }
 
+  public static getHeaderWithRefreshToken() {
+    const refreshToken = localStorage.getItem('refresh_token') || '';
+    return {
+      headers: new HttpHeaders().set('Authorization', `Bearer ${refreshToken}`)
+    };
+  }
+
 
   public static getToken() {
     return localStorage.getItem('token');

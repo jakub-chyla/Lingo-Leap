@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, tap} from "rxjs";
 import {User} from "../model/user";
 import {HttpClient} from "@angular/common/http";
-import {LOG_IN, REGISTER} from "../shared/api-url";
+import {LOG_IN, REFRESH_TOKEN, REGISTER} from "../shared/api-url";
 import {AuthRequest} from "../model/auth-request";
 import {AuthResponse} from "../model/auth-response";
 import {AuthHelper} from "../shared/auth-helper";
@@ -22,7 +22,6 @@ export class UserService {
 
   constructor(private httpClient: HttpClient,
               private purchaseService: PurchaseService) {
-    console.log(environment.domain)
   }
 
   createUser(authRequest: AuthRequest): Observable<string> {
@@ -45,15 +44,35 @@ export class UserService {
         if (response) {
           this.user = new User();
           this.user.id = response.id;
-          this.user.username = authRequest.username;
-          this.user.token = response.accessToken;
-          localStorage.setItem('username', String(authRequest.username));
+          this.user.username = response.userName;
+          this.user.refreshToken = response.accessToken;
+          this.user.token = response.refreshToken;
+          localStorage.setItem('username', String(response.userName));
           localStorage.setItem('token', String(response.accessToken));
+          localStorage.setItem('refresh_token', String(response.refreshToken));
+          this.emitUser(this.user!);
           this.isPremium();
         }
       })
     );
+  }
 
+  refreshToken(): Observable<AuthResponse> {
+    return this.httpClient.get(this.domain + REFRESH_TOKEN, AuthHelper.getHeaderWithRefreshToken()).pipe(
+      tap((response: AuthResponse) => {
+        if (response) {
+          this.user = new User();
+          this.user.id = response.id;
+          this.user.username = response.userName;
+          this.user.refreshToken = response.accessToken;
+          this.user.token = response.refreshToken;
+          localStorage.setItem('token', String(response.accessToken));
+          localStorage.setItem('refresh_token', String(response.refreshToken));
+          this.emitUser(this.user!);
+          this.isPremium();
+        }
+      })
+    );
   }
 
   isPremium() {
@@ -72,6 +91,7 @@ export class UserService {
     this.user = new User();
     localStorage.removeItem('username');
     localStorage.removeItem('token');
+    localStorage.removeItem('refresh_token');
     this.emitUser(this.user);
 
   }

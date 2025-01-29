@@ -1,7 +1,29 @@
 <mat-toolbar class="topBar component-bg-global">
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="example-icon" aria-label="Example icon-button with menu icon">
     <mat-icon>menu</mat-icon>
   </button>
+
+  <mat-menu class="menu" #menu="matMenu">
+    <button
+      style="color: white !important; display: flex; align-items: center;"
+      matTooltip="Check Out"
+      mat-menu-item
+      (click)="checkout()"
+    >
+      <mat-icon style="color: white; margin-right: 8px;">shopping_cart</mat-icon>
+      Pricing
+    </button>
+
+    <button
+      style="color: white !important; display: flex; align-items: center;"
+      matTooltip="Check Out"
+      mat-menu-item
+      (click)="checkout()"
+    >
+      <mat-icon style="color: white; margin-right: 8px;">info</mat-icon>
+      About
+    </button>
+  </mat-menu>
   <div class="logo"><a (click)="navigateToMain()">Lingo Leap</a></div>
 
   <button mat-icon-button class="example-icon favorite-icon"
@@ -11,8 +33,6 @@
     <mat-icon>close</mat-icon>
   </button>
 
-  <span class="icon-spacer"></span>
-
   <button mat-icon-button class="example-icon favorite-icon"
           aria-label="Example icon-button with heart icon"
           matTooltip="Check Out"
@@ -20,7 +40,8 @@
     <mat-icon>shopping_cart</mat-icon>
   </button>
 
-  {{this.user?.premium}}
+  <span class="icon-spacer"></span>
+
   {{this.user?.username}}
 
   <button *ngIf="this.user?.token === undefined || this.user?.token === null" mat-icon-button class="example-icon favorite-icon"

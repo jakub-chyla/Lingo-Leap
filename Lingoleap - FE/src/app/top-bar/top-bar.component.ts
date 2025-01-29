@@ -10,6 +10,7 @@ import {NgIf} from "@angular/common";
 import {PurchaseService} from "../service/purchase.service";
 import {ProductRequest} from "../model/product-request";
 import {StripeResponse} from "../model/stripe-response";
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 
 @Component({
   selector: 'app-top-bar',
@@ -19,7 +20,10 @@ import {StripeResponse} from "../model/stripe-response";
     MatIconButton,
     MatIcon,
     MatTooltip,
-    NgIf
+    NgIf,
+    MatMenu,
+    MatMenuTrigger,
+    MatMenuItem
   ],
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.scss'
@@ -33,12 +37,14 @@ export class TopBarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userService.refreshToken().subscribe();
+
     this.userService.user$.subscribe((user) => {
       this.user = user;
       if (this.user === null) {
         this.user = new User();
         this.user.username = localStorage.getItem('username') ?? undefined;
-        this.user.token = localStorage.getItem('token') ?? undefined; // Converts null to undefined
+        this.user.token = localStorage.getItem('token') ?? undefined;
       }
     });
   }
