@@ -86,7 +86,7 @@ export class LogInComponent implements OnInit {
     }
   }
 
-  navigateToLMain(): void {
+  navigateToMain(): void {
     this.router.navigate(['/main']);
   }
 

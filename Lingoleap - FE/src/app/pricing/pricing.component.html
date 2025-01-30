@@ -1,0 +1,32 @@
+<div class="center">
+  <mat-card class="card component-bg-global" appearance="outlined">
+    <div class="header-container">
+      <div class="header">
+        <span>{{ 'Pricing' }}</span>
+      </div>
+      <div>
+        <button style="" mat-icon-button (click)="navigateToMain()">
+          <mat-icon color="warn">close</mat-icon>
+        </button>
+      </div>
+    </div>
+    <mat-card-content>
+      <div class="pricing-cloud" (click)="checkout()">
+      </div>
+    </mat-card-content>
+    <mat-card-footer>
+      <div style="display: flex; justify-content: center; padding-top: 20px">
+        <div *ngIf="user">
+          <button mat-raised-button color="accent" (click)="checkout()"
+                  type="submit">Get subscription
+          </button>
+        </div>
+        <div *ngIf="!user">
+          <button mat-raised-button color="primary" (click)="navigateToLogin()"
+                  type="submit">Log in
+          </button>
+        </div>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+</div>

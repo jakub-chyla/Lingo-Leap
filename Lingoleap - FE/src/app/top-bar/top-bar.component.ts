@@ -33,7 +33,7 @@ export class TopBarComponent implements OnInit {
 
   constructor(private router: Router,
               private userService: UserService,
-              private purchaseService: PurchaseService) {
+) {
   }
 
   ngOnInit() {
@@ -53,25 +53,7 @@ export class TopBarComponent implements OnInit {
     this.userService.logOut();
   }
 
-  checkout() {
-    const productRequest: ProductRequest = {
-      amount: 100,
-      quantity: 1,
-      name: 'subscription',
-      currency: 'USD',
-      userId: this.user?.id
-    }
-    this.purchaseService.checkout(productRequest).subscribe(
-      (response: StripeResponse) => {
-        console.log(response);
-        if (response.sessionUrl) {
-          window.location.href = response.sessionUrl;
-        } else {
-          console.error('Session URL is missing in the response.');
-        }
-      }
-    );
-  }
+
 
   demo(): void {
     this.userService.demo().subscribe((result) => {
@@ -91,5 +73,17 @@ export class TopBarComponent implements OnInit {
 
   navigateToMain(): void {
     this.router.navigate(['/main']);
+  }
+
+  navigateToPricing(): void {
+    this.router.navigate(['/pricing']);
+  }
+
+  navigateToAbout(): void {
+    this.router.navigate(['/about']);
+  }
+
+  navigateToAdmin(): void {
+    this.router.navigate(['/admin']);
   }
 }
