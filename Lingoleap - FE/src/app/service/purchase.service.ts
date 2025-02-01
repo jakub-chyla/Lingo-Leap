@@ -11,8 +11,6 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 export class PurchaseService {
-  // domain = 'http://localhost:8080'
-  // domain = 'http://srv10.mikr.us:20201'
   domain = environment.domain;
 
   constructor(private httpClient: HttpClient) {

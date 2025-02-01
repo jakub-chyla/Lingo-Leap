@@ -57,8 +57,8 @@
 }
 
 .pricing-cloud {
-  height: 300px;
-  width: 200px;
+  height: 350px;
+  width: 250px;
   border: 2px solid rgba(31, 41, 55, 0.53);
   border-radius: 20px;
   transition: border-color 0.1s ease-in-out; /* Smooth transition */
@@ -66,4 +66,12 @@
 
 .pricing-cloud:hover {
   border-color: #1f2937;
+}
+
+.content{
+  margin: 20px;
+}
+
+.paragraph{
+  text-align: left;
 }
