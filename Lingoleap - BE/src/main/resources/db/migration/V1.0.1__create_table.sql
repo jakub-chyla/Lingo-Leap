@@ -1,4 +1,3 @@
-
 CREATE TABLE IF NOT EXISTS purchases (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT,
@@ -19,4 +18,11 @@ CREATE TABLE IF NOT EXISTS tokens (
     is_logged_out BOOLEAN DEFAULT FALSE,
     user_id BIGINT,
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES _users (id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS attachments (
+    id VARCHAR(255) PRIMARY KEY,
+    file_name VARCHAR(255),
+    file_type VARCHAR(255),
+    data OID
 );
