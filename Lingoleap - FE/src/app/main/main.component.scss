@@ -2,13 +2,6 @@ $primary-color: #673ab7;
 $accent-color: #ffd740;
 $warn-color: #f24236;
 
-//.card {
-//  border-radius: 10px;
-//  box-shadow: 0 6px 14px rgba(0, 0, 0, 1);
-//  padding: 20px;
-//  margin: 20px auto;
-//}
-
 .container {
   width: 30vw;
   min-width: 350px;
@@ -32,28 +25,26 @@ $warn-color: #f24236;
 }
 
 .wrong-answer {
-  background-color: $warn-color !important; /* Override default styles */
-  color: white !important; /* Ensure text is readable */
+  background-color: $warn-color !important;
+  color: white !important;
   height: 60px;
   border-radius: 8px;
 
   ::ng-deep .mdc-button__label {
     margin-left: -6px;
     margin-right: -6px;
-
   }
 }
 
 .good-answer {
-  background-color: green !important; /* Override default styles */
-  color: white !important; /* Ensure text is readable */
+  background-color: green !important;
+  color: white !important;
   height: 60px;
   border-radius: 8px;
 
   ::ng-deep .mdc-button__label {
     margin-left: -6px;
     margin-right: -6px;
-
   }
 }
 
@@ -69,11 +60,6 @@ $warn-color: #f24236;
     cursor: pointer;
     color: $accent-color;
   }
-}
-
-.counter {
-  font-weight: bold;
-  font-size: 12px;
 }
 
 .green-text {
@@ -98,19 +84,17 @@ $warn-color: #f24236;
   ::ng-deep .mdc-button__label {
     margin-left: -6px;
     margin-right: -6px;
-
   }
 }
 
 .answer-button {
-  background-color: $primary-color !important; /* Override default styles */
-  color: white !important; /* Ensure text is readable */
+  background-color: $primary-color !important;
+  color: white !important;
   height: 60px;
   border-radius: 8px;
 
   ::ng-deep .mdc-button__label {
     margin-left: -6px;
     margin-right: -6px;
-
   }
 }

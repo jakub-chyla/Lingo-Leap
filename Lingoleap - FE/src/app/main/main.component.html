@@ -1,9 +1,9 @@
 <div class="flex justify-center items-center h-[90vh]">
-  <mat-card class="card component-bg-global" appearance="outlined">
+  <mat-card class="card" appearance="outlined">
     <div class="header-container">
       <div>
-        <span class="counter green-text">{{ correctAnswerCounter }}</span> /
-        <span class="counter red-text">{{ inCorrectAnswerCounter }}</span>
+        <span class="font-bold text-[12px] green-text">{{ correctAnswerCounter }}</span> /
+        <span class="font-bold text-[12px] red-text">{{ inCorrectAnswerCounter }}</span>
       </div>
       <div>
         <span *ngIf="settings" class="material-icons settings-close" (click)="settingsToggle()">close</span>

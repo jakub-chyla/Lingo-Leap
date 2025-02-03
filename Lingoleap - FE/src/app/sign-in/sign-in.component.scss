@@ -1,14 +1,3 @@
-.left-button{
-  padding-right: 55px;
-}
-
-//.card {
-//  border-radius: 10px;
-//  box-shadow: 0 6px 14px rgba(0, 0, 0, 1);
-//  padding: 20px;
-//  margin: 20px auto;
-//}
-
 .input ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled){
   background-color: #425062 !important;
 }
@@ -21,23 +10,9 @@
   color: white !important;
 }
 
-.container {
-  width: 30vw;
-  min-width: 350px;
-}
-
 .header-container {
   display: flex;
   justify-content: space-between;
   gap: 10px;
   padding-bottom: 10px;
 }
-
-.header{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-left: 16px;
-  font-size: 20px;
-}
-

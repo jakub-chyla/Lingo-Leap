@@ -1,17 +1,6 @@
-.left-button{
-  padding-right: 55px;
-}
-
 .icon-spacer {
   flex: 1 1 auto;
 }
-
-//.card {
-//  border-radius: 10px;
-//  box-shadow: 0 6px 14px rgba(0, 0, 0, 1);
-//  padding: 20px;
-//  margin: 20px auto;
-//}
 
 .input ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled){
   background-color: #425062 !important;
@@ -29,11 +18,6 @@
   color: #f3f3f3 !important;
 }
 
-.container {
-  width: 30vw;
-  min-width: 350px;
-}
-
 .header-container {
   display: flex;
   justify-content: space-between;
@@ -41,20 +25,12 @@
   padding-bottom: 10px;
 }
 
-.header{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-left: 16px;
-  font-size: 20px;
-}
-
 .pricing-cloud {
   height: 350px;
   width: 250px;
   border: 2px solid rgba(31, 41, 55, 0.53);
   border-radius: 20px;
-  transition: border-color 0.1s ease-in-out; /* Smooth transition */
+  transition: border-color 0.1s ease-in-out;
 }
 
 .pricing-cloud:hover {

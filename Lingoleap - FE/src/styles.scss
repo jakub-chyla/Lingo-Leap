@@ -17,11 +17,9 @@ body {
 }
 
 .card {
-  background: rgba(68, 87, 106, 0.66) !important;
+  @extend .component-bg-global;
   border-radius: 10px !important;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 1) !important;
   padding: 20px !important;
   margin: 20px auto !important;
 }
-
-
