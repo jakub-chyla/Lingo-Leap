@@ -1,11 +1,11 @@
-<div class="center">
+<div class="flex justify-center items-center h-[90vh]">
   <mat-card class="card component-bg-global" appearance="outlined">
-    <div class="header-container">
-      <div class="header" >
+    <div class="flex justify-between items-center header-container">
+      <div class="header">
         <span >{{ 'Log In' }}</span>
       </div>
       <div>
-        <button style="" mat-icon-button (click)="navigateToMain()">
+        <button  mat-icon-button (click)="navigateToMain()">
           <mat-icon color="warn">close</mat-icon>
         </button>
       </div>
@@ -29,7 +29,7 @@
       </form>
     </mat-card-content>
     <mat-card-footer>
-      <div style="display: flex; justify-content: center">
+      <div class="flex justify-center">
         <div class="left-button">
           <button mat-stroked-button class="sign-in" (click)="navigateToSingIn()">Sign in</button>
         </div>

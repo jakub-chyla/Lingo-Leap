@@ -2,19 +2,12 @@ $primary-color: #673ab7;
 $accent-color: #ffd740;
 $warn-color: #f24236;
 
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
-}
-
-.card {
-  border-radius: 10px;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 1);
-  padding: 20px;
-  margin: 20px auto;
-}
+//.card {
+//  border-radius: 10px;
+//  box-shadow: 0 6px 14px rgba(0, 0, 0, 1);
+//  padding: 20px;
+//  margin: 20px auto;
+//}
 
 .container {
   width: 30vw;
