@@ -1,6 +1,6 @@
 <div class="flex justify-center items-center h-[90vh]">
   <mat-card class="card" appearance="outlined">
-    <div class="header-container">
+    <div class="flex justify-between gap-2 pb-2">
       <div>
         <span class="font-bold text-[12px] green-text">{{ correctAnswerCounter }}</span> /
         <span class="font-bold text-[12px] red-text">{{ inCorrectAnswerCounter }}</span>
@@ -10,7 +10,7 @@
         <span *ngIf="!settings" class="material-icons settings-open" (click)="settingsToggle()">settings</span>
       </div>
     </div>
-    <mat-card-content class="container">
+    <mat-card-content class="flex flex-col justify-between w-[30vw] min-w-[350px] h-[340px] px-0">
       <ng-template [ngIf]="!settings">
         <ng-template [ngIf]="englishToPolish">
           <div class="word"> {{ currentWord.english }}</div>
@@ -18,13 +18,13 @@
         <ng-template [ngIf]="!englishToPolish">
           <div class="word"> {{ currentWord.polish }}</div>
         </ng-template>
-        <div class="button-container-row answer-buttons" style="padding-top: 14px">
+        <div class="flex justify-center gap-2 pt-[14px]" style="padding-top: 14px">
           <ng-template [ngIf]="isLoading">
             <div> {{ count }}</div>
           </ng-template>
         </div>
         <ng-container *ngIf="!isLoading">
-          <div class="button-container-row answer-buttons" *ngFor="let row of buttonRows">
+          <div class="flex justify-center gap-2 pt-[14px]" *ngFor="let row of buttonRows">
             <button *ngFor="let i of row" [disabled]="buttonStatuses[i] === 3" mat-raised-button
                     [ngClass]="{'answer-button': buttonStatuses[i] === 0,'good-answer': buttonStatuses[i] === 1,
                     'wrong-answer': buttonStatuses[i] === 2, 'disable-button': buttonStatuses[i] === 3}"
@@ -47,7 +47,7 @@
           <mat-slide-toggle [(ngModel)]="autoRead" (ngModelChange)="settingChanged()"></mat-slide-toggle>
         </div>
       </ng-template>
-      <div class="button-container-row" style="padding-top:14px">
+      <div class="flex justify-center gap-2 pt-[25px]">
         <div>
           <button [disabled]="settings || isLoading" mat-raised-button color="accent" (click)="shuffle()">Shuffle
           </button>

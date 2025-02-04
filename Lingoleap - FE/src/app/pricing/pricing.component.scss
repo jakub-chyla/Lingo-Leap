@@ -2,11 +2,11 @@
   flex: 1 1 auto;
 }
 
-.input ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled){
+.input ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: #425062 !important;
 }
 
-.input ::ng-deep .mdc-text-field__input{
+.input ::ng-deep .mdc-text-field__input {
   color: white !important;
 }
 
@@ -16,13 +16,6 @@
 
 .input ::ng-deep .mdc-floating-label {
   color: #f3f3f3 !important;
-}
-
-.header-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  padding-bottom: 10px;
 }
 
 .pricing-cloud {
@@ -35,12 +28,4 @@
 
 .pricing-cloud:hover {
   border-color: #1f2937;
-}
-
-.content{
-  margin: 20px;
-}
-
-.paragraph{
-  text-align: left;
 }

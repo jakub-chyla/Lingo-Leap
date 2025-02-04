@@ -1,35 +1,36 @@
 <mat-toolbar class="topBar component-bg-global">
-  <button mat-icon-button [matMenuTriggerFor]="menu" class="example-icon" aria-label="Example icon-button with menu icon">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
   </button>
   <mat-menu class="menu" #menu="matMenu">
     <button
       style="color: white !important; display: flex; align-items: center;" mat-menu-item
       (click)="navigateToPricing()">
-      <mat-icon style="color: white; margin-right: 8px;">shopping_cart</mat-icon>Pricing
+      <mat-icon style="color: white; margin-right: 8px;">shopping_cart</mat-icon>
+      Pricing
     </button>
     <button
       style="color: white !important; display: flex; align-items: center;"
       mat-menu-item (click)="navigateToAbout()">
-      <mat-icon style="color: white; margin-right: 8px;">info</mat-icon>About
+      <mat-icon style="color: white; margin-right: 8px;">info</mat-icon>
+      About
     </button>
     <button
       style="color: white !important; display: flex; align-items: center;"
       mat-menu-item (click)="navigateToAdmin()">
-      <mat-icon style="color: white; margin-right: 8px;">person</mat-icon>Admin
+      <mat-icon style="color: white; margin-right: 8px;">person</mat-icon>
+      Admin
     </button>
   </mat-menu>
-  <div class="logo"><a (click)="navigateToMain()">Lingo Leap</a></div>
+  <div class="cursor-pointer"><a (click)="navigateToMain()">Lingo Leap</a></div>
   <span class="icon-spacer"></span>
-  {{this.user?.username}}
-  <button *ngIf="this.user?.token === undefined || this.user?.token === null" mat-icon-button class="example-icon favorite-icon"
-          aria-label="Example icon-button with heart icon"
+  {{ this.user?.username }}
+  <button *ngIf="this.user?.token === undefined || this.user?.token === null" mat-icon-button
           matTooltip="Log in"
           (click)="navigateToLogin()">
     <mat-icon>login</mat-icon>
   </button>
-  <button *ngIf="!(this.user?.token === undefined || this.user?.token === null)" mat-icon-button class="example-icon favorite-icon"
-          aria-label="Example icon-button with heart icon"
+  <button *ngIf="!(this.user?.token === undefined || this.user?.token === null)" mat-icon-button
           matTooltip="Log out"
           (click)="logOut()">
     <mat-icon>logout</mat-icon>

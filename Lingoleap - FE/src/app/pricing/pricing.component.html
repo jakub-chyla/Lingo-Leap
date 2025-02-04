@@ -1,6 +1,6 @@
 <div class="flex justify-center items-center h-[90vh]">
   <mat-card class="card" appearance="outlined">
-    <div class="header-container">
+    <div class="flex justify-between items-center gap-2 pb-2">
       <div class="pl-4 text-xl">
         <span>{{ 'Pricing' }}</span>
       </div>
@@ -12,10 +12,10 @@
     </div>
     <mat-card-content>
       <div *ngIf="user" class="pricing-cloud" (click)="checkout()">
-        <div class="content">
+        <div class="m-[20px]">
           <h1>Subscription</h1>
           <h4>1.99$/week</h4>
-          <div class="paragraph">
+          <div class="m-[20px]">
             <p><b>Unlimited Shuffles</b> – Improve your skills with exclusive shuffle access.</p>
             <p><b>Early Access to New Features</b> – Be the first to explore the latest tools.</p>
             <p><b>Community Involvement</b> – Help shape the future of this app with your feedback.</p>
@@ -23,14 +23,14 @@
         </div>
       </div>
       <div *ngIf="!user" class="pricing-cloud">
-        <div class="content">
+        <div class="m-[20px]">
           <h2>Subscription</h2>
           <h4>1.99$</h4>
         </div>
       </div>
     </mat-card-content>
     <mat-card-footer>
-      <div style="display: flex; justify-content: center; padding-top: 20px">
+      <div class="flex justify-center pt-[20px]">
         <div *ngIf="user">
           <button mat-raised-button color="accent" (click)="checkout()"
                   type="submit">Get subscription

@@ -2,28 +2,6 @@ $primary-color: #673ab7;
 $accent-color: #ffd740;
 $warn-color: #f24236;
 
-.container {
-  width: 30vw;
-  min-width: 350px;
-  height: 326px;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.word {
-  font-weight: bold;
-  font-size: 22px;
-}
-
-.button-container-row {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-}
-
 .wrong-answer {
   background-color: $warn-color !important;
   color: white !important;
@@ -68,13 +46,6 @@ $warn-color: #f24236;
 
 .red-text {
   color: #ff7b7b;
-}
-
-.header-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  padding-bottom: 10px;
 }
 
 .disable-button {

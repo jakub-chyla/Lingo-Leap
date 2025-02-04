@@ -13,17 +13,6 @@ $warn-color: #f24236;
   color: white !important; /* Makes the font white */
 }
 
-.word {
-  font-weight: bold;
-  font-size: 22px;
-}
-
-.button-container-row {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-}
-
 .wrong-answer {
   background-color: $warn-color !important; /* Override default styles */
   color: white !important; /* Ensure text is readable */
@@ -33,7 +22,6 @@ $warn-color: #f24236;
   ::ng-deep .mdc-button__label {
     margin-left: -6px;
     margin-right: -6px;
-
   }
 }
 
@@ -69,33 +57,4 @@ $warn-color: #f24236;
 
 .red-text {
   color: #ff7b7b;
-}
-
-.header-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  padding-bottom: 10px;
-}
-
-.disable-button {
-  height: 60px;
-  border-radius: 8px;
-
-  ::ng-deep .mdc-button__label {
-    margin-left: -6px;
-    margin-right: -6px;
-  }
-}
-
-.answer-button {
-  background-color: $primary-color !important;
-  color: white !important;
-  height: 60px;
-  border-radius: 8px;
-
-  ::ng-deep .mdc-button__label {
-    margin-left: -6px;
-    margin-right: -6px;
-  }
 }
