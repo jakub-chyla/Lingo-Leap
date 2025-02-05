@@ -7,6 +7,7 @@ import {MatCard, MatCardContent} from "@angular/material/card";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {AttachmentService} from "../service/attachment.service";
 
 const wordsList: Word[] = [
   new Word("notice", "wypowiedzenie"),
@@ -187,17 +188,26 @@ export class MainComponent implements OnInit {
   newShuffle = false;
   buttonStatuses: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
   englishToPolish = false;
+  audio = new Audio();
   buttonRows: number[][] = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8]
   ];
 
+  constructor(private attachmentService: AttachmentService) {
+  }
+
   ngOnInit() {
     this.initWordsList = wordsList;
     this.wordsList = [...this.initWordsList];
     this.settingInit();
     this.shuffle();
+    this.attachmentService.download().subscribe((blob) => {
+      let objectUrl = URL.createObjectURL(blob);
+      this.audio.src = objectUrl;
+      this.audio.play();
+    });
   }
 
   private settingInit() {

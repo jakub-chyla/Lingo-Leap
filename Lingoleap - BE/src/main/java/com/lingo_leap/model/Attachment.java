@@ -13,11 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class Attachment {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
-
-    @Column(name = "file_name")
+    @Column(name = "file_name", nullable = false, unique = true)
     private String fileName;
 
     @Column(name = "file_type")

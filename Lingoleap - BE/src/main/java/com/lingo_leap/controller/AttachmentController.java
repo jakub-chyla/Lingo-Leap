@@ -23,26 +23,15 @@ public class AttachmentController {
     }
 
     @PostMapping("/upload")
-    public ResponseData uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
-        Attachment attachment = null;
-        String downloadURl = "";
-        attachment = attachmentService.saveAttachment(file);
-        downloadURl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/download/")
-                .path(attachment.getId())
-                .toUriString();
-
-        return new ResponseData(attachment.getFileName(),
-                downloadURl,
-                file.getContentType(),
-                file.getSize());
+    public ResponseEntity<Boolean> uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
+        return ResponseEntity.ok(attachmentService.saveAttachment(file));
     }
 
     @GetMapping("/download/{fileId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) throws Exception {
         Attachment attachment = null;
         attachment = attachmentService.getAttachment(fileId);
-        return  ResponseEntity.ok()
+        return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(attachment.getFileType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + attachment.getFileName()

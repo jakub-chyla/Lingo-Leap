@@ -19,10 +19,3 @@ CREATE TABLE IF NOT EXISTS tokens (
     user_id BIGINT,
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES _users (id) ON DELETE CASCADE
 );
-
-CREATE TABLE IF NOT EXISTS attachments (
-    id VARCHAR(255) PRIMARY KEY,
-    file_name VARCHAR(255),
-    file_type VARCHAR(255),
-    data OID
-);

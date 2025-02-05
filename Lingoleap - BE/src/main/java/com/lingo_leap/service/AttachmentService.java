@@ -2,6 +2,7 @@ package com.lingo_leap.service;
 
 import com.lingo_leap.model.Attachment;
 import com.lingo_leap.repository.AttachmentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,7 +16,7 @@ public class AttachmentService {
         this.attachmentRepository = attachmentRepository;
     }
 
-    public Attachment saveAttachment(MultipartFile file) throws Exception {
+    public Boolean saveAttachment(MultipartFile file) throws Exception {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             if(fileName.contains("..")) {
@@ -27,7 +28,8 @@ public class AttachmentService {
                     = new Attachment(fileName,
                     file.getContentType(),
                     file.getBytes());
-            return attachmentRepository.save(attachment);
+            attachmentRepository.save(attachment);
+            return true;
 
         } catch (Exception e) {
             throw new Exception("Could not save File: " + fileName);
