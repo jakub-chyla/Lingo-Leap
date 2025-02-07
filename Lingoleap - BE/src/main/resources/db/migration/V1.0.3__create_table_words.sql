@@ -1,5 +1,0 @@
-CREATE TABLE IF NOT EXISTS words (
-    id BIGSERIAL PRIMARY KEY,
-    polish VARCHAR(255),
-    english VARCHAR(255)
-);

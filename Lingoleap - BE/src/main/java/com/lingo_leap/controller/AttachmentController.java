@@ -22,9 +22,10 @@ public class AttachmentController {
         this.attachmentService = attachmentService;
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<Boolean> uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
-        return ResponseEntity.ok(attachmentService.saveAttachment(file));
+    @PostMapping("/upload/{wordId}")
+    public ResponseEntity<Boolean> uploadFile(@PathVariable String wordId, @RequestParam("file") MultipartFile file) throws Exception {
+        System.out.println(wordId);
+        return ResponseEntity.ok(attachmentService.saveAttachment(wordId, file));
     }
 
     @GetMapping("/download/{fileId}")

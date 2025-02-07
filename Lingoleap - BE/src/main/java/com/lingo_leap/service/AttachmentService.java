@@ -16,7 +16,7 @@ public class AttachmentService {
         this.attachmentRepository = attachmentRepository;
     }
 
-    public Boolean saveAttachment(MultipartFile file) throws Exception {
+    public Boolean saveAttachment(String wordId, MultipartFile file) throws Exception {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             if(fileName.contains("..")) {
@@ -26,6 +26,7 @@ public class AttachmentService {
 
             Attachment attachment
                     = new Attachment(fileName,
+                    Long.parseLong(wordId),
                     file.getContentType(),
                     file.getBytes());
             attachmentRepository.save(attachment);
