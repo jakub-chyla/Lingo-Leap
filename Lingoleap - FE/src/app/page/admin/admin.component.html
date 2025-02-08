@@ -12,15 +12,15 @@
     </div>
     <mat-card-content>
       <form [formGroup]="myForm">
-        <div class="flex justify-center flex-wrap gap-2 w-[35vw] max-w-[550px] min-w-[250px]">
+        <div class="flex justify-center flex-wrap gap-3">
           <div>
-            <mat-form-field appearance="fill" hideRequiredMarker="true" class="input">
+            <mat-form-field appearance="fill" hideRequiredMarker="true" class="input w-full">
               <mat-label>English</mat-label>
               <input type="text" matInput formControlName="english">
             </mat-form-field>
           </div>
           <div>
-            <mat-form-field appearance="fill" hideRequiredMarker="true" class="input">
+            <mat-form-field appearance="fill" hideRequiredMarker="true" class="input w-full">
               <mat-label>Polish</mat-label>
               <input type="text" matInput formControlName="polish">
             </mat-form-field>
@@ -30,6 +30,31 @@
           </div>
         </div>
       </form>
+      <div class="grid grid-cols-1 gap-4 pt-4">
+        <div>
+          <mat-form-field class="input w-full">
+            <mat-label>Filter</mat-label>
+            <input class="w-m" matInput (keyup)="applyFilter($event)" #input>
+          </mat-form-field>
+        </div>
+        <div>
+          <table mat-table [dataSource]="dataSource" class="input">
+            <ng-container matColumnDef="english">
+              <th mat-header-cell *matHeaderCellDef> English</th>
+              <td mat-cell *matCellDef="let element"> {{ element.english }}</td>
+            </ng-container>
+            <ng-container matColumnDef="polish">
+              <th mat-header-cell *matHeaderCellDef> Polish</th>
+              <td mat-cell *matCellDef="let element"> {{ element.polish }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="2">No data matching the filter "{{ input.value }}"</td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>

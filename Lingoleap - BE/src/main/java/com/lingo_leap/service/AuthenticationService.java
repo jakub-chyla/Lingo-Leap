@@ -7,6 +7,7 @@ import com.lingo_leap.repository.TokenRepository;
 import com.lingo_leap.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AuthenticationService {
 
     private final UserRepository repository;
@@ -27,18 +29,6 @@ public class AuthenticationService {
     private final TokenRepository tokenRepository;
 
     private final AuthenticationManager authenticationManager;
-
-    public AuthenticationService(UserRepository repository,
-                                 PasswordEncoder passwordEncoder,
-                                 JwtService jwtService,
-                                 TokenRepository tokenRepository,
-                                 AuthenticationManager authenticationManager) {
-        this.repository = repository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
-        this.tokenRepository = tokenRepository;
-        this.authenticationManager = authenticationManager;
-    }
 
     public AuthenticationResponse register(AuthRequest request) {
 

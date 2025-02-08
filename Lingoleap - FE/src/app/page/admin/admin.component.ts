@@ -9,6 +9,14 @@ import {MatInput} from "@angular/material/input";
 import {MatIcon} from "@angular/material/icon";
 import {Router} from "@angular/router";
 import {WordService} from "../../service/word.service";
+import {
+  MatCell, MatCellDef,
+  MatColumnDef,
+  MatHeaderCell, MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef, MatNoDataRow, MatRow, MatRowDef,
+  MatTable,
+  MatTableDataSource
+} from "@angular/material/table";
 
 const wordsList: Word[] = [
   new Word("notice", "wypowiedzenie"),
@@ -25,6 +33,18 @@ const wordsList: Word[] = [
   new Word("year prior", "rok wcześniej"),
 ];
 
+export interface PeriodicElement {
+  english: string;
+  polish: string;
+
+}
+
+const ELEMENT_DATA: PeriodicElement[] = [
+  {english: 'Hydrogen', polish: 'Hydrogen'},
+  {english: 'aaa', polish: 'eee'},
+
+];
+
 
 @Component({
   selector: 'app-admin',
@@ -39,7 +59,18 @@ const wordsList: Word[] = [
     MatLabel,
     ReactiveFormsModule,
     MatIcon,
-    MatIconButton
+    MatIconButton,
+    MatTable,
+    MatHeaderCell,
+    MatColumnDef,
+    MatCell,
+    MatHeaderRow,
+    MatRow,
+    MatRowDef,
+    MatHeaderRowDef,
+    MatCellDef,
+    MatHeaderCellDef,
+    MatNoDataRow
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
@@ -52,6 +83,9 @@ export class AdminComponent implements OnInit {
   autoNext = true;
   autoRead = false;
   audio = new Audio();
+
+  displayedColumns: string[] = ['english', 'polish'];
+  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   constructor(private attachmentService: AttachmentService,
               private formBuilder: FormBuilder,
@@ -74,6 +108,11 @@ export class AdminComponent implements OnInit {
     });
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   private settingInit() {
     const storedCountDown = localStorage.getItem('countDown');
     if (storedCountDown !== null) {
@@ -90,8 +129,6 @@ export class AdminComponent implements OnInit {
   }
 
   add(){
-
-    console.log('here');
     if (this.myForm.valid) {
       const word: Word = {
         english: this.myForm.get('english')?.value,

@@ -8,13 +8,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@RequiredArgsConstructor
 public class AttachmentService {
 
-    private AttachmentRepository attachmentRepository;
-
-    public AttachmentService(AttachmentRepository attachmentRepository) {
-        this.attachmentRepository = attachmentRepository;
-    }
+    private final AttachmentRepository attachmentRepository;
 
     public Boolean saveAttachment(String wordId, MultipartFile file) throws Exception {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
