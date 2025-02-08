@@ -1,5 +1,5 @@
-<div class="flex justify-center items-center h-[90vh]">
-  <mat-card class="card" appearance="outlined">
+<div class="flex justify-center items-center h-[90vh] p-8">
+  <mat-card class="card max-w-[650px] " appearance="outlined">
     <div class="flex justify-between items-center gap-2 pb-2">
       <div class="pl-4 text-xl">
         <span>{{ 'Add' }}</span>
@@ -14,13 +14,13 @@
       <form [formGroup]="myForm">
         <div class="flex justify-center flex-wrap gap-3">
           <div>
-            <mat-form-field appearance="fill" hideRequiredMarker="true" class="input w-full">
+            <mat-form-field appearance="fill" hideRequiredMarker="true" class="input w-[225px]">
               <mat-label>English</mat-label>
               <input type="text" matInput formControlName="english">
             </mat-form-field>
           </div>
           <div>
-            <mat-form-field appearance="fill" hideRequiredMarker="true" class="input w-full">
+            <mat-form-field appearance="fill" hideRequiredMarker="true" class="input w-[225px]">
               <mat-label>Polish</mat-label>
               <input type="text" matInput formControlName="polish">
             </mat-form-field>
@@ -34,11 +34,11 @@
         <div>
           <mat-form-field class="input w-full">
             <mat-label>Filter</mat-label>
-            <input class="w-m" matInput (keyup)="applyFilter($event)" #input>
+            <input  matInput (keyup)="applyFilter($event)" #input>
           </mat-form-field>
         </div>
         <div>
-          <table mat-table [dataSource]="dataSource" class="input">
+          <table mat-table [dataSource]="dataSource" >
             <ng-container matColumnDef="english">
               <th mat-header-cell *matHeaderCellDef> English</th>
               <td mat-cell *matCellDef="let element"> {{ element.english }}</td>
