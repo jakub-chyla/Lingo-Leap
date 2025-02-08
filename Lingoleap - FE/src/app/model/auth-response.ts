@@ -4,4 +4,5 @@ export class AuthResponse {
   refreshToken?: string;
   message?: string;
   userName?: string;
+  role?: string;
 }

@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, tap} from "rxjs";
 import {User} from "../model/user";
 import {HttpClient} from "@angular/common/http";
-import {LOG_IN, REFRESH_TOKEN, REGISTER} from "../shared/api-url";
+import {LOG_IN, REFRESH_TOKEN, REGISTER} from "../shared/utils/api-url";
 import {AuthRequest} from "../model/auth-request";
 import {AuthResponse} from "../model/auth-response";
-import {AuthHelper} from "../shared/auth-helper";
+import {AuthHelper} from "../shared/utils/auth-helper";
 import {PurchaseService} from "./purchase.service";
 import {environment} from "../../environments/environment";
 
@@ -45,6 +45,7 @@ export class UserService {
           this.user = new User();
           this.user.id = response.id;
           this.user.username = response.userName;
+          this.user.role = response.role;
           this.user.refreshToken = response.accessToken;
           this.user.token = response.refreshToken;
           localStorage.setItem('username', String(response.userName));

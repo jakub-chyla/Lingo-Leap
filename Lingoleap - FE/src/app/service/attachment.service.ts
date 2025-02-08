@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {AuthHelper} from "../shared/auth-helper";
+import {AuthHelper} from "../shared/utils/auth-helper";
 import {environment} from "../../environments/environment";
 import {StripeResponse} from "../model/stripe-response";
-import {CHECKOUT, PREMIUM} from "../shared/api-url";
+import {CHECKOUT, PREMIUM} from "../shared/utils/api-url";
 
 @Injectable({
   providedIn: 'root'
