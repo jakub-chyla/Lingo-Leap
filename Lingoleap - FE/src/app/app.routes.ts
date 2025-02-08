@@ -17,8 +17,8 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     title: 'Admin',
-    canActivate: [AuthGuard],
-    data: {requiredRole: Role.ADMIN},
+    // canActivate: [AuthGuard], // revert
+    // data: {requiredRole: Role.ADMIN},
   },
   {path: 'about', component: AboutComponent, title: 'About'},
   {path: 'pricing', component: PricingComponent, title: 'Pricing'},

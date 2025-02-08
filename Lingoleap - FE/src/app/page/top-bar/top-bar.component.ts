@@ -30,6 +30,7 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 })
 export class TopBarComponent implements OnInit {
   user?: User | null;
+  isAdmin= false;
 
   constructor(private router: Router,
               private userService: UserService,
@@ -40,7 +41,10 @@ export class TopBarComponent implements OnInit {
     this.userService.refreshToken().subscribe();
 
     this.userService.user$.subscribe((user) => {
-      this.user = user;
+      if(user) {
+        this.user = user;
+        this.isAdmin = user?.isAdmin();
+      }
       if (this.user === null) {
         this.user = new User();
         this.user.username = localStorage.getItem('username') ?? undefined;

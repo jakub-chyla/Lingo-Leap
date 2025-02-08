@@ -1,3 +1,5 @@
+import {Role} from "../enum/Role";
+
 export class User {
   id?: number;
   username?: string;
@@ -7,4 +9,8 @@ export class User {
   role?: string;
   email?: string;
   premium: boolean = false
+
+  isAdmin(){
+    return this.role === Role.ADMIN;
+  }
 }

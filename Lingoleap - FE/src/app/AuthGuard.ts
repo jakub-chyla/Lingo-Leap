@@ -11,7 +11,6 @@ export const AuthGuard: CanActivateFn = (route, state) => {
   return userService.user$.pipe(
     take(1),
     map(user => {
-      console.log(user?.role);
       if (user && user.role === requiredRole) {
         return true;
       }
