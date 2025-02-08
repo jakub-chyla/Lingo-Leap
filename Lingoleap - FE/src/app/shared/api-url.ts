@@ -17,4 +17,5 @@ export const LOG_IN: string = '/login';
 export const REFRESH_TOKEN: string = '/refresh-token';
 export const VALIDATE: string = '/validate';
 export const CHECKOUT: string = '/purchase/checkout';
+export const WORD: string = '/word';
 export const PREMIUM: string = '/purchase/premium';

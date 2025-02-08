@@ -16,7 +16,7 @@ export class AttachmentService {
   constructor(private httpClient: HttpClient) {
   }
 
-  uploadFile(wordId:string) {
+  uploadFile(wordId: string) {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.mp3';
@@ -50,8 +50,7 @@ export class AttachmentService {
 
   upload(wordId: string, file: File): Observable<boolean> {
     const formData = new FormData();
-    formData.append('file', file); // Attach the file
-
+    formData.append('file', file);
     return this.httpClient.post<boolean>(`${this.domain}/at/upload/${wordId}`, formData);
   }
 

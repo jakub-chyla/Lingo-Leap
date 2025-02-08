@@ -1,9 +1,15 @@
 package com.lingo_leap.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-@Table(name = "words")
+
+
+@Getter
+@Setter
 @Entity
+@Table(name = "words")
 public class Word {
 
     @Id

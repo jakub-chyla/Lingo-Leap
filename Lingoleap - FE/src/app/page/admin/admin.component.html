@@ -15,18 +15,18 @@
         <div class="flex justify-center flex-wrap gap-2 w-[35vw] max-w-[550px] min-w-[250px]">
           <div>
             <mat-form-field appearance="fill" hideRequiredMarker="true" class="input">
-              <mat-label>User</mat-label>
-              <input type="text" matInput formControlName="polish">
+              <mat-label>English</mat-label>
+              <input type="text" matInput formControlName="english">
             </mat-form-field>
           </div>
           <div>
             <mat-form-field appearance="fill" hideRequiredMarker="true" class="input">
-              <mat-label>User</mat-label>
-              <input type="text" matInput formControlName="english">
+              <mat-label>Polish</mat-label>
+              <input type="text" matInput formControlName="polish">
             </mat-form-field>
           </div>
           <div class="pt-[10px]">
-            <button mat-raised-button color="accent">Add</button>
+            <button mat-raised-button (click)="add()" color="accent">Add</button>
           </div>
         </div>
       </form>
