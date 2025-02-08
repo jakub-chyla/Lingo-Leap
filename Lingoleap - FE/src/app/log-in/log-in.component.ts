@@ -21,37 +21,40 @@ import {UserService} from "../service/user.service";
 import {AuthRequest} from "../model/auth-request";
 import {Router} from "@angular/router";
 import {User} from "../model/user";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-log-in',
   standalone: true,
-  imports: [
-    MatCard,
-    MatButton,
-    MatCardContent,
-    MatCardFooter,
-    ReactiveFormsModule,
-    MatFormField,
-    MatInput,
+    imports: [
+        MatCard,
+        MatButton,
+        MatCardContent,
+        MatCardFooter,
+        ReactiveFormsModule,
+        MatFormField,
+        MatInput,
 
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatCardModule,
-    MatDividerModule,
-    CommonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule
-  ],
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatCardModule,
+        MatDividerModule,
+        CommonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatProgressSpinner
+    ],
   templateUrl: './log-in.component.html',
   styleUrl: './log-in.component.scss'
 })
 export class LogInComponent implements OnInit {
   myForm!: FormGroup;
   user?: User;
+  loading = false;
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -74,13 +77,15 @@ export class LogInComponent implements OnInit {
 
   logIn() {
     if (this.myForm.valid) {
+      this.loading = true;
       const authRequest: AuthRequest = {
         username: this.myForm.get('username')?.value,
         password: this.myForm.get('password')?.value
       }
       this.userService.logIn(authRequest).subscribe(
-        (response) => {
-          this.router.navigate(['/main']);
+        () => {
+          this.navigateToMain();
+          this.loading = false;
         },
       );
     }

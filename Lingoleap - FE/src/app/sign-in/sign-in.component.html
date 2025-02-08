@@ -1,8 +1,8 @@
 <div class="flex justify-center items-center h-[90vh]">
   <mat-card class="card" appearance="outlined">
     <div class="flex justify-between items-center gap-2 pb-2">
-      <div class="pl-4 text-xl" >
-        <span >{{ 'Sign In' }}</span>
+      <div class="pl-4 text-xl">
+        <span>{{ 'Sign In' }}</span>
       </div>
       <div>
         <button mat-icon-button (click)="navigateToLMain()">
@@ -22,7 +22,7 @@
           <div>
             <mat-form-field appearance="fill" hideRequiredMarker="true" class="input">
               <mat-label>Password</mat-label>
-              <input type="text" matInput formControlName="password">
+              <input type="password" matInput formControlName="password">
             </mat-form-field>
           </div>
           <div>
@@ -36,11 +36,19 @@
     </mat-card-content>
     <mat-card-footer>
       <div class="flex justify-center">
-        <div class="pr-[55px]">
-          <button mat-raised-button color="primary" (click)="signIn()" [disabled]="myForm.invalid "
-                  type="submit">Sign in
-          </button>
+        <div>
+          <ng-container *ngIf="!loading; else loadingTemplate">
+            <button mat-raised-button color="primary" (click)="signIn()" [disabled]="myForm.invalid" type="submit">
+              Sign in
+            </button>
+          </ng-container>
+          <ng-template #loadingTemplate>
+            <button class="w-[83px]" mat-raised-button color="primary" [disabled]="true" type="submit">
+              <mat-spinner [diameter]="22"></mat-spinner>
+            </button>
+          </ng-template>
         </div>
+
       </div>
     </mat-card-footer>
   </mat-card>
