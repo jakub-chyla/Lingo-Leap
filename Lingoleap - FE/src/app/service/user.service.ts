@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, tap} from "rxjs";
 import {User} from "../model/user";
 import {HttpClient} from "@angular/common/http";
-import {LOG_IN, REFRESH_TOKEN, REGISTER} from "../shared/utils/api-url";
+import {LOG_IN, REFRESH_TOKEN, REGISTER} from "../shared/api-url";
 import {AuthRequest} from "../model/auth-request";
 import {AuthResponse} from "../model/auth-response";
-import {AuthHelper} from "../shared/utils/auth-helper";
+import {AuthHelper} from "../shared/auth-helper";
 import {PurchaseService} from "./purchase.service";
 import {environment} from "../../environments/environment";
 

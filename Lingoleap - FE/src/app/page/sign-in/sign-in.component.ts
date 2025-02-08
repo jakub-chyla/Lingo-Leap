@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {UserService} from "../service/user.service";
-import {AuthRequest} from "../model/auth-request";
+import {UserService} from "../../service/user.service";
+import {AuthRequest} from "../../model/auth-request";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardFooter} from "@angular/material/card";
 import {MatFormField, MatLabel} from "@angular/material/form-field";

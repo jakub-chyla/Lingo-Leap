@@ -4,12 +4,12 @@ import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatTooltip} from "@angular/material/tooltip";
 import {Router} from "@angular/router";
-import {User} from "../model/user";
-import {UserService} from "../service/user.service";
+import {User} from "../../model/user";
+import {UserService} from "../../service/user.service";
 import {NgIf} from "@angular/common";
-import {PurchaseService} from "../service/purchase.service";
-import {ProductRequest} from "../model/product-request";
-import {StripeResponse} from "../model/stripe-response";
+import {PurchaseService} from "../../service/purchase.service";
+import {ProductRequest} from "../../model/product-request";
+import {StripeResponse} from "../../model/stripe-response";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 
 @Component({

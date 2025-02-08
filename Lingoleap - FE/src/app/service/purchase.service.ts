@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {CHECKOUT, PREMIUM} from "../shared/utils/api-url";
+import {CHECKOUT, PREMIUM} from "../shared/api-url";
 import {ProductRequest} from "../model/product-request";
 import {StripeResponse} from "../model/stripe-response";
-import {AuthHelper} from "../shared/utils/auth-helper";
+import {AuthHelper} from "../shared/auth-helper";
 import {environment} from "../../environments/environment";
 
 @Injectable({

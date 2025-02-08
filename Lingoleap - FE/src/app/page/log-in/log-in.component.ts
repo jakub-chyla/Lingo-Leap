@@ -17,10 +17,10 @@ import {MatInput, MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {CommonModule} from "@angular/common";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {UserService} from "../service/user.service";
-import {AuthRequest} from "../model/auth-request";
+import {UserService} from "../../service/user.service";
+import {AuthRequest} from "../../model/auth-request";
 import {Router} from "@angular/router";
-import {User} from "../model/user";
+import {User} from "../../model/user";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
@@ -75,7 +75,7 @@ export class LogInComponent implements OnInit {
     });
   }
 
-  logIn() {
+  logIn(): void {
     if (this.myForm.valid) {
       this.loading = true;
       const authRequest: AuthRequest = {

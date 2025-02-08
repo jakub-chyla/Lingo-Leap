@@ -1,13 +1,13 @@
 import {Component, inject, model, OnInit, signal} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {Word} from "../model/word";
+import {Word} from "../../model/word";
 import {LogInComponent} from "../log-in/log-in.component";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {AttachmentService} from "../service/attachment.service";
+import {AttachmentService} from "../../service/attachment.service";
 
 const wordsList: Word[] = [
   new Word("notice", "wypowiedzenie"),

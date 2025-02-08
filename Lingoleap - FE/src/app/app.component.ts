@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {TopBarComponent} from "./top-bar/top-bar.component";
+import {TopBarComponent} from "./page/top-bar/top-bar.component";
 import {RouterOutlet} from "@angular/router";
 
 @Component({

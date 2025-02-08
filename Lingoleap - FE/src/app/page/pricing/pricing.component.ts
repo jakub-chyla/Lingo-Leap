@@ -4,11 +4,11 @@ import {MatCard, MatCardContent, MatCardFooter} from "@angular/material/card";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIcon} from "@angular/material/icon";
 import {Router} from "@angular/router";
-import {UserService} from "../service/user.service";
-import {ProductRequest} from "../model/product-request";
-import {StripeResponse} from "../model/stripe-response";
-import {PurchaseService} from "../service/purchase.service";
-import {User} from "../model/user";
+import {UserService} from "../../service/user.service";
+import {ProductRequest} from "../../model/product-request";
+import {StripeResponse} from "../../model/stripe-response";
+import {PurchaseService} from "../../service/purchase.service";
+import {User} from "../../model/user";
 import {NgIf} from "@angular/common";
 
 @Component({
