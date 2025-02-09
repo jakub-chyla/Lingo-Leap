@@ -9,21 +9,6 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {AttachmentService} from "../../service/attachment.service";
 
-const wordsList: Word[] = [
-  new Word("notice", "wypowiedzenie"),
-  new Word("abbreviation", "skrót"),
-  new Word("according to", "według"),
-  new Word("advocated", "popierał"),
-  new Word("ambiguous", "dwuznaczny"),
-  new Word("assault", "napaść"),
-  new Word("adjacent", "przyległy"),
-  new Word("assault", "napaść"),
-  new Word("audacious", "zuchwały"),
-  new Word("we'll get to it", "dojdziemy do tego"),
-  new Word("worn out", "zużyte"),
-  new Word("year prior", "rok wcześniej"),
-];
-
 
 @Component({
   selector: 'app-main',
@@ -74,7 +59,6 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initWordsList = wordsList;
     this.wordsList = [...this.initWordsList];
     this.settingInit();
     this.shuffle();
@@ -104,34 +88,9 @@ export class MainComponent implements OnInit {
     return Math.floor(Math.random() * length);
   }
 
-  createAnswers() {
-    if (this.englishToPolish) {
-      this.answers[0] = this.currentWord.polish;
-      for (let i = 1; i < 9; i++) {
-        this.answers[i] = this.getAnswer();
-      }
-    } else {
-      this.answers[0] = this.currentWord.english;
-      for (let i = 1; i < 9; i++) {
-        this.answers[i] = this.getAnswer();
-      }
-    }
-  }
 
-  getAnswer() {
-    let answer
-    if (this.englishToPolish) {
-      do {
-        answer = this.initWordsList[this.getRandomIndex(this.initWordsList.length)].polish;
-      } while (this.answers.includes(answer))
-    } else {
-      do {
-        answer = this.initWordsList[this.getRandomIndex(this.initWordsList.length)].english;
-      } while (this.answers.includes(answer))
-    }
 
-    return answer;
-  }
+
 
   shuffle() {
     this.checkIfListIsEnd();
@@ -140,7 +99,7 @@ export class MainComponent implements OnInit {
     const index = this.getRandomIndex(this.wordsList.length);
     this.currentWord = this.wordsList.splice(index, 1)[0];
 
-    this.createAnswers();
+
     this.justifyAnswers();
 
     if (this.autoRead && this.englishToPolish) {
@@ -204,45 +163,7 @@ export class MainComponent implements OnInit {
     this.answers = [sortAnswer[0], sortAnswer[3], sortAnswer[8], sortAnswer[1], sortAnswer[4], sortAnswer[7], sortAnswer[2], sortAnswer[5], sortAnswer[6]];
   }
 
-  checkAnswer(answer: string, clickedButton: number) {
-    if (this.newShuffle) {
-      const isCorrect = (word: string, answer: string) => word === answer;
-      const updateButtonState = (correctIndex: number) => {
 
-        for (let i = 0; i < this.buttonStatuses.length; i++) {
-          if (i === correctIndex) {
-            this.buttonStatuses[i] = 1; // Correct answer
-          } else if (i === clickedButton && clickedButton !== correctIndex) {
-            this.buttonStatuses[i] = 2; // Wrong answer
-          } else {
-            this.buttonStatuses[i] = 3; // Disabled
-          }
-        }
-      };
-
-      if (this.autoRead) {
-        this.readText();
-      }
-
-      const currentWord = this.englishToPolish ? this.currentWord.polish : this.currentWord.english;
-
-      for (let i = 0; i < this.answers.length; i++) {
-        if (isCorrect(currentWord, this.answers[i])) {
-          updateButtonState(i);
-          break;
-        }
-      }
-
-      if (this.newShuffle) {
-        this.countAnswer(answer);
-        this.newShuffle = false;
-      }
-
-      if (this.autoNext) {
-        this.countdownAfterAnswer();
-      }
-    }
-  }
 
   countAnswer(answer: string) {
     const currentWord = this.englishToPolish ? this.currentWord.polish : this.currentWord.english;

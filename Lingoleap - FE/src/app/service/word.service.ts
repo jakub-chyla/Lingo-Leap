@@ -16,7 +16,11 @@ export class WordService {
   constructor(private httpClient: HttpClient) {
   }
 
-  saveWord(word: Word): Observable<number> {
-    return this.httpClient.post<number>(this.domain + WORD, word);
+  saveWord(word: Word): Observable<Word> {
+    return this.httpClient.post<Word>(this.domain + WORD, word);
+  }
+
+  getAllWords(): Observable<Word[]> {
+    return this.httpClient.get<Word[]>(this.domain + WORD);
   }
 }

@@ -10,28 +10,19 @@ import {MatIcon} from "@angular/material/icon";
 import {Router} from "@angular/router";
 import {WordService} from "../../service/word.service";
 import {
-  MatCell, MatCellDef,
+  MatCell,
+  MatCellDef,
   MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef, MatNoDataRow, MatRow, MatRowDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatNoDataRow,
+  MatRow,
+  MatRowDef,
   MatTable,
   MatTableDataSource
 } from "@angular/material/table";
-
-const wordsList: Word[] = [
-  new Word("notice", "wypowiedzenie"),
-  new Word("abbreviation", "skrót"),
-  new Word("according to", "według"),
-  new Word("advocated", "popierał"),
-  new Word("ambiguous", "dwuznaczny"),
-  new Word("assault", "napaść"),
-  new Word("adjacent", "przyległy"),
-  new Word("assault", "napaść"),
-  new Word("audacious", "zuchwały"),
-  new Word("we'll get to it", "dojdziemy do tego"),
-  new Word("worn out", "zużyte"),
-  new Word("year prior", "rok wcześniej"),
-];
 
 export interface PeriodicElement {
   english: string;
@@ -77,7 +68,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class AdminComponent implements OnInit {
   myForm!: FormGroup;
-  initWordsList: Word[] = [];
   wordsList: Word[] = [];
   countDown = false;
   autoNext = true;
@@ -85,7 +75,7 @@ export class AdminComponent implements OnInit {
   audio = new Audio();
 
   displayedColumns: string[] = ['english', 'polish'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dataSource = new MatTableDataSource(this.wordsList);
 
   constructor(private attachmentService: AttachmentService,
               private formBuilder: FormBuilder,
@@ -94,8 +84,6 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initWordsList = wordsList;
-    this.wordsList = [...this.initWordsList];
     this.settingInit();
     // this.attachmentService.download().subscribe((blob) => {
     //   let objectUrl = URL.createObjectURL(blob);
@@ -105,6 +93,14 @@ export class AdminComponent implements OnInit {
     this.myForm = this.formBuilder.group({
       polish: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
       english: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
+    });
+    this.getAllWords()
+  }
+
+  getAllWords() {
+    this.wordService.getAllWords().subscribe((data) => {
+      this.wordsList = data;
+      this.dataSource = new MatTableDataSource(this.wordsList);
     });
   }
 
@@ -128,7 +124,7 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  add(){
+  add() {
     if (this.myForm.valid) {
       const word: Word = {
         english: this.myForm.get('english')?.value,
@@ -136,8 +132,12 @@ export class AdminComponent implements OnInit {
       }
       this.wordService.saveWord(word).subscribe(
         (response) => {
-          this.attachmentService.uploadFile(response.toString());
-
+          if (response) {
+            const word = response;
+            this.attachmentService.uploadFile(word!.id!.toString());
+            this.wordsList.push(word)
+            this.dataSource = new MatTableDataSource(this.wordsList)
+          }
         },
       );
     }
@@ -145,14 +145,9 @@ export class AdminComponent implements OnInit {
   }
 
 
-
   navigateToMain(): void {
     this.router.navigate(['/main']);
   }
-
-
-
-
 
 
 }
