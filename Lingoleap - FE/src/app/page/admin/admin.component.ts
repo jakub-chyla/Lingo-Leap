@@ -74,7 +74,7 @@ export class AdminComponent implements OnInit {
   autoRead = false;
   audio = new Audio();
 
-  displayedColumns: string[] = ['english', 'polish'];
+  displayedColumns: string[] = ['english', 'polish', 'action'];
   dataSource = new MatTableDataSource(this.wordsList);
 
   constructor(private attachmentService: AttachmentService,
@@ -144,10 +144,19 @@ export class AdminComponent implements OnInit {
 
   }
 
-
   navigateToMain(): void {
     this.router.navigate(['/main']);
   }
 
+  deleteById(id: number): void {
+    this.wordService.deleteById(id.toString()).subscribe((response) => {
+      const index = this.wordsList.findIndex(word => word.id === response);
+      if (index !== -1) {
+        this.wordsList.splice(index, 1);
+        this.dataSource = new MatTableDataSource(this.wordsList);
+      }
+    });
+
+  }
 
 }

@@ -40,4 +40,9 @@ public class AttachmentService {
                 .orElseThrow(
                         () -> new Exception("File not found with Id: " + fileId));
     }
+
+    public Long deleteByWordId(Long id){
+        attachmentRepository.deleteByWordId(id);
+        return id;
+    }
 }
