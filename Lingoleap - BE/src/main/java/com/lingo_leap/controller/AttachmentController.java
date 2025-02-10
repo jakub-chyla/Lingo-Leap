@@ -2,6 +2,7 @@ package com.lingo_leap.controller;
 
 import com.lingo_leap.dto.ResponseData;
 import com.lingo_leap.model.Attachment;
+import com.lingo_leap.model.Language;
 import com.lingo_leap.service.AttachmentService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -22,10 +23,9 @@ public class AttachmentController {
         this.attachmentService = attachmentService;
     }
 
-    @PostMapping("/upload/{wordId}")
-    public ResponseEntity<Boolean> uploadFile(@PathVariable String wordId, @RequestParam("file") MultipartFile file) throws Exception {
-        System.out.println(wordId);
-        return ResponseEntity.ok(attachmentService.saveAttachment(wordId, file));
+    @PostMapping("/upload/{wordId}/{language}")
+    public ResponseEntity<Attachment> uploadFile(@PathVariable String wordId, @PathVariable Language language, @RequestParam("file") MultipartFile file) throws Exception {
+        return ResponseEntity.ok(attachmentService.saveAttachment(wordId, language, file));
     }
 
     @GetMapping("/download/{fileId}")

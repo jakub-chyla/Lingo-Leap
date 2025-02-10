@@ -23,19 +23,7 @@ import {
   MatTable,
   MatTableDataSource
 } from "@angular/material/table";
-
-export interface PeriodicElement {
-  english: string;
-  polish: string;
-
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {english: 'Hydrogen', polish: 'Hydrogen'},
-  {english: 'aaa', polish: 'eee'},
-
-];
-
+import {Language} from "../../enum/Language";
 
 @Component({
   selector: 'app-admin',
@@ -74,7 +62,7 @@ export class AdminComponent implements OnInit {
   autoRead = false;
   audio = new Audio();
 
-  displayedColumns: string[] = ['english', 'polish', 'action'];
+  displayedColumns: string[] = ['english', 'polish'];
   dataSource = new MatTableDataSource(this.wordsList);
 
   constructor(private attachmentService: AttachmentService,
@@ -134,14 +122,39 @@ export class AdminComponent implements OnInit {
         (response) => {
           if (response) {
             const word = response;
-            this.attachmentService.uploadFile(word!.id!.toString());
+
             this.wordsList.push(word)
             this.dataSource = new MatTableDataSource(this.wordsList)
           }
         },
       );
     }
+  }
 
+  upload(wordId: number, language: Language) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.mp3';
+    input.click();
+
+    input.onchange = () => {
+      if (input.files && input.files.length > 0) {
+        const selectedFile = input.files[0];
+        this.attachmentService.upload(wordId.toString(), language, selectedFile).subscribe((attachment) => {
+          if (attachment) {
+            const word = this.wordsList.find(w => w.id === attachment.wordId);
+            if (word) {
+              if (attachment.language === Language.ENGLISH) {
+                word.englishAttachment = attachment.fileName;
+              } else if (attachment.language === Language.POLISH) {
+                word.polishAttachment = attachment.fileName;
+              }
+            }
+          }
+        });
+
+      }
+    };
   }
 
   navigateToMain(): void {
@@ -159,4 +172,5 @@ export class AdminComponent implements OnInit {
 
   }
 
+  protected readonly Language = Language;
 }

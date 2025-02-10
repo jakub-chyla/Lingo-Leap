@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {AuthHelper} from "../shared/auth-helper";
 import {environment} from "../../environments/environment";
-import {StripeResponse} from "../model/stripe-response";
-import {CHECKOUT, PREMIUM} from "../shared/api-url";
+import {Language} from "../enum/Language";
+import {Attachment} from "../model/attachment";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,7 @@ export class AttachmentService {
   constructor(private httpClient: HttpClient) {
   }
 
-  uploadFile(wordId: string) {
+  uploadFile(wordId: string, language: Language) {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.mp3';
@@ -25,8 +24,7 @@ export class AttachmentService {
     input.onchange = () => {
       if (input.files && input.files.length > 0) {
         const selectedFile = input.files[0];
-
-        this.upload(wordId, selectedFile).subscribe({
+        this.upload(wordId, language, selectedFile).subscribe({
           next: (response) => console.log('Upload successful:', response),
           error: (err) => console.error('Upload failed:', err)
         });
@@ -34,7 +32,7 @@ export class AttachmentService {
     };
   }
 
-  downloadFile(){
+  downloadFile() {
     this.download().subscribe((blob) => {
       let objectUrl = URL.createObjectURL(blob);
       this.audio.src = objectUrl;
@@ -48,10 +46,10 @@ export class AttachmentService {
     });
   }
 
-  upload(wordId: string, file: File): Observable<boolean> {
+  upload(wordId: string, language: Language, file: File): Observable<Attachment> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.httpClient.post<boolean>(`${this.domain}/at/upload/${wordId}`, formData);
+    return this.httpClient.post<Attachment>(`${this.domain}/at/upload/${wordId}/${Language[language]}`, formData);
   }
 
 }

@@ -22,8 +22,10 @@ public class Attachment {
     @Column(name = "file_type")
     private String fileType;
 
+    @Enumerated(value = EnumType.STRING)
+    private Language language;
+
     @Lob
     private byte[] data;
-
 
 }
