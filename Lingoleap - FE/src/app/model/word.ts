@@ -1,7 +1,9 @@
+import {Attachment} from "./attachment";
+
 export class Word {
   id?: number;
   english?: string;
   polish?: string;
-  englishAttachment?: string;
-  polishAttachment?: string;
+  englishAttachment?: Attachment;
+  polishAttachment?: Attachment;
 }

@@ -5,7 +5,8 @@ create TABLE IF NOT EXISTS words (
 );
 
 create TABLE IF NOT EXISTS attachments (
-    file_name VARCHAR(255) PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
+    file_name VARCHAR(255),
     word_id BIGSERIAL,
     file_type VARCHAR(255),
     language VARCHAR(50) NOT NULL,

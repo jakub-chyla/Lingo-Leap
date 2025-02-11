@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AttachmentService {
@@ -17,17 +19,18 @@ public class AttachmentService {
     public Attachment saveAttachment(String wordId, Language language, MultipartFile file) throws Exception {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         try {
-            if(fileName.contains("..")) {
-                throw  new Exception("Filename contains invalid path sequence "
+            if (fileName.contains("..")) {
+                throw new Exception("Filename contains invalid path sequence "
                         + fileName);
             }
 
-            Attachment attachment
-                    = new Attachment(fileName,
-                    Long.parseLong(wordId),
-                    file.getContentType(),
-                    language,
-                    file.getBytes());
+            Attachment attachment = new Attachment();
+                    attachment.setFileName(fileName);
+                    attachment.setWordId(Long.parseLong(wordId));
+                    attachment.setFileType(file.getContentType());
+                    attachment.setLanguage(language);
+                    attachment.setData(file.getBytes());
+
             attachmentRepository.save(attachment);
             return attachment;
 
@@ -36,7 +39,7 @@ public class AttachmentService {
         }
     }
 
-    public Attachment getAttachment(String fileId) throws Exception {
+    public Attachment getAttachment(Long fileId) throws Exception {
         return attachmentRepository
                 .findById(fileId)
                 .orElseThrow(
@@ -46,5 +49,15 @@ public class AttachmentService {
     public Long deleteByWordId(Long id){
         attachmentRepository.deleteByWordId(id);
         return id;
+    }
+
+
+    public List<Attachment> findByWordId(Long wordId) {
+        return attachmentRepository.findByWordId(wordId);
+
+    }
+    public List<Attachment> findAll() {
+        return attachmentRepository.findAll();
+
     }
 }

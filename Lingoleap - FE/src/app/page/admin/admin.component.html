@@ -40,15 +40,14 @@
         <div>
           <table mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="english">
-              <th mat-header-cell *matHeaderCellDef> English</th>
+              <th mat-header-cell *matHeaderCellDef>English</th>
               <td mat-cell *matCellDef="let element">
-                <div class="flex justify-start content-center ">
+                <div class="flex justify-start content-center flex-wrap gap-1">
                   <div class=" content-center ">
                     {{ element.english }}
-
                   </div>
                   <div class=" content-center ">
-                    {{ element.englishAttachment }}
+                    {{ element.englishAttachment.fileName }}
                   </div>
                   <div>
                     <button mat-icon-button (click)="upload(element.id, Language.ENGLISH)">
@@ -64,17 +63,28 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="polish">
-              <th mat-header-cell *matHeaderCellDef> Polish</th>
-              <td mat-cell *matCellDef="let element"> {{ element.polish }}
-                <button mat-icon-button (click)="deleteById(element.id)">
-                  <mat-icon>upload</mat-icon>
-                </button>
-                <button mat-icon-button (click)="deleteById(element.id)">
-                  <mat-icon color="warn">close</mat-icon>
-                </button>
+              <th mat-header-cell *matHeaderCellDef>Polish</th>
+              <td mat-cell *matCellDef="let element">
+                <div class="flex justify-start content-center flex-wrap gap-1">
+                  <div class=" content-center ">
+                    {{ element.english }}
+                  </div>
+                  <div class=" content-center ">
+                    {{ element.polishAttachment.fileName }}
+                  </div>
+                  <div>
+                    <button mat-icon-button (click)="upload(element.id, Language.POLISH)">
+                      <mat-icon>upload</mat-icon>
+                    </button>
+                  </div>
+                  <div>
+                    <button mat-icon-button (click)="deleteById(element.id)">
+                      <mat-icon color="warn">close</mat-icon>
+                    </button>
+                  </div>
+                </div>
               </td>
             </ng-container>
-
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             <tr class="mat-row" *matNoDataRow>

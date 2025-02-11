@@ -141,16 +141,16 @@ export class AdminComponent implements OnInit {
       if (input.files && input.files.length > 0) {
         const selectedFile = input.files[0];
         this.attachmentService.upload(wordId.toString(), language, selectedFile).subscribe((attachment) => {
-          if (attachment) {
-            const word = this.wordsList.find(w => w.id === attachment.wordId);
-            if (word) {
-              if (attachment.language === Language.ENGLISH) {
-                word.englishAttachment = attachment.fileName;
-              } else if (attachment.language === Language.POLISH) {
-                word.polishAttachment = attachment.fileName;
-              }
-            }
-          }
+          // if (attachment) {
+          //   const word = this.wordsList.find(w => w.id === attachment.wordId);
+          //   if (word) {
+          //     if (attachment.language === Language.ENGLISH) {
+          //       word.englishAttachment = attachment.fileName;
+          //     } else if (attachment.language === Language.POLISH) {
+          //       word.polishAttachment = attachment.fileName;
+          //     }
+          //   }
+          // }
         });
 
       }

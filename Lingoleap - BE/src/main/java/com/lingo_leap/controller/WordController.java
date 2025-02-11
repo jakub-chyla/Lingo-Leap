@@ -1,5 +1,6 @@
 package com.lingo_leap.controller;
 
+import com.lingo_leap.dto.WordDto;
 import com.lingo_leap.model.Word;
 import com.lingo_leap.service.WordService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class WordController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Word>> findAll() {
+    public ResponseEntity<List<WordDto>> findAll() {
         return ResponseEntity.ok(wordService.findAll());
     }
 

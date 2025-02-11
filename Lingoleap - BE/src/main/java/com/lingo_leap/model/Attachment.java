@@ -2,18 +2,21 @@ package com.lingo_leap.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "attachments")
 public class Attachment {
 
     @Id
-    @Column(name = "file_name", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "file_name")
     private String fileName;
 
     @Column(name = "word_id")
