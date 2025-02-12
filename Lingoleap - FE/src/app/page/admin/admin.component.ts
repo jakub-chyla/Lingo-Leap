@@ -24,6 +24,7 @@ import {
   MatTableDataSource
 } from "@angular/material/table";
 import {Language} from "../../enum/Language";
+import {Attachment} from "../../model/attachment";
 
 @Component({
   selector: 'app-admin',
@@ -62,7 +63,7 @@ export class AdminComponent implements OnInit {
   autoRead = false;
   audio = new Audio();
 
-  displayedColumns: string[] = ['english', 'polish'];
+  displayedColumns: string[] = ['english', 'polish', 'action'];
   dataSource = new MatTableDataSource(this.wordsList);
 
   constructor(private attachmentService: AttachmentService,
@@ -141,16 +142,19 @@ export class AdminComponent implements OnInit {
       if (input.files && input.files.length > 0) {
         const selectedFile = input.files[0];
         this.attachmentService.upload(wordId.toString(), language, selectedFile).subscribe((attachment) => {
-          // if (attachment) {
-          //   const word = this.wordsList.find(w => w.id === attachment.wordId);
-          //   if (word) {
-          //     if (attachment.language === Language.ENGLISH) {
-          //       word.englishAttachment = attachment.fileName;
-          //     } else if (attachment.language === Language.POLISH) {
-          //       word.polishAttachment = attachment.fileName;
-          //     }
-          //   }
-          // }
+          if (attachment) {
+            const word = this.wordsList.find(w => w.id === attachment.wordId);
+            if (word) {
+              if (attachment.language === Language.ENGLISH) {
+                word.englishAttachment = new Attachment()
+                word.englishAttachment.fileName = attachment.fileName;
+              }
+              if (attachment.language === Language.POLISH) {
+                word.polishAttachment = new Attachment()
+                word.polishAttachment.fileName = attachment.fileName;
+              }
+            }
+          }
         });
 
       }
@@ -161,8 +165,8 @@ export class AdminComponent implements OnInit {
     this.router.navigate(['/main']);
   }
 
-  deleteById(id: number): void {
-    this.wordService.deleteById(id.toString()).subscribe((response) => {
+  deleteWordById(id: number): void {
+    this.wordService.deleteWordById(id.toString()).subscribe((response) => {
       const index = this.wordsList.findIndex(word => word.id === response);
       if (index !== -1) {
         this.wordsList.splice(index, 1);
@@ -172,5 +176,12 @@ export class AdminComponent implements OnInit {
 
   }
 
+  deleteAttachmentById(id: number): void {
+      this.attachmentService.deleteAttachmentById(id.toString()).subscribe((response) => {
+      });
+  }
+
   protected readonly Language = Language;
 }
+
+

@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import {Language} from "../enum/Language";
 import {Attachment} from "../model/attachment";
+import {ATTACHMENT, WORD} from "../shared/api-url";
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +42,7 @@ export class AttachmentService {
   }
 
   download(): Observable<Blob> {
-    return this.httpClient.get(this.domain + '/at/download/hello.mp3', {
+    return this.httpClient.get(this.domain + ATTACHMENT +'/download/hello.mp3', {
       responseType: 'blob',
     });
   }
@@ -50,6 +51,10 @@ export class AttachmentService {
     const formData = new FormData();
     formData.append('file', file);
     return this.httpClient.post<Attachment>(`${this.domain}/at/upload/${wordId}/${Language[language]}`, formData);
+  }
+
+  deleteAttachmentById(attachmentId: string): Observable<number>{
+    return this.httpClient.delete<number>(this.domain + ATTACHMENT + `/${attachmentId}`);
   }
 
 }

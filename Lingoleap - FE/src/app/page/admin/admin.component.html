@@ -1,5 +1,5 @@
 <div class="flex justify-center items-center h-[90vh] p-8">
-  <mat-card class="card max-w-[650px] " appearance="outlined">
+  <mat-card class="card max-w-[650px] min-w-[375px]" appearance="outlined">
     <div class="flex justify-between items-center gap-2 pb-2">
       <div class="pl-4 text-xl">
         <span>{{ 'Add' }}</span>
@@ -14,13 +14,13 @@
       <form [formGroup]="myForm">
         <div class="flex justify-center flex-wrap gap-3">
           <div>
-            <mat-form-field appearance="fill" hideRequiredMarker="true" class="input w-[225px]">
+            <mat-form-field appearance="fill" hideRequiredMarker="true" class="input w-[240px]">
               <mat-label>English</mat-label>
               <input type="text" matInput formControlName="english">
             </mat-form-field>
           </div>
           <div>
-            <mat-form-field appearance="fill" hideRequiredMarker="true" class="input w-[225px]">
+            <mat-form-field appearance="fill" hideRequiredMarker="true" class="input w-[240px]">
               <mat-label>Polish</mat-label>
               <input type="text" matInput formControlName="polish">
             </mat-form-field>
@@ -42,20 +42,20 @@
             <ng-container matColumnDef="english">
               <th mat-header-cell *matHeaderCellDef>English</th>
               <td mat-cell *matCellDef="let element">
-                <div class="flex justify-start content-center flex-wrap gap-1">
-                  <div class=" content-center ">
+                <div class="flex justify-start content-center flex-wrap">
+                  <div class=" content-center mr-1">
                     {{ element.english }}
                   </div>
                   <div class=" content-center ">
-                    {{ element.englishAttachment.fileName }}
+                    {{ element.englishAttachment?.fileName }}
                   </div>
-                  <div>
+                  <div class="-ml-3 -mr-2">
                     <button mat-icon-button (click)="upload(element.id, Language.ENGLISH)">
                       <mat-icon>upload</mat-icon>
                     </button>
                   </div>
-                  <div>
-                    <button mat-icon-button (click)="deleteById(element.id)">
+                  <div class="-ml-2 -mr-4">
+                    <button mat-icon-button (click)="deleteAttachmentById(element.englishAttachment.id)">
                       <mat-icon color="warn">close</mat-icon>
                     </button>
                   </div>
@@ -65,23 +65,31 @@
             <ng-container matColumnDef="polish">
               <th mat-header-cell *matHeaderCellDef>Polish</th>
               <td mat-cell *matCellDef="let element">
-                <div class="flex justify-start content-center flex-wrap gap-1">
-                  <div class=" content-center ">
+                <div class="flex justify-start content-center flex-wrap">
+                  <div class=" content-center mr-1">
                     {{ element.english }}
                   </div>
                   <div class=" content-center ">
-                    {{ element.polishAttachment.fileName }}
+                    {{ element.polishAttachment?.fileName }}
                   </div>
-                  <div>
+                  <div class="-ml-3 -mr-2">
                     <button mat-icon-button (click)="upload(element.id, Language.POLISH)">
                       <mat-icon>upload</mat-icon>
                     </button>
                   </div>
-                  <div>
-                    <button mat-icon-button (click)="deleteById(element.id)">
+                  <div class="-ml-2 -mr-4">
+                    <button mat-icon-button (click)="deleteAttachmentById(element.polishAttachment.id)">
                       <mat-icon color="warn">close</mat-icon>
                     </button>
                   </div>
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Action</th>
+              <td mat-cell *matCellDef="let element">
+                <div class="flex justify-center content-center cursor-pointer">
+                  <mat-icon (click)="deleteWordById(element.id)" color="warn">delete_forever</mat-icon>
                 </div>
               </td>
             </ng-container>

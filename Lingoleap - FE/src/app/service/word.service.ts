@@ -24,7 +24,7 @@ export class WordService {
     return this.httpClient.get<Word[]>(this.domain + WORD);
   }
 
-  deleteById(wordId: string): Observable<number>{
+  deleteWordById(wordId: string): Observable<number>{
     return this.httpClient.delete<number>(this.domain + WORD + `/${wordId}`);
   }
 }
