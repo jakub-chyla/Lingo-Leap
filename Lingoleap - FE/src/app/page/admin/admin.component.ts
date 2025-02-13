@@ -146,11 +146,13 @@ export class AdminComponent implements OnInit {
             const word = this.wordsList.find(w => w.id === attachment.wordId);
             if (word) {
               if (attachment.language === Language.ENGLISH) {
-                word.englishAttachment = new Attachment()
+                word.englishAttachment = new Attachment();
+                word.englishAttachment.id = attachment.id;
                 word.englishAttachment.fileName = attachment.fileName;
               }
               if (attachment.language === Language.POLISH) {
-                word.polishAttachment = new Attachment()
+                word.polishAttachment = new Attachment();
+                word.polishAttachment.id = attachment.id;
                 word.polishAttachment.fileName = attachment.fileName;
               }
             }
@@ -176,10 +178,29 @@ export class AdminComponent implements OnInit {
 
   }
 
-  deleteAttachmentById(id: number): void {
-      this.attachmentService.deleteAttachmentById(id.toString()).subscribe((response) => {
+  deleteAttachmentById(word: Word, language: Language): void {
+    const attachment = language === Language.ENGLISH ? word.englishAttachment : word.polishAttachment;
+    if (attachment && attachment.id) {
+      const attachmentId = attachment.id;
+
+      this.attachmentService.deleteAttachmentById(attachmentId.toString()).subscribe(() => {
+        const index = this.wordsList.findIndex(w => w.id === word.id);
+
+        if (index !== -1) {
+          if (language === Language.ENGLISH) {
+            this.wordsList[index].englishAttachment = undefined;
+            word.englishAttachment = undefined;
+          } else {
+            this.wordsList[index].polishAttachment = undefined;
+            word.polishAttachment = undefined;
+          }
+        }
       });
+    }
   }
+
+
+
 
   protected readonly Language = Language;
 }

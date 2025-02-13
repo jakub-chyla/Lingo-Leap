@@ -14,7 +14,7 @@ public interface AttachmentRepository extends JpaRepository<Attachment, Long> {
 
     @Modifying
     @Query("DELETE FROM Attachment a WHERE a.wordId = :wordId")
-    void deleteByWordId(@Param("wordId") Long wordId);
+    void deleteAttachmentsByWordId(@Param("wordId") Long wordId);
 
 
     @Query("SELECT a FROM Attachment a WHERE a.wordId = :wordId")

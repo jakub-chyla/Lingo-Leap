@@ -55,7 +55,7 @@
                     </button>
                   </div>
                   <div class="-ml-2 -mr-4">
-                    <button mat-icon-button (click)="deleteAttachmentById(element.englishAttachment.id)">
+                    <button mat-icon-button (click)="deleteAttachmentById(element,  Language.ENGLISH)">
                       <mat-icon color="warn">close</mat-icon>
                     </button>
                   </div>
@@ -78,7 +78,7 @@
                     </button>
                   </div>
                   <div class="-ml-2 -mr-4">
-                    <button mat-icon-button (click)="deleteAttachmentById(element.polishAttachment.id)">
+                    <button mat-icon-button (click)="deleteAttachmentById(element, Language.POLISH);">
                       <mat-icon color="warn">close</mat-icon>
                     </button>
                   </div>

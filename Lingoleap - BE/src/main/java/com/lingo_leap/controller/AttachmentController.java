@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,5 +36,10 @@ public class AttachmentController {
                         "attachment; filename=\"" + attachment.getFileName()
                                 + "\"")
                 .body(new ByteArrayResource(attachment.getData()));
+    }
+
+    @DeleteMapping("/{attachmentId}")
+    public ResponseEntity<Long> deleteAttachmentsById(@PathVariable Long attachmentId) throws Exception {
+        return  ResponseEntity.ok(attachmentService.deleteAttachmentsById(attachmentId));
     }
 }

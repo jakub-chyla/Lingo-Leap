@@ -3,6 +3,7 @@ package com.lingo_leap.service;
 import com.lingo_leap.model.Attachment;
 import com.lingo_leap.model.Language;
 import com.lingo_leap.repository.AttachmentRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -46,11 +47,16 @@ public class AttachmentService {
                         () -> new Exception("File not found with Id: " + fileId));
     }
 
-    public Long deleteByWordId(Long id){
-        attachmentRepository.deleteByWordId(id);
+    public Long deleteAttachmentsByWordId(Long id){
+        attachmentRepository.deleteAttachmentsByWordId(id);
         return id;
     }
 
+    @Transactional
+    public Long deleteAttachmentsById(Long id){
+        attachmentRepository.deleteById(id);
+        return id;
+    }
 
     public List<Attachment> findByWordId(Long wordId) {
         return attachmentRepository.findByWordId(wordId);

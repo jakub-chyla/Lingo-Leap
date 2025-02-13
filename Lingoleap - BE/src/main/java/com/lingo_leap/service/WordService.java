@@ -8,7 +8,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,7 +51,7 @@ public class WordService {
     @Transactional
     public Long deleteById(Long id){
         wordRepository.deleteById(id);
-        attachmentService.deleteByWordId(id);
+        attachmentService.deleteAttachmentsByWordId(id);
         return id;
     }
 }

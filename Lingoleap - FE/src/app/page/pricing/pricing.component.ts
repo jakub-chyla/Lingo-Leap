@@ -59,7 +59,6 @@ export class PricingComponent implements OnInit {
     }
     this.purchaseService.checkout(productRequest).subscribe(
       (response: StripeResponse) => {
-        console.log(response);
         if (response.sessionUrl) {
           window.location.href = response.sessionUrl;
         } else {
