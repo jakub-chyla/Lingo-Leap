@@ -38,41 +38,33 @@ export class UserService {
     return this.httpClient.get<string>(this.domain +'/open', AuthHelper.getHeaderWithToken());
   }
 
+  private setUserData(response: AuthResponse): void {
+    if (!response) return;
+
+    this.user = new User();
+    this.user.id = response.id;
+    this.user.username = response.userName;
+    this.user.role = response.role;
+    this.user.refreshToken = response.refreshToken;
+    this.user.token = response.accessToken;
+
+    localStorage.setItem('username', String(response.userName));
+    localStorage.setItem('token', String(response.accessToken));
+    localStorage.setItem('refresh_token', String(response.refreshToken));
+
+    this.emitUser(this.user);
+    this.isPremium();
+  }
+
   logIn(authRequest: AuthRequest): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(this.domain + LOG_IN, authRequest).pipe(
-      tap((response: AuthResponse) => {
-        if (response) {
-          this.user = new User();
-          this.user.id = response.id;
-          this.user.username = response.userName;
-          this.user.role = response.role;
-          this.user.refreshToken = response.accessToken;
-          this.user.token = response.refreshToken;
-          localStorage.setItem('username', String(response.userName));
-          localStorage.setItem('token', String(response.accessToken));
-          localStorage.setItem('refresh_token', String(response.refreshToken));
-          this.emitUser(this.user!);
-          this.isPremium();
-        }
-      })
+    return this.httpClient.post<AuthResponse>(`${this.domain}${LOG_IN}`, authRequest).pipe(
+      tap((response: AuthResponse) => this.setUserData(response))
     );
   }
 
   refreshToken(): Observable<AuthResponse> {
-    return this.httpClient.get(this.domain + REFRESH_TOKEN, AuthHelper.getHeaderWithRefreshToken()).pipe(
-      tap((response: AuthResponse) => {
-        if (response) {
-          this.user = new User();
-          this.user.id = response.id;
-          this.user.username = response.userName;
-          this.user.refreshToken = response.accessToken;
-          this.user.token = response.refreshToken;
-          localStorage.setItem('token', String(response.accessToken));
-          localStorage.setItem('refresh_token', String(response.refreshToken));
-          this.emitUser(this.user!);
-          this.isPremium();
-        }
-      })
+    return this.httpClient.get<AuthResponse>(`${this.domain}${REFRESH_TOKEN}`, AuthHelper.getHeaderWithRefreshToken()).pipe(
+      tap((response: AuthResponse) => this.setUserData(response))
     );
   }
 
