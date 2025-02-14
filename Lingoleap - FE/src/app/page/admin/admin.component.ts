@@ -123,9 +123,10 @@ export class AdminComponent implements OnInit {
         (response) => {
           if (response) {
             const word = response;
-
             this.wordsList.push(word)
-            this.dataSource = new MatTableDataSource(this.wordsList)
+            this.dataSource = new MatTableDataSource(this.wordsList);
+            this.myForm.get('english')?.setValue('');
+            this.myForm.get('polish')?.setValue('');
           }
         },
       );
