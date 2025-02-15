@@ -5,6 +5,7 @@ import {environment} from "../../environments/environment";
 import {Language} from "../enum/Language";
 import {Attachment} from "../model/attachment";
 import {ATTACHMENT, WORD} from "../shared/api-url";
+import {AuthHelper} from "../shared/auth-helper";
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,7 @@ export class AttachmentService {
   }
 
   download(): Observable<Blob> {
-    return this.httpClient.get(this.domain + ATTACHMENT +'/download/hello.mp3', {
+    return this.httpClient.get(this.domain + ATTACHMENT + '/download/hello.mp3', {
       responseType: 'blob',
     });
   }
@@ -50,11 +51,11 @@ export class AttachmentService {
   upload(wordId: string, language: Language, file: File): Observable<Attachment> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.httpClient.post<Attachment>(`${this.domain}/at/upload/${wordId}/${Language[language]}`, formData);
+    return this.httpClient.post<Attachment>(`${this.domain}/at/upload/${wordId}/${Language[language]}`, formData, AuthHelper.getHeaderWithToken());
   }
 
-  deleteAttachmentById(attachmentId: string): Observable<number>{
-    return this.httpClient.delete<number>(this.domain + ATTACHMENT + `/${attachmentId}`);
+  deleteAttachmentById(attachmentId: string): Observable<number> {
+    return this.httpClient.delete<number>(this.domain + ATTACHMENT + `/${attachmentId}`, AuthHelper.getHeaderWithToken());
   }
 
 }

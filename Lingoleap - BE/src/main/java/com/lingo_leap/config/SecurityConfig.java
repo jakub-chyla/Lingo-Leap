@@ -52,8 +52,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/open/**", "/word/**", "/at/**", "/login/**", "/register/**", "/refresh-token/**").permitAll()
-                        .requestMatchers("/admin_only/**").hasAuthority("ADMIN")
+                        .requestMatchers("/open/**", "/word/**", "/login/**", "/register/**", "/refresh-token/**").permitAll()
+                        .requestMatchers("/admin_only/**", "/at/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userDetailsServiceImp)

@@ -4,9 +4,10 @@ import {HttpClient} from "@angular/common/http";
 import {ProductRequest} from "../model/product-request";
 import {Observable} from "rxjs";
 import {StripeResponse} from "../model/stripe-response";
-import {CHECKOUT, WORD} from "../shared/api-url";
+import {CHECKOUT, RANDOM_WORD, WORD} from "../shared/api-url";
 import {AuthHelper} from "../shared/auth-helper";
 import {Word} from "../model/word";
+import {RandomWord} from "../model/randomWord";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,10 @@ export class WordService {
 
   getAllWords(): Observable<Word[]> {
     return this.httpClient.get<Word[]>(this.domain + WORD);
+  }
+
+  getRandomWords(): Observable<Word[]> {
+    return this.httpClient.get<Word[]>(this.domain + RANDOM_WORD);
   }
 
   deleteWordById(wordId: string): Observable<number>{

@@ -26,6 +26,12 @@ public class WordController {
         return ResponseEntity.ok(wordService.findAll());
     }
 
+    @GetMapping("/random")
+    public ResponseEntity<List<Word>> getRandom() {
+        wordService.getRandomWords();
+        return ResponseEntity.ok(wordService.getRandomWords());
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteById(@PathVariable String id) {
         return ResponseEntity.ok(wordService.deleteById(Long.parseLong(id)));

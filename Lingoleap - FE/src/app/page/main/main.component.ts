@@ -8,6 +8,7 @@ import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {AttachmentService} from "../../service/attachment.service";
+import {WordService} from "../../service/word.service";
 
 
 @Component({
@@ -27,17 +28,14 @@ import {AttachmentService} from "../../service/attachment.service";
   styleUrl: './main.component.scss'
 })
 export class MainComponent implements OnInit {
-  readonly animal = signal('');
-  readonly name = model('');
+  answers!: string[];
+  currentWord!: Word;
+
   readonly dialog = inject(MatDialog);
-
-
   initWordsList: Word[] = [];
   wordsList: Word[] = [];
-  answers: string[] = [];
   correctAnswerCounter: number = 0;
   inCorrectAnswerCounter: number = 0;
-  currentWord!: Word;
   startCount: number = 3;
   count!: number;
   settings = false;
@@ -55,17 +53,37 @@ export class MainComponent implements OnInit {
     [6, 7, 8]
   ];
 
-  constructor(private attachmentService: AttachmentService) {
+  constructor(private attachmentService: AttachmentService,
+              private wordService: WordService) {
   }
 
   ngOnInit() {
-    this.wordsList = [...this.initWordsList];
+    // this.wordsList = [...this.initWordsList];
     this.settingInit();
-    this.shuffle();
+
+    // this.shuffle();
+
     this.attachmentService.download().subscribe((blob) => {
       let objectUrl = URL.createObjectURL(blob);
       this.audio.src = objectUrl;
       this.audio.play();
+    });
+
+    this.wordService.getRandomWords().subscribe((res) => {
+
+      if (res) {
+        this.currentWord = res[0];
+        this.answers[0] = res[0].polish;
+        this.answers[1] = res[1].polish;
+        this.answers[2] = res[2].polish;
+        this.answers[3] = res[3].polish;
+        this.answers[4] = res[4].polish;
+        this.answers[5] = res[5].polish;
+        this.answers[6] = res[6].polish;
+        this.answers[7] = res[7].polish;
+        this.answers[8] = res[8].polish;
+        console.log('here');
+      }
     });
   }
 
@@ -87,9 +105,6 @@ export class MainComponent implements OnInit {
   getRandomIndex(length: number): number {
     return Math.floor(Math.random() * length);
   }
-
-
-
 
 
   shuffle() {
@@ -162,7 +177,6 @@ export class MainComponent implements OnInit {
     const sortAnswer = this.answers.sort((a, b) => a.length - b.length);
     this.answers = [sortAnswer[0], sortAnswer[3], sortAnswer[8], sortAnswer[1], sortAnswer[4], sortAnswer[7], sortAnswer[2], sortAnswer[5], sortAnswer[6]];
   }
-
 
 
   countAnswer(answer: string) {
