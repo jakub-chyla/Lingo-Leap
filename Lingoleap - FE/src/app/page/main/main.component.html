@@ -27,8 +27,7 @@
           <div class="flex justify-center gap-2 pt-[14px]" *ngFor="let row of buttonRows">
             <button *ngFor="let i of row" [disabled]="buttonStatuses[i] === 3" mat-raised-button
                     [ngClass]="{'answer-button': buttonStatuses[i] === 0,'good-answer': buttonStatuses[i] === 1,
-                    'wrong-answer': buttonStatuses[i] === 2, 'disable-button': buttonStatuses[i] === 3}"
-                   >
+                    'wrong-answer': buttonStatuses[i] === 2, 'disable-button': buttonStatuses[i] === 3}">
               {{ answers[i] }}
             </button>
           </div>

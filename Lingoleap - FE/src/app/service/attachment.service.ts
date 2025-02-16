@@ -43,7 +43,7 @@ export class AttachmentService {
   }
 
   download(): Observable<Blob> {
-    return this.httpClient.get(this.domain + ATTACHMENT + '/download/hello.mp3', {
+    return this.httpClient.get(this.domain + ATTACHMENT + '/download/1', {
       responseType: 'blob',
     });
   }

@@ -8,6 +8,7 @@ import {CHECKOUT, RANDOM_WORD, WORD} from "../shared/api-url";
 import {AuthHelper} from "../shared/auth-helper";
 import {Word} from "../model/word";
 import {RandomWord} from "../model/randomWord";
+import {Language} from "../enum/Language";
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,8 @@ export class WordService {
     return this.httpClient.get<Word[]>(this.domain + WORD);
   }
 
-  getRandomWords(): Observable<Word[]> {
-    return this.httpClient.get<Word[]>(this.domain + RANDOM_WORD);
+  getRandomWords(language: Language): Observable<Word[]> {
+    return this.httpClient.get<Word[]>(this.domain + RANDOM_WORD + `/${Language[language]}`);
   }
 
   deleteWordById(wordId: string): Observable<number>{

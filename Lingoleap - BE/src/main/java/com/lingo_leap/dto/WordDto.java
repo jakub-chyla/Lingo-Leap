@@ -8,8 +8,8 @@ public class WordDto {
     private Long id;
 
     private String polish;
-    private Attachment polishAttachment;
+    private AttachmentDTO polishAttachment;
     private String english;
-    private Attachment englishAttachment;
+    private AttachmentDTO englishAttachment;
 
 }

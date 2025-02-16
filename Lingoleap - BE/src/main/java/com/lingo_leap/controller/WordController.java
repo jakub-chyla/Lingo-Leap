@@ -1,6 +1,7 @@
 package com.lingo_leap.controller;
 
 import com.lingo_leap.dto.WordDto;
+import com.lingo_leap.model.Language;
 import com.lingo_leap.model.Word;
 import com.lingo_leap.service.WordService;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +27,10 @@ public class WordController {
         return ResponseEntity.ok(wordService.findAll());
     }
 
-    @GetMapping("/random")
-    public ResponseEntity<List<Word>> getRandom() {
-        wordService.getRandomWords();
-        return ResponseEntity.ok(wordService.getRandomWords());
-    }
+//    @GetMapping("/random/{language}")
+//    public ResponseEntity<List<WordDto>> getRandom(@PathVariable Language language) {
+//        return ResponseEntity.ok(wordService.getRandomWords(language));
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteById(@PathVariable String id) {

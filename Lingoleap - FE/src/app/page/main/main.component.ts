@@ -9,6 +9,7 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {AttachmentService} from "../../service/attachment.service";
 import {WordService} from "../../service/word.service";
+import {Language} from "../../enum/Language";
 
 
 @Component({
@@ -69,8 +70,8 @@ export class MainComponent implements OnInit {
       this.audio.play();
     });
 
-    this.wordService.getRandomWords().subscribe((res) => {
-
+    this.wordService.getRandomWords(Language.ENGLISH).subscribe((res) => {
+      console.log(res);
       if (res) {
         this.currentWord = res[0];
         this.answers[0] = res[0].polish;
@@ -82,7 +83,7 @@ export class MainComponent implements OnInit {
         this.answers[6] = res[6].polish;
         this.answers[7] = res[7].polish;
         this.answers[8] = res[8].polish;
-        console.log('here');
+
       }
     });
   }

@@ -1,5 +1,6 @@
 package com.lingo_leap.utils;
 
+import com.lingo_leap.dto.AttachmentDTO;
 import com.lingo_leap.dto.WordDto;
 import com.lingo_leap.model.Attachment;
 import com.lingo_leap.model.Word;
@@ -10,21 +11,23 @@ import java.util.stream.Collectors;
 
 @UtilityClass
 public class Mapper {
-    public WordDto mapTraining(Word word, List<Attachment> attachments) {
+    public WordDto mapWordWithAttachmentsName(Word word, List<AttachmentDTO> attachments) {
         WordDto wordDto = new WordDto();
         wordDto.setId(word.getId());
         wordDto.setEnglish(word.getEnglish());
         wordDto.setPolish(word.getPolish());
 
-        List<Attachment> filteredAttachments = attachments.stream()
+        List<AttachmentDTO> filteredAttachments = attachments.stream()
                 .filter(a -> a.getWordId().equals(word.getId()))
                 .collect(Collectors.toList());
 
         if (!filteredAttachments.isEmpty()) {
-            wordDto.setEnglishAttachment(filteredAttachments.get(0));
+            AttachmentDTO attachment = filteredAttachments.get(0);
+            wordDto.setEnglishAttachment(attachment);
         }
         if (filteredAttachments.size() > 1) {
-            wordDto.setPolishAttachment(filteredAttachments.get(1));
+            AttachmentDTO attachment = filteredAttachments.get(1);
+            wordDto.setPolishAttachment(attachment);
         }
 
         return wordDto;

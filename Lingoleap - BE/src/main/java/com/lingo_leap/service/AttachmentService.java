@@ -1,5 +1,6 @@
 package com.lingo_leap.service;
 
+import com.lingo_leap.dto.AttachmentDTO;
 import com.lingo_leap.model.Attachment;
 import com.lingo_leap.model.Language;
 import com.lingo_leap.repository.AttachmentRepository;
@@ -60,10 +61,11 @@ public class AttachmentService {
 
     public List<Attachment> findByWordId(Long wordId) {
         return attachmentRepository.findByWordId(wordId);
-
     }
-    public List<Attachment> findAll() {
-        return attachmentRepository.findAll();
+
+
+    public List<AttachmentDTO> findAll() {
+        return attachmentRepository.findAllWithOutData();
 
     }
 }
