@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,13 +23,32 @@ public class WordService {
 
     private final AttachmentService attachmentService;
 
-//    public List<WordDto> getRandomWords(Language language) {
-//        List<Word> words = wordRepository.findRandomWords();
-//        List<Attachment> attachments = attachmentService.findByWordId(words.get(0).getId());
-//        return words.stream()
-//                .map(word -> Mapper.mapWordWithAttachmentsName(word, attachments))
-//                .collect(Collectors.toList());
-//    }
+    //TODO: refactor
+    public List<WordDto> getRandomWords(Language language) {
+        List<Word> words = wordRepository.findRandomWords();
+        Attachment attachment = attachmentService.findByWordIdAndLanguage(words.get(0).getId(), language);
+
+        List<WordDto> wordsDto = new ArrayList<>();
+
+        for (int i = 1; i <= words.size(); i++){
+            WordDto wordDto = new WordDto();
+            wordDto.setId(words.get(i-1).getId());
+            wordDto.setEnglish(words.get(i-1).getEnglish());
+            wordDto.setPolish(words.get(i-1).getPolish());
+            if(i == 1){
+                    AttachmentDTO attachmentDTO = new AttachmentDTO();
+                    attachmentDTO.setId(attachment.getId());
+                    attachmentDTO.setFileName(attachment.getFileName());
+                    attachmentDTO.setWordId(attachment.getWordId());
+                    wordDto.setEnglishAttachment(attachmentDTO);
+
+            }
+            wordsDto.add(wordDto);
+
+        }
+
+        return wordsDto;
+    }
 
     public Word saveWord(Word word) {
         return wordRepository.save(word);

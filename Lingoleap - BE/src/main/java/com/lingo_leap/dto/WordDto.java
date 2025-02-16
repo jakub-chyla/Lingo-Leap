@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 public class WordDto {
     private Long id;
-
     private String polish;
     private AttachmentDTO polishAttachment;
     private String english;

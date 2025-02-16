@@ -63,6 +63,10 @@ public class AttachmentService {
         return attachmentRepository.findByWordId(wordId);
     }
 
+    @Transactional
+    public Attachment findByWordIdAndLanguage(Long wordId, Language language) {
+        return attachmentRepository.findByWordIdAndLanguage(wordId, language);
+    }
 
     public List<AttachmentDTO> findAll() {
         return attachmentRepository.findAllWithOutData();

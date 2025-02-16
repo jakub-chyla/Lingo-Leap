@@ -27,10 +27,10 @@ public class WordController {
         return ResponseEntity.ok(wordService.findAll());
     }
 
-//    @GetMapping("/random/{language}")
-//    public ResponseEntity<List<WordDto>> getRandom(@PathVariable Language language) {
-//        return ResponseEntity.ok(wordService.getRandomWords(language));
-//    }
+    @GetMapping("/random/{language}")
+    public ResponseEntity<List<WordDto>> getRandom(@PathVariable Language language) {
+        return ResponseEntity.ok(wordService.getRandomWords(language));
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteById(@PathVariable String id) {

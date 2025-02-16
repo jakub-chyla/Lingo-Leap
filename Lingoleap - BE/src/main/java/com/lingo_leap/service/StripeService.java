@@ -19,12 +19,12 @@ public class StripeService {
     @Value("${stripe.secretKey}")
     private String secretKey;
 
+    @Value("${cors.allowed.origins}")
+    private String frontEndPort;
 
     public StripeResponse checkoutProducts(ProductRequest productRequest) {
-        // Set your secret key. Remember to switch to your live secret key in production!
         Stripe.apiKey = secretKey;
 
-        // Create a PaymentIntent with the order amount and currency
         SessionCreateParams.LineItem.PriceData.ProductData productData =
                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
                         .setName(productRequest.getName())
@@ -50,8 +50,8 @@ public class StripeService {
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
-                        .setSuccessUrl("http://localhost:4200/main")
-                        .setCancelUrl("http://localhost:8080/cancel")
+                        .setSuccessUrl(frontEndPort + "/main")
+                        .setCancelUrl(frontEndPort + "/pricing")
                         .addLineItem(lineItem)
                         .build();
 

@@ -12,12 +12,12 @@
     </div>
     <mat-card-content class="flex flex-col justify-between w-[30vw] min-w-[350px] h-[340px] px-0">
       <ng-template [ngIf]="!settings">
-        <ng-template [ngIf]="englishToPolish">
+        <ng-template>
           <div class="word"> {{ currentWord.english }}</div>
         </ng-template>
-        <ng-template [ngIf]="!englishToPolish">
-          <div class="word"> {{ currentWord.polish }}</div>
-        </ng-template>
+<!--        <ng-template [ngIf]="!englishToPolish">-->
+<!--          <div class="word"> {{ currentWord.polish }}</div>-->
+<!--        </ng-template>-->
         <div class="flex justify-center gap-2 pt-[14px]" style="padding-top: 14px">
           <ng-template [ngIf]="isLoading">
             <div> {{ count }}</div>
@@ -52,7 +52,7 @@
           </button>
         </div>
         <div>
-          <button [disabled]="settings || !englishToPolish" mat-raised-button color="accent" (click)="readText()">
+          <button [disabled]="settings" mat-raised-button color="accent" (click)="readText()">
             <span class="material-icons">volume_up</span>
           </button>
         </div>

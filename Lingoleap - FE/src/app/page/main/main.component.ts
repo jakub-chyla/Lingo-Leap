@@ -29,7 +29,7 @@ import {Language} from "../../enum/Language";
   styleUrl: './main.component.scss'
 })
 export class MainComponent implements OnInit {
-  answers!: string[];
+  answers: string[] = [];
   currentWord!: Word;
 
   readonly dialog = inject(MatDialog);
@@ -46,7 +46,7 @@ export class MainComponent implements OnInit {
   isLoading = false;
   newShuffle = false;
   buttonStatuses: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-  englishToPolish = false;
+  // englishToPolish = false;
   audio = new Audio();
   buttonRows: number[][] = [
     [0, 1, 2],
@@ -69,10 +69,8 @@ export class MainComponent implements OnInit {
       this.audio.src = objectUrl;
       this.audio.play();
     });
+      this.wordService.getRandomWords(Language.ENGLISH).subscribe((res:Word[]) => {
 
-    this.wordService.getRandomWords(Language.ENGLISH).subscribe((res) => {
-      console.log(res);
-      if (res) {
         this.currentWord = res[0];
         this.answers[0] = res[0].polish;
         this.answers[1] = res[1].polish;
@@ -84,8 +82,7 @@ export class MainComponent implements OnInit {
         this.answers[7] = res[7].polish;
         this.answers[8] = res[8].polish;
 
-      }
-    });
+      });
   }
 
   private settingInit() {
@@ -110,7 +107,7 @@ export class MainComponent implements OnInit {
 
   shuffle() {
     this.checkIfListIsEnd();
-    this.setLanguage();
+    // this.setLanguage();
 
     const index = this.getRandomIndex(this.wordsList.length);
     this.currentWord = this.wordsList.splice(index, 1)[0];
@@ -118,7 +115,7 @@ export class MainComponent implements OnInit {
 
     this.justifyAnswers();
 
-    if (this.autoRead && this.englishToPolish) {
+    if (this.autoRead ) {
       this.readText();
     }
 
@@ -139,9 +136,9 @@ export class MainComponent implements OnInit {
     }
   }
 
-  setLanguage() {
-    this.englishToPolish = this.getRandomIndex(100) % 2 === 0;
-  }
+  // setLanguage() {
+  //   this.englishToPolish = this.getRandomIndex(100) % 2 === 0;
+  // }
 
   settingChanged() {
     localStorage.setItem('countDown', String(this.countDown));
@@ -180,15 +177,15 @@ export class MainComponent implements OnInit {
   }
 
 
-  countAnswer(answer: string) {
-    const currentWord = this.englishToPolish ? this.currentWord.polish : this.currentWord.english;
-
-    if (currentWord === answer) {
-      this.correctAnswerCounter++;
-    } else {
-      this.inCorrectAnswerCounter++;
-    }
-  }
+  // countAnswer(answer: string) {
+  //   const currentWord = this.englishToPolish ? this.currentWord.polish : this.currentWord.english;
+  //
+  //   if (currentWord === answer) {
+  //     this.correctAnswerCounter++;
+  //   } else {
+  //     this.inCorrectAnswerCounter++;
+  //   }
+  // }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(LogInComponent);
