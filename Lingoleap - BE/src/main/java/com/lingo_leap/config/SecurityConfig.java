@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/open/**", "/at/download/**", "/word/random/**", "/login/**", "/register/**", "/refresh-token/**").permitAll()
-                        .requestMatchers("/admin_only/**", "/at/**").hasAuthority("ADMIN")
+                        .requestMatchers("/admin_only/**", "/word/**" ,"/at/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userDetailsServiceImp)

@@ -5,4 +5,5 @@ export class Attachment{
   fileName?: string;
   wordId?: number;
   language?: Language;
+  data?: Uint8Array;
 }

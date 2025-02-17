@@ -27,9 +27,9 @@ public class WordController {
         return ResponseEntity.ok(wordService.findAll());
     }
 
-    @GetMapping("/random/{language}")
-    public ResponseEntity<List<WordDto>> getRandom(@PathVariable Language language) {
-        return ResponseEntity.ok(wordService.getRandomWords(language));
+    @GetMapping("/random")
+    public ResponseEntity<List<WordDto>> getRandom() {
+        return ResponseEntity.ok(wordService.getRandomWords());
     }
 
     @DeleteMapping("/{id}")

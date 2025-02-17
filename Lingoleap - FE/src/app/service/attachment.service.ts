@@ -34,16 +34,16 @@ export class AttachmentService {
     };
   }
 
-  downloadFile() {
-    this.download().subscribe((blob) => {
-      let objectUrl = URL.createObjectURL(blob);
-      this.audio.src = objectUrl;
-      this.audio.play();
-    });
-  }
+  // downloadFile() {
+  //   this.download().subscribe((blob) => {
+  //     let objectUrl = URL.createObjectURL(blob);
+  //     this.audio.src = objectUrl;
+  //     this.audio.play();
+  //   });
+  // }
 
-  download(): Observable<Blob> {
-    return this.httpClient.get(this.domain + ATTACHMENT + '/download/1', {
+  download(wordId: string): Observable<Blob> {
+    return this.httpClient.get(this.domain + ATTACHMENT + `/download/${wordId}`, {
       responseType: 'blob',
     });
   }

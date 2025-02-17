@@ -23,11 +23,11 @@ export class WordService {
   }
 
   getAllWords(): Observable<Word[]> {
-    return this.httpClient.get<Word[]>(this.domain + WORD);
+    return this.httpClient.get<Word[]>(this.domain + WORD, AuthHelper.getHeaderWithToken());
   }
 
-  getRandomWords(language: Language): Observable<Word[]> {
-    return this.httpClient.get<Word[]>(this.domain + RANDOM_WORD + `/${Language[language]}`);
+  getRandomWords(): Observable<Word[]> {
+    return this.httpClient.get<Word[]>(this.domain + RANDOM_WORD);
   }
 
   deleteWordById(wordId: string): Observable<number>{

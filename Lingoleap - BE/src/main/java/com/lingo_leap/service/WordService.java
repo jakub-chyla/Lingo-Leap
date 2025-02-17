@@ -11,6 +11,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,24 +27,20 @@ public class WordService {
     private final AttachmentService attachmentService;
 
     //TODO: refactor
-    public List<WordDto> getRandomWords(Language language) {
+    public List<WordDto> getRandomWords() {
         List<Word> words = wordRepository.findRandomWords();
-        Attachment attachment = attachmentService.findByWordIdAndLanguage(words.get(0).getId(), language);
-
+        AttachmentDTO englishAttachment = attachmentService.findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.ENGLISH);
+        AttachmentDTO polishAttachment = attachmentService.findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.POLISH);
         List<WordDto> wordsDto = new ArrayList<>();
 
-        for (int i = 1; i <= words.size(); i++){
+        for (int i = 1; i <= words.size(); i++) {
             WordDto wordDto = new WordDto();
-            wordDto.setId(words.get(i-1).getId());
-            wordDto.setEnglish(words.get(i-1).getEnglish());
-            wordDto.setPolish(words.get(i-1).getPolish());
-            if(i == 1){
-                    AttachmentDTO attachmentDTO = new AttachmentDTO();
-                    attachmentDTO.setId(attachment.getId());
-                    attachmentDTO.setFileName(attachment.getFileName());
-                    attachmentDTO.setWordId(attachment.getWordId());
-                    wordDto.setEnglishAttachment(attachmentDTO);
-
+            wordDto.setId(words.get(i - 1).getId());
+            wordDto.setEnglish(words.get(i - 1).getEnglish());
+            wordDto.setPolish(words.get(i - 1).getPolish());
+            if (i == 1) {
+                wordDto.setEnglishAttachment(englishAttachment);
+                wordDto.setPolishAttachment(polishAttachment);
             }
             wordsDto.add(wordDto);
 

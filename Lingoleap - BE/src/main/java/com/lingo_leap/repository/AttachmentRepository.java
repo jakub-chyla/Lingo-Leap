@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachment, Long> {
@@ -26,6 +27,14 @@ public interface AttachmentRepository extends JpaRepository<Attachment, Long> {
 
     @Query("SELECT new com.lingo_leap.dto.AttachmentDTO(a.id, a.fileName, a.wordId) FROM Attachment a")
     List<AttachmentDTO> findAllWithOutData();
+
+    @Query("SELECT new com.lingo_leap.dto.AttachmentDTO(a.id, a.fileName, a.wordId) FROM Attachment a WHERE a.id = :id")
+    Optional<AttachmentDTO> findByIdWithOutData(@Param("id") Long id);
+
+    @Query("SELECT new com.lingo_leap.dto.AttachmentDTO(a.id, a.fileName, a.wordId) FROM Attachment a WHERE a.wordId = :wordId AND a.language = :language")
+    AttachmentDTO findByWordIdAndLanguageWithOutData(@Param("wordId") Long wordId, @Param("language") Language language);;
+
+
 
 //    @Query("SELECT a FROM Attachment a WHERE a.wordId IN :wordIds")
 //    List<Attachment> findByWordIds(@Param("wordIds") List<Long> wordIds);

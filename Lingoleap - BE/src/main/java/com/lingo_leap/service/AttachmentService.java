@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -70,6 +71,16 @@ public class AttachmentService {
 
     public List<AttachmentDTO> findAll() {
         return attachmentRepository.findAllWithOutData();
+
+    }
+
+    public AttachmentDTO findByIdWithOutData(Long attachmentId) {
+        return attachmentRepository.findByIdWithOutData(attachmentId).get();
+
+    }
+
+    public AttachmentDTO findByWordIdAndLanguageWithOutData(Long wordId, Language language) {
+        return attachmentRepository.findByWordIdAndLanguageWithOutData(wordId, language);
 
     }
 }
