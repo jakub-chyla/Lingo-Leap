@@ -39,7 +39,6 @@ export class MainComponent implements OnInit {
   startCount: number = 3;
   count!: number;
   settings = false;
-  countDown = false;
   autoNext = true;
   autoRead = false;
   isLoading = false;
@@ -84,7 +83,9 @@ export class MainComponent implements OnInit {
             this.convertBlobToUint8Array(blob, (data) => {
               if (data) {
                 this.currentWord.polishAttachment!.data = data;
-                this.playSound(this.currentWord!.polishAttachment!.data!);
+                if (this.autoRead) {
+                  this.playSound(this.currentWord!.polishAttachment!.data!);
+                }
               }
             });
           });
@@ -100,7 +101,9 @@ export class MainComponent implements OnInit {
             this.convertBlobToUint8Array(blob, (data) => {
               if (data) {
                 this.currentWord.englishAttachment!.data = data;
-                this.playSound(this.currentWord!.englishAttachment!.data!);
+                if (this.autoRead) {
+                  this.playSound(this.currentWord!.englishAttachment!.data!);
+                }
               }
             });
           });
@@ -110,7 +113,7 @@ export class MainComponent implements OnInit {
     this.newShuffle = true;
   }
 
-  clearButtonsState(){
+  clearButtonsState() {
     for (let i = 0; i < this.buttonStatuses.length; i++) {
       this.buttonStatuses[i] = 0;
     }
@@ -137,10 +140,6 @@ export class MainComponent implements OnInit {
   }
 
   private settingInit() {
-    const storedCountDown = localStorage.getItem('countDown');
-    if (storedCountDown !== null) {
-      this.countDown = storedCountDown === 'true';
-    }
     const storedAutoNext = localStorage.getItem('autoNext');
     if (storedAutoNext !== null) {
       this.autoNext = storedAutoNext === 'true';
@@ -160,7 +159,6 @@ export class MainComponent implements OnInit {
   }
 
   settingChanged() {
-    localStorage.setItem('countDown', String(this.countDown));
     localStorage.setItem('autoNext', String(this.autoNext));
     localStorage.setItem('autoRead', String(this.autoRead));
   }
@@ -195,15 +193,12 @@ export class MainComponent implements OnInit {
     this.answers = [sortAnswer[0], sortAnswer[3], sortAnswer[8], sortAnswer[1], sortAnswer[4], sortAnswer[7], sortAnswer[2], sortAnswer[5], sortAnswer[6]];
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(LogInComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-
   readText() {
+    if (this.englishToPolish) {
+      this.playSound(this.currentWord!.polishAttachment!.data!);
+    } else {
+      this.playSound(this.currentWord!.englishAttachment!.data!);
+    }
   }
 
   checkAnswer(answer: string, clickedButton: number) {

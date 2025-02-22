@@ -35,9 +35,6 @@
         </ng-container>
       </ng-template>
       <ng-template [ngIf]="settings">
-        <div class="word">{{ 'count down' }}
-          <mat-slide-toggle [(ngModel)]="countDown" (ngModelChange)="settingChanged()"></mat-slide-toggle>
-        </div>
         <div class="word">
           {{ 'auto next' }}
           <mat-slide-toggle [(ngModel)]="autoNext" (ngModelChange)="settingChanged()"></mat-slide-toggle>
