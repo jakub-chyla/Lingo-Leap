@@ -66,19 +66,21 @@ export class MainComponent implements OnInit {
 
   getRandom() {
     this.setRandLanguage();
-    setTimeout(() => {
-      this.getWord()
-    }, 50);
+
+    this.getWord()
   }
 
   getWord() {
     this.wordService.getRandomWords().subscribe((res: Word[]) => {
       this.currentWord = res[0];
+
       if (this.englishToPolish) {
         this.answers = res.slice(0, 9).map(word => word.polish);
-        if (res[0] && res[0].englishAttachment && res[0].englishAttachment.id) {
+        this.justifyAnswers();
+        this.clearButtonsState();
+        if (this.currentWord.englishAttachment && this.currentWord.englishAttachment.id) {
           this.displayWord = this.currentWord.english;
-          this.attachmentService.download(res[0].englishAttachment.id.toString()).subscribe((blob) => {
+          this.attachmentService.download(this.currentWord.englishAttachment.id.toString()).subscribe((blob) => {
             this.convertBlobToUint8Array(blob, (data) => {
               if (data) {
                 this.currentWord.polishAttachment!.data = data;
@@ -90,9 +92,11 @@ export class MainComponent implements OnInit {
       }
       if (!this.englishToPolish) {
         this.answers = res.slice(0, 9).map(word => word.english);
-        if (res[0] && res[0].polishAttachment && res[0].polishAttachment.id) {
+        this.justifyAnswers();
+        this.clearButtonsState();
+        if (this.currentWord.polishAttachment && this.currentWord.polishAttachment.id) {
           this.displayWord = this.currentWord.polish;
-          this.attachmentService.download(res[0].polishAttachment.id.toString()).subscribe((blob) => {
+          this.attachmentService.download(this.currentWord.polishAttachment.id.toString()).subscribe((blob) => {
             this.convertBlobToUint8Array(blob, (data) => {
               if (data) {
                 this.currentWord.englishAttachment!.data = data;
@@ -103,6 +107,13 @@ export class MainComponent implements OnInit {
         }
       }
     });
+    this.newShuffle = true;
+  }
+
+  clearButtonsState(){
+    for (let i = 0; i < this.buttonStatuses.length; i++) {
+      this.buttonStatuses[i] = 0;
+    }
   }
 
   convertBlobToUint8Array(blob: Blob, callback: (data: Uint8Array | null) => void): void {
@@ -116,21 +127,6 @@ export class MainComponent implements OnInit {
     };
     reader.onerror = () => callback(null);
     reader.readAsArrayBuffer(blob);
-  }
-
-
-  private mapWord(res: Word[]) {
-    this.currentWord = res[0];
-    if (this.englishToPolish) {
-      for (let i = 0; i < 9; i++) {
-        this.answers[i] = this.englishToPolish ? res[i].english : res[i].polish;
-      }
-    }
-    if (!this.englishToPolish) {
-      for (let i = 0; i < 9; i++) {
-        this.answers[i] = this.englishToPolish ? res[i].english : res[i].polish;
-      }
-    }
   }
 
   playSound(data: Uint8Array) {
@@ -157,37 +153,6 @@ export class MainComponent implements OnInit {
 
   getRandomIndex(length: number): number {
     return Math.floor(Math.random() * length);
-  }
-
-
-  shuffle() {
-    // this.checkIfListIsEnd();
-    // this.setLanguage();
-
-    // const index = this.getRandomIndex(this.wordsList.length);
-    // this.currentWord = this.wordsList.splice(index, 1)[0];
-
-
-
-    // if (this.autoRead ) {
-    //   this.readText();
-    // }
-
-    if (this.countDown) {
-      this.countdownAfterShuffle();
-    }
-
-    for (let i = 0; i < this.buttonStatuses.length; i++) {
-      this.buttonStatuses[i] = 0;
-    }
-
-    this.newShuffle = true;
-  }
-
-  checkIfListIsEnd() {
-    if (this.wordsList.length === 1) {
-      this.wordsList = [...this.initWordsList];
-    }
   }
 
   setRandLanguage() {
@@ -220,20 +185,15 @@ export class MainComponent implements OnInit {
         this.count--;
       } else {
         clearInterval(interval);
-        // this.shuffle();
+        this.getRandom();
       }
     }, 400);
   }
 
-  // countAnswer(answer: string) {
-  //   const currentWord = this.englishToPolish ? this.currentWord.polish : this.currentWord.english;
-  //
-  //   if (currentWord === answer) {
-  //     this.correctAnswerCounter++;
-  //   } else {
-  //     this.inCorrectAnswerCounter++;
-  //   }
-  // }
+  justifyAnswers() {
+    const sortAnswer = this.answers.sort((a, b) => a.length - b.length);
+    this.answers = [sortAnswer[0], sortAnswer[3], sortAnswer[8], sortAnswer[1], sortAnswer[4], sortAnswer[7], sortAnswer[2], sortAnswer[5], sortAnswer[6]];
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(LogInComponent);
@@ -266,25 +226,36 @@ export class MainComponent implements OnInit {
         this.readText();
       }
 
-      // const currentWord = this.englishToPolish ? this.currentWord.polish : this.currentWord.english;
+      const currentWord = this.englishToPolish ? this.currentWord.polish : this.currentWord.english;
 
-      // for (let i = 0; i < this.answers.length; i++) {
-      //   if (isCorrect(currentWord, this.answers[i])) {
-      //     updateButtonState(i);
-      //     break;
-      //   }
-      // }
-      //
-      // if (this.newShuffle) {
-      //   this.countAnswer(answer);
-      //   this.newShuffle = false;
-      // }
-      //
+      for (let i = 0; i < this.answers.length; i++) {
+        if (isCorrect(currentWord, this.answers[i])) {
+          updateButtonState(i);
+          break;
+        }
+      }
+
+      if (this.newShuffle) {
+        this.countAnswer(answer);
+        this.newShuffle = false;
+      }
+
       if (this.autoNext) {
         this.countdownAfterAnswer();
       }
     }
   }
+
+  countAnswer(answer: string) {
+    const currentWord = this.englishToPolish ? this.currentWord.polish : this.currentWord.english;
+
+    if (currentWord === answer) {
+      this.correctAnswerCounter++;
+    } else {
+      this.inCorrectAnswerCounter++;
+    }
+  }
+
 
   settingsToggle() {
     this.settings = !this.settings;
