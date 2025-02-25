@@ -35,16 +35,16 @@
         </ng-container>
       </ng-template>
       <ng-template [ngIf]="settings">
-        <div class="word">
+        <div class="word py-5">
           {{ 'auto next' }}
           <mat-slide-toggle [(ngModel)]="autoNext" (ngModelChange)="settingChanged()"></mat-slide-toggle>
         </div>
-        <div class="word">
+        <div class="word py-2">
           {{ 'auto read' }}
           <mat-slide-toggle [(ngModel)]="autoRead" (ngModelChange)="settingChanged()"></mat-slide-toggle>
         </div>
       </ng-template>
-      <div class="flex justify-center gap-2 pt-[25px]">
+      <div *ngIf="!settings" class="flex justify-center gap-2 pt-[25px]">
         <div>
           <button [disabled]="settings || isLoading" mat-raised-button color="accent" (click)="getRandom()">Shuffle
           </button>
