@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatCard, MatCardContent, MatCardFooter, MatCardModule} from "@angular/material/card";
 import {MatButton, MatButtonModule} from "@angular/material/button";
 import {
@@ -22,6 +22,8 @@ import {AuthRequest} from "../../model/auth-request";
 import {Router} from "@angular/router";
 import {User} from "../../model/user";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackBarComponent} from "../../snack-bar/snack-bar.component";
 
 @Component({
   selector: 'app-log-in',
@@ -52,6 +54,8 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
   styleUrl: './log-in.component.scss'
 })
 export class LogInComponent implements OnInit {
+  private _snackBar = inject(MatSnackBar);
+  durationInSeconds = 5;
   myForm!: FormGroup;
   user?: User;
   loading = false;
@@ -87,8 +91,18 @@ export class LogInComponent implements OnInit {
           this.navigateToMain();
           this.loading = false;
         },
+        (error) => {
+          this.openSnackBar()
+          this.loading = false;
+        }
       );
     }
+  }
+
+  openSnackBar() {
+    this._snackBar.openFromComponent(SnackBarComponent, {
+      duration: this.durationInSeconds * 1000,
+    });
   }
 
   navigateToMain(): void {
