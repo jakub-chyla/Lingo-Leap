@@ -26,26 +26,30 @@ public class WordService {
 
     private final AttachmentService attachmentService;
 
-    //TODO: refactor
     public List<WordDto> getRandomWords() {
         List<Word> words = wordRepository.findRandomWords();
         AttachmentDTO englishAttachment = attachmentService.findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.ENGLISH);
         AttachmentDTO polishAttachment = attachmentService.findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.POLISH);
+
+        return mapWordsToDto(words, englishAttachment, polishAttachment);
+    }
+
+    public List<WordDto> mapWordsToDto(List<Word> words, AttachmentDTO englishAttachment, AttachmentDTO polishAttachment) {
         List<WordDto> wordsDto = new ArrayList<>();
 
-        for (int i = 1; i <= words.size(); i++) {
+        for (int i = 0; i < words.size(); i++) {
             WordDto wordDto = new WordDto();
-            wordDto.setId(words.get(i - 1).getId());
-            wordDto.setEnglish(words.get(i - 1).getEnglish());
-            wordDto.setPolish(words.get(i - 1).getPolish());
-            if (i == 1) {
+            wordDto.setId(words.get(i).getId());
+            wordDto.setEnglish(words.get(i).getEnglish());
+            wordDto.setPolish(words.get(i).getPolish());
+
+            if (i == 0) {
                 wordDto.setEnglishAttachment(englishAttachment);
                 wordDto.setPolishAttachment(polishAttachment);
             }
+
             wordsDto.add(wordDto);
-
         }
-
         return wordsDto;
     }
 

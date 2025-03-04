@@ -30,7 +30,6 @@ public class StripeService {
                         .setName(productRequest.getName())
                         .build();
 
-        // Create new line item with the above product data and associated price
         SessionCreateParams.LineItem.PriceData priceData =
                 SessionCreateParams.LineItem.PriceData.builder()
                         .setCurrency(productRequest.getCurrency() != null ? productRequest.getCurrency() : "USD")
@@ -38,7 +37,6 @@ public class StripeService {
                         .setProductData(productData)
                         .build();
 
-        // Create new line item with the above price data
         SessionCreateParams.LineItem lineItem =
                 SessionCreateParams
                         .LineItem.builder()
@@ -46,7 +44,6 @@ public class StripeService {
                         .setPriceData(priceData)
                         .build();
 
-        // Create new session with the line items
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
@@ -57,12 +54,10 @@ public class StripeService {
 
         purchaseService.buy(productRequest.getUserId());
 
-        // Create new session
         Session session = null;
         try {
             session = Session.create(params);
         } catch (StripeException e) {
-            //log the error
         }
 
         return StripeResponse

@@ -28,9 +28,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final UserDetailsServiceImp userDetailsServiceImp;
-
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
     private final CustomLogoutHandler logoutHandler;
 
     @Value("${cors.allowed.origins}")
@@ -84,7 +82,6 @@ public class SecurityConfig {
         return source;
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -94,6 +91,5 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
-
 
 }
