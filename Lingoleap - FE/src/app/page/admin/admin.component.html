@@ -26,7 +26,7 @@
             </mat-form-field>
           </div>
           <div class="pt-[10px]">
-            <button mat-raised-button (click)="add()" color="accent">Add</button>
+            <button mat-raised-button [disabled]="!myForm.valid" (click)="add()" color="accent">Add</button>
           </div>
         </div>
       </form>

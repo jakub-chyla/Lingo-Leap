@@ -1,7 +1,6 @@
 package com.lingo_leap.controller;
 
 import com.lingo_leap.dto.WordDto;
-import com.lingo_leap.model.Language;
 import com.lingo_leap.model.Word;
 import com.lingo_leap.service.WordService;
 import lombok.RequiredArgsConstructor;
