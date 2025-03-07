@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {Word} from "../../model/word";
@@ -25,6 +25,7 @@ import {
 } from "@angular/material/table";
 import {Language} from "../../enum/Language";
 import {Attachment} from "../../model/attachment";
+import {MatSort, MatSortModule} from "@angular/material/sort";
 
 @Component({
   selector: 'app-admin',
@@ -50,21 +51,23 @@ import {Attachment} from "../../model/attachment";
     MatHeaderRowDef,
     MatCellDef,
     MatHeaderCellDef,
-    MatNoDataRow
+    MatNoDataRow,
+    MatSort,
+    MatSortModule
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, AfterViewInit {
   myForm!: FormGroup;
   wordsList: Word[] = [];
   countDown = false;
   autoNext = true;
   autoRead = false;
-  audio = new Audio();
-
   displayedColumns: string[] = ['english', 'polish', 'action'];
   dataSource = new MatTableDataSource(this.wordsList);
+
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private attachmentService: AttachmentService,
               private formBuilder: FormBuilder,
@@ -74,11 +77,6 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() {
     this.settingInit();
-    // this.attachmentService.download().subscribe((blob) => {
-    //   let objectUrl = URL.createObjectURL(blob);
-    //   this.audio.src = objectUrl;
-    //   this.audio.play();
-    // });
     this.myForm = this.formBuilder.group({
       polish: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
       english: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
@@ -86,12 +84,28 @@ export class AdminComponent implements OnInit {
     this.getAllWords()
   }
 
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
+
   getAllWords() {
     this.wordService.getAllWords().subscribe((data) => {
       this.wordsList = data;
       this.dataSource = new MatTableDataSource(this.wordsList);
+      this.dataSource.sort = this.sort; // Ensure sorting is set after assigning the data
+
+      this.dataSource.sortingDataAccessor = (item: Word, property: string) => {
+        if (property === 'english') {
+          return item.english.toLowerCase();
+        } else if (property === 'polish') {
+          return item.polish.toLowerCase();
+        }
+        return '';
+      };
+
     });
   }
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
