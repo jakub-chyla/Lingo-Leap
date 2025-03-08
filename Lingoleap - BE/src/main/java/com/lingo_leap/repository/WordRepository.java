@@ -10,8 +10,7 @@ import java.util.List;
 @Repository
 public interface WordRepository extends JpaRepository<Word, Long> {
 
-    @Query(value = "SELECT * FROM words ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
-    Word findRandomWord();
+    List<Word> findAllByOrderByEnglishAsc();
 
     @Query(value = "SELECT * FROM words ORDER BY RANDOM() LIMIT 9", nativeQuery = true)
     List<Word> findRandomWords();

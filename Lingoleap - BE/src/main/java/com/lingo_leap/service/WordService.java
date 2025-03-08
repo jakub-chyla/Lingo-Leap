@@ -58,7 +58,7 @@ public class WordService {
     }
 
     public List<WordDto> findAll() {
-        List<Word> words = wordRepository.findAll();
+        List<Word> words = wordRepository.findAllByOrderByEnglishAsc();
         List<AttachmentDTO> attachments = attachmentService.findAll();
 
         return words.stream()
