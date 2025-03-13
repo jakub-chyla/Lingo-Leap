@@ -1,22 +1,21 @@
-# lingo-leap-fullstack
+# Lingo leap
 
 ## Table of contents
 * [General info](#general-info)
-* [Technologies](#technologies)
-* [Todos](#todos)
-* [Setup](#setup)
+* [Preview](#preview)
+* [Backend](#backend)
+* [FrontEnd](#frontend)
+* [Devops](#devops)
 
 
 ## General info
-Project is created with:
-* Java 17
-* SpringBoot 3
-* Angular 15
-* PostgreSQL / H2
 
-## Technologies
-Project is created with:
-* Java 17
-* SpringBoot 3
-* Angular 15
-* PostgreSQL / H2
+## Preview
+
+## Backend
+
+## FrontEnd
+
+## FrontEnd
+
+## Devops
