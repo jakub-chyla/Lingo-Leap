@@ -46,7 +46,9 @@ About
 - Springboot 3+
 - Spring Security JWT
 - Postgresql
+- Hibernate
 - Flyway database migration
+- JUnit 5
 - Stripe
 - Email
 
