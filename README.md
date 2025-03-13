@@ -21,8 +21,10 @@ Create a new user
 Log in
 ![image](https://github.com/user-attachments/assets/b7e8f968-9e5a-4e7f-ad54-96fc374b89cf)
 
-Stripe and pricing
+Pricing
 ![image](https://github.com/user-attachments/assets/382009ea-de79-4f19-b41e-537273b4ee2e)
+
+Stripe
 ![image](https://github.com/user-attachments/assets/3efa9f91-98da-4117-9afe-0d0c5c10c270)
 
 Admin panel to add new words and its mp3 sounds
