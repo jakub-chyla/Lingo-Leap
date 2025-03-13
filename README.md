@@ -10,6 +10,14 @@
 
 ## General info
 
+>>> http://srv10.mikr.us:30201/main <<<
+
+Lingo Leap – A Gamified Approach to Language Learning
+
+Lingo Leap is an interactive language-learning application designed to make daily vocabulary practice engaging and effective. The platform challenges users with dynamic quizzes where they select the correct word from nine options, enhancing their vocabulary retention and recognition skills.
+
+To support pronunciation and listening comprehension, Lingo Leap features text-to-speech functionality, allowing users to hear words spoken aloud. By providing a fun and structured learning experience, the app encourages consistent daily practice, helping users steadily progress toward fluency.
+
 ## Preview
 
 Main
@@ -34,9 +42,18 @@ About
 ![image](https://github.com/user-attachments/assets/191fbfdb-1bf5-4c60-9f8d-83a3661b6cb3)
 
 ## Backend
+- Java 17
+- Springboot 3+
+- Spring Security JWT
+- Postgresql
+- Flyway database migration
+- Stripe
+- Email
 
 ## FrontEnd
-
-## FrontEnd
-
+- Angular 18
+- Angular Material
+- Tailwind
+  
 ## Devops
+- Docker images deployed on ubuntu VPS
