@@ -28,8 +28,7 @@ Admin panel to add new words and its mp3 sounds
 ![image](https://github.com/user-attachments/assets/9cfc6891-32e1-49aa-b8b9-fc21dc99de65)
 
 About
-![image](https://github.com/user-attachments/assets/a0a021f7-07c6-408a-bae5-70b7a705ea49)
-
+![image](https://github.com/user-attachments/assets/191fbfdb-1bf5-4c60-9f8d-83a3661b6cb3)
 
 ## Backend
 
