@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, HostListener, inject, OnInit} from '@angular/core';
 import {MatCard, MatCardContent, MatCardFooter, MatCardModule} from "@angular/material/card";
 import {MatButton, MatButtonModule} from "@angular/material/button";
 import {
@@ -59,6 +59,16 @@ export class LogInComponent implements OnInit {
   myForm!: FormGroup;
   user?: User;
   loading = false;
+
+  @HostListener('document:keydown.enter', ['$event'])
+  onEnterPress(event: KeyboardEvent) {
+    this.logIn();
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapePress(event: KeyboardEvent) {
+    this.navigateToMain();
+  }
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
