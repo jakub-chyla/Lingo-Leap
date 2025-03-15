@@ -10,7 +10,7 @@
         <span *ngIf="!settings" class="material-icons settings-open" (click)="settingsToggle()">settings</span>
       </div>
     </div>
-    <mat-card-content class="flex flex-col justify-between w-[30vw] min-w-[350px] h-[340px] !ml-[-20px] !mr-[-20px]">
+    <mat-card-content class="flex flex-col justify-between w-[30vw] min-w-[400px] h-[340px] !ml-[-20px] !mr-[-20px]">
       <ng-template [ngIf]="!settings">
         <ng-template [ngIf]="!englishToPolish">
           <div class="word"> {{ displayWord }}</div>
