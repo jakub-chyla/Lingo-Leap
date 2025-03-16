@@ -1,7 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {Word} from "../../model/word";
-import {LogInComponent} from "../log-in/log-in.component";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
@@ -9,6 +8,8 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {AttachmentService} from "../../service/attachment.service";
 import {WordService} from "../../service/word.service";
+import {Progress} from "../../model/progress";
+import {StorageService} from "../../service/storage.service";
 
 
 @Component({
@@ -32,8 +33,6 @@ export class MainComponent implements OnInit {
   currentWord!: Word;
   displayWord = '';
   readonly dialog = inject(MatDialog);
-  initWordsList: Word[] = [];
-  wordsList: Word[] = [];
   correctAnswerCounter: number = 0;
   inCorrectAnswerCounter: number = 0;
   startCount: number = 3;
@@ -55,19 +54,34 @@ export class MainComponent implements OnInit {
   ];
 
   constructor(private attachmentService: AttachmentService,
-              private wordService: WordService) {
+              private wordService: WordService,
+              private storageService: StorageService) {
   }
 
   ngOnInit() {
     this.settingInit();
     this.getRandom();
+    this.getCount();
   }
 
   getRandom() {
     this.setRandLanguage();
-
     this.getWord()
   }
+
+  getCount() {
+    const progress = this.storageService.getProgress();
+    if (!progress) return;
+
+    this.correctAnswerCounter = progress.correct;
+    this.inCorrectAnswerCounter = progress.inCorrect;
+
+    const today = new Date().toISOString().split('T')[0];
+    if (today > progress.date) {
+      this.storageService.removeProgress();
+    }
+  }
+
 
   getWord() {
     this.wordService.getRandomWords().subscribe((res: Word[]) => {
@@ -148,6 +162,17 @@ export class MainComponent implements OnInit {
     if (storedAutoRead !== null) {
       this.autoRead = storedAutoRead === 'true';
     }
+  }
+
+  saveAnswers() {
+    const today = new Date().toISOString().split('T')[0]; // Formats as "YYYY-MM-DD"
+
+    const progress: Progress = {
+      correct: this.correctAnswerCounter,
+      inCorrect: this.inCorrectAnswerCounter,
+      date: today
+    };
+    this.storageService.saveObject(progress);
   }
 
   getRandomIndex(length: number): number {
@@ -249,6 +274,9 @@ export class MainComponent implements OnInit {
     } else {
       this.inCorrectAnswerCounter++;
     }
+    this.saveAnswers();
+
+
   }
 
 
