@@ -41,9 +41,8 @@ Admin panel to add new words and its mp3 sounds
 About
 ![image](https://github.com/user-attachments/assets/191fbfdb-1bf5-4c60-9f8d-83a3661b6cb3)
 
-
 User roles
-![image](https://github.com/user-attachments/assets/0f117e3d-3660-444e-bc19-d4541e296a6e)
+![image](https://github.com/user-attachments/assets/cfd11be5-fa92-4c5a-9f8e-782984b85d59)
 
 
 ## Backend
