@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardFooter} from "@angular/material/card";
 import {MatIcon} from "@angular/material/icon";
@@ -19,6 +19,11 @@ import {Router} from "@angular/router";
   styleUrl: './about.component.scss'
 })
 export class AboutComponent implements OnInit {
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapePress(event: KeyboardEvent) {
+    this.navigateToMain();
+  }
 
   constructor(private router: Router) {
   }

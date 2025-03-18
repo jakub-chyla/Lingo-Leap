@@ -37,9 +37,16 @@
     <mat-card-footer>
       <div class="flex justify-center pt-[20px]">
         <div *ngIf="user">
-          <button mat-raised-button color="accent" (click)="checkout()"
-                  type="submit">Get subscription
-          </button>
+          <ng-container *ngIf="!loading; else loadingTemplate">
+            <button class="w-[155px]" mat-raised-button color="accent" (click)="checkout()"
+                    type="submit">Get subscription
+            </button>
+          </ng-container>
+          <ng-template #loadingTemplate>
+            <button class="w-[155px]" mat-raised-button color="accent" [disabled]="true" type="submit">
+              <mat-spinner [diameter]="22"></mat-spinner>
+            </button>
+          </ng-template>
         </div>
         <div *ngIf="!user">
           <button mat-raised-button color="primary" (click)="navigateToLogin()"
