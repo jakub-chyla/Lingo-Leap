@@ -68,6 +68,8 @@ User roles
 - Angular 18
 - Angular Material
 - Tailwind
+- Routing
+- AuthGuard
   
 ## Devops
 - Docker images deployed on ubuntu VPS
