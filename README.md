@@ -50,7 +50,7 @@ About
 - Flyway database migration
 - JUnit 5
 - Stripe
-- Email
+- Email sender
 
 ## FrontEnd
 - Angular 18
