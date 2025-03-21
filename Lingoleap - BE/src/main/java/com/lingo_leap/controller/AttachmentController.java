@@ -1,8 +1,7 @@
 package com.lingo_leap.controller;
 
-import com.lingo_leap.dto.ResponseData;
 import com.lingo_leap.model.Attachment;
-import com.lingo_leap.model.Language;
+import com.lingo_leap.enums.Language;
 import com.lingo_leap.service.AttachmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;

@@ -2,7 +2,7 @@ package com.lingo_leap.service;
 
 import com.lingo_leap.dto.AttachmentDTO;
 import com.lingo_leap.model.Attachment;
-import com.lingo_leap.model.Language;
+import com.lingo_leap.enums.Language;
 import com.lingo_leap.repository.AttachmentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

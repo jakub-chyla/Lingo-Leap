@@ -1,5 +1,6 @@
 package com.lingo_leap.model;
 
+import com.lingo_leap.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

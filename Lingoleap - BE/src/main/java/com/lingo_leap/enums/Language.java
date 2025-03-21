@@ -1,4 +1,4 @@
-package com.lingo_leap.model;
+package com.lingo_leap.enums;
 
 public enum Language {
     ENGLISH,

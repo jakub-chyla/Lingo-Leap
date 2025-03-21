@@ -2,7 +2,7 @@ package com.lingo_leap.repository;
 
 import com.lingo_leap.dto.AttachmentDTO;
 import com.lingo_leap.model.Attachment;
-import com.lingo_leap.model.Language;
+import com.lingo_leap.enums.Language;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

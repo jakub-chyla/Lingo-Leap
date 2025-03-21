@@ -1,6 +1,6 @@
 package com.lingo_leap.dto;
 
-import com.lingo_leap.model.Role;
+import com.lingo_leap.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

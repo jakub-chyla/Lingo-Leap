@@ -1,4 +1,4 @@
-package com.lingo_leap.model;
+package com.lingo_leap.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

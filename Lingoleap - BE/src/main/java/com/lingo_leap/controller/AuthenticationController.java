@@ -1,16 +1,14 @@
 package com.lingo_leap.controller;
 
 import com.lingo_leap.dto.AuthenticationResponseDto;
-import com.lingo_leap.model.AuthRequest;
-import com.lingo_leap.model.AuthenticationResponse;
+import com.lingo_leap.dto.AuthRequest;
+import com.lingo_leap.dto.AuthenticationResponse;
 import com.lingo_leap.model.User;
 import com.lingo_leap.service.AuthenticationService;
 import com.lingo_leap.service.EmailSenderService;
-import com.lingo_leap.service.PurchaseService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

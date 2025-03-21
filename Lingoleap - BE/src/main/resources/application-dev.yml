@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://psql01.mikr.us:5432/db_h201 # jdbc:postgresql://${DB_HOST}:5432/${DB_NAME}
-    username: h201 # postgres ${DB_USERNAME}
-    password: D970_7f977d # root ${DB_PASSWORD}
+    url: jdbc:postgresql://${DB_HOST}:5432/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   flyway:
     enabled: true
@@ -11,7 +11,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -20,8 +20,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: lingo.leap.email@gmail.com # ${MAIL_USERNAME} # your gmail account
-    password: qtbbuoaveocczfhj # ${MAIL_PASSWORD} # your gmail password
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -29,16 +29,9 @@ spring:
           starttls:
             enable: true
 
-#application:
-#  security:
-#    jwt:
-#      secret-key: 4bb6d1dfbafb64a681139d1586b6f1160d18159afd57c8c79136d7490630407c
-#      access-token-expiration: 86400000
-#      refresh-token-expiration: 604800000
-
 stripe:
   secretKey: sk_test_51QeAPYGpbRNj5jwvLtKe8jn4fATduhKKlF0vamt0Ffy0letbgaQ4DYMgE2BqGjYEAkTnM50p65L8dPpneQuxXuap00ZvUlhQH6
 
 cors:
   allowed:
-    origins: http://localhost:4200
+    origins: ${ORIGINS}

@@ -1,7 +1,10 @@
 package com.lingo_leap.service;
 
 
+import com.lingo_leap.dto.AuthRequest;
+import com.lingo_leap.dto.AuthenticationResponse;
 import com.lingo_leap.dto.AuthenticationResponseDto;
+import com.lingo_leap.enums.Role;
 import com.lingo_leap.model.*;
 import com.lingo_leap.repository.TokenRepository;
 import com.lingo_leap.repository.UserRepository;

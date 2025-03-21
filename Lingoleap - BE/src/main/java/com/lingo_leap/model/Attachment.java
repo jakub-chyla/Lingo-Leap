@@ -1,8 +1,8 @@
 package com.lingo_leap.model;
 
+import com.lingo_leap.enums.Language;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 
 @Entity

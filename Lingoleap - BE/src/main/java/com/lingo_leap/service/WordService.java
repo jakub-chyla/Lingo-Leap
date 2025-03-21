@@ -2,8 +2,7 @@ package com.lingo_leap.service;
 
 import com.lingo_leap.dto.AttachmentDTO;
 import com.lingo_leap.dto.WordDto;
-import com.lingo_leap.model.Attachment;
-import com.lingo_leap.model.Language;
+import com.lingo_leap.enums.Language;
 import com.lingo_leap.model.Word;
 import com.lingo_leap.repository.WordRepository;
 import com.lingo_leap.utils.Mapper;
@@ -11,9 +10,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
