@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  domain: 'http://srv10.mikr.us:20201'
+  domain: 'http://api.lingo-leap.pl'
 };
