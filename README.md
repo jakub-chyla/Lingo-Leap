@@ -61,6 +61,7 @@ User roles
 - Hibernate
 - Flyway database migration
 - JUnit 5
+- Mockito
 - Stripe
 - Email sender
 
