@@ -1,11 +1,11 @@
 package com.lingo_leap.service;
 
-
 import com.lingo_leap.dto.AuthRequest;
 import com.lingo_leap.dto.AuthenticationResponse;
 import com.lingo_leap.dto.AuthenticationResponseDto;
 import com.lingo_leap.enums.Role;
-import com.lingo_leap.model.*;
+import com.lingo_leap.model.Token;
+import com.lingo_leap.model.User;
 import com.lingo_leap.repository.TokenRepository;
 import com.lingo_leap.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,9 +28,7 @@ public class AuthenticationService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-
     private final TokenRepository tokenRepository;
-
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(AuthRequest request) {
@@ -106,7 +104,6 @@ public class AuthenticationService {
     public ResponseEntity refreshToken(
             HttpServletRequest request,
             HttpServletResponse response) {
-        // extract the token from authorization header
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -115,16 +112,12 @@ public class AuthenticationService {
 
         String token = authHeader.substring(7);
 
-        // extract username from token
         String username = jwtService.extractUsername(token);
 
-        // check if the user exist in database
         User user = repository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("No user found"));
 
-        // check if the token is valid
         if (jwtService.isValidRefreshToken(token, user)) {
-            // generate access token
             String accessToken = jwtService.generateAccessToken(user);
             String refreshToken = jwtService.generateRefreshToken(user);
 

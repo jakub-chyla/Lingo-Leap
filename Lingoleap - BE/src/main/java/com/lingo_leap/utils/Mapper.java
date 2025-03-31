@@ -2,7 +2,6 @@ package com.lingo_leap.utils;
 
 import com.lingo_leap.dto.AttachmentDTO;
 import com.lingo_leap.dto.WordDto;
-import com.lingo_leap.model.Attachment;
 import com.lingo_leap.model.Word;
 import lombok.experimental.UtilityClass;
 
@@ -32,4 +31,14 @@ public class Mapper {
 
         return wordDto;
     }
+
+    public WordDto mapWordsNoAttachments(Word word) {
+        WordDto wordDto = new WordDto();
+        wordDto.setId(word.getId());
+        wordDto.setEnglish(word.getEnglish());
+        wordDto.setPolish(word.getPolish());
+
+        return wordDto;
+    }
+
 }

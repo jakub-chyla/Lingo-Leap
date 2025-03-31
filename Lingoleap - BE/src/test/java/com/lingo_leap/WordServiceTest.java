@@ -3,20 +3,29 @@ package com.lingo_leap;
 import com.lingo_leap.dto.AttachmentDTO;
 import com.lingo_leap.dto.WordDto;
 import com.lingo_leap.model.Word;
+import com.lingo_leap.repository.WordRepository;
+import com.lingo_leap.service.AttachmentService;
 import com.lingo_leap.service.WordService;
+import com.lingo_leap.utils.Mapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 class WordServiceTest {
 
     @InjectMocks
     private WordService wordService;
+    @Mock
+    private WordRepository wordRepository;
+    @Mock
+    private AttachmentService attachmentService;
 
     @BeforeEach
     void setUp() {
@@ -24,39 +33,66 @@ class WordServiceTest {
     }
 
     @Test
-    void testMapWordsToDto() {
+    void testMapWordsNoAttachments() {
 
         // Given
-        Word word1 = new Word();
-        word1.setId(1L);
-        word1.setEnglish("Hello");
-        word1.setPolish("Cześć");
-
-        Word word2 = new Word();
-        word2.setId(2L);
-        word2.setEnglish("Goodbye");
-        word2.setPolish("Do widzenia");
-
-        List<Word> words = Arrays.asList(word1, word2);
-
-        AttachmentDTO englishAttachment = new AttachmentDTO();
-        AttachmentDTO polishAttachment = new AttachmentDTO();
+        Word word = new Word();
+        word.setId(1L);
+        word.setEnglish("Hello");
+        word.setPolish("Cześć");
 
         // When
-        List<WordDto> result = wordService.mapWordsToDto(words, englishAttachment, polishAttachment);
+        WordDto result = Mapper.mapWordsNoAttachments(word);
 
         // Then
-        assertEquals(2, result.size());
-        assertEquals(1L, result.get(0).getId());
-        assertEquals("Hello", result.get(0).getEnglish());
-        assertEquals("Cześć", result.get(0).getPolish());
-        assertEquals(englishAttachment, result.get(0).getEnglishAttachment());
-        assertEquals(polishAttachment, result.get(0).getPolishAttachment());
-
-        assertEquals(2L, result.get(1).getId());
-        assertEquals("Goodbye", result.get(1).getEnglish());
-        assertEquals("Do widzenia", result.get(1).getPolish());
-        assertEquals(null, result.get(1).getEnglishAttachment());
-        assertEquals(null, result.get(1).getPolishAttachment());
+        assertEquals(1L, result.getId());
+        assertEquals("Hello", result.getEnglish());
+        assertEquals("Cześć", result.getPolish());
     }
+
+    @Test
+    void testMapWordWithAttachmentsName() {
+
+        // Given
+        Word word = new Word(1L, "Cześć","Hello");
+
+        AttachmentDTO attachment1 = new AttachmentDTO(1L,"hello.mp3",1L);
+        AttachmentDTO attachment2 = new AttachmentDTO(2L,"czesc.mp3",1L);
+        List<AttachmentDTO> attachments = List.of(attachment1, attachment2);
+
+        // When
+        WordDto result = Mapper.mapWordWithAttachmentsName(word, attachments);
+
+        // Then
+        assertEquals(1L, result.getId());
+        assertEquals("Hello", result.getEnglish());
+        assertEquals("Cześć", result.getPolish());
+        assertEquals("hello.mp3", result.getEnglishAttachment().getFileName());
+        assertEquals("czesc.mp3", result.getPolishAttachment().getFileName());
+    }
+
+    @Test
+    void testGetRandomWords() {
+
+        //given
+        Word word = new Word(1L, "Hello", "Cześć");
+        List<Word> words = List.of(word);
+
+        AttachmentDTO attachment1 = new AttachmentDTO(1L, "hello.mp3", 1L);
+        AttachmentDTO attachment2 = new AttachmentDTO(2L, "czesc.mp3", 1L);
+        List<AttachmentDTO> attachments = List.of(attachment1, attachment2);
+
+        //mock the calls
+        when(attachmentService.findAll()).thenReturn(attachments);
+        when(wordRepository.findAllByOrderByEnglishAsc()).thenReturn(words);
+
+        //when
+        List<WordDto> response = wordService.findAll();
+
+        //then
+        assertEquals(1L, response.get(0).getId());
+        assertEquals("czesc.mp3", response.get(0).getPolishAttachment().getFileName());
+
+    }
+
 }

@@ -275,10 +275,7 @@ export class MainComponent implements OnInit {
       this.inCorrectAnswerCounter++;
     }
     this.saveAnswers();
-
-
   }
-
 
   settingsToggle() {
     this.settings = !this.settings;

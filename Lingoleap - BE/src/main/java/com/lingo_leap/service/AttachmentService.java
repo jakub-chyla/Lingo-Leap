@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
 @Service
@@ -59,27 +58,12 @@ public class AttachmentService {
         return id;
     }
 
-    public List<Attachment> findByWordId(Long wordId) {
-        return attachmentRepository.findByWordId(wordId);
-    }
-
-    @Transactional
-    public Attachment findByWordIdAndLanguage(Long wordId, Language language) {
-        return attachmentRepository.findByWordIdAndLanguage(wordId, language);
-    }
-
     public List<AttachmentDTO> findAll() {
         return attachmentRepository.findAllWithOutData();
 
     }
 
-    public AttachmentDTO findByIdWithOutData(Long attachmentId) {
-        return attachmentRepository.findByIdWithOutData(attachmentId).get();
-
-    }
-
     public AttachmentDTO findByWordIdAndLanguageWithOutData(Long wordId, Language language) {
         return attachmentRepository.findByWordIdAndLanguageWithOutData(wordId, language);
-
     }
 }

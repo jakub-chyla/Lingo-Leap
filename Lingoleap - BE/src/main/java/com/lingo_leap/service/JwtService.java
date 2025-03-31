@@ -1,6 +1,5 @@
 package com.lingo_leap.service;
 
-
 import com.lingo_leap.model.User;
 import com.lingo_leap.repository.TokenRepository;
 import io.jsonwebtoken.Claims;
@@ -27,7 +26,6 @@ public class JwtService {
     @Value("${application.security.jwt.refresh-token-expiration}")
     private long refreshTokenExpire;
 
-
     private final TokenRepository tokenRepository;
 
     public JwtService(TokenRepository tokenRepository) {
@@ -37,7 +35,6 @@ public class JwtService {
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
-
 
     public boolean isValid(String token, UserDetails user) {
         String username = extractUsername(token);
@@ -82,7 +79,6 @@ public class JwtService {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-
 
     public String generateAccessToken(User user) {
         return generateToken(user, accessTokenExpire);

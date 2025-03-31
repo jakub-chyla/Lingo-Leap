@@ -10,7 +10,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,29 +23,18 @@ public class WordService {
 
     public List<WordDto> getRandomWords() {
         List<Word> words = wordRepository.findRandomWords();
-        AttachmentDTO englishAttachment = attachmentService.findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.ENGLISH);
-        AttachmentDTO polishAttachment = attachmentService.findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.POLISH);
+        AttachmentDTO englishAttachment = attachmentService
+                .findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.ENGLISH);
+        AttachmentDTO polishAttachment = attachmentService
+                .findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.POLISH);
 
-        return mapWordsToDto(words, englishAttachment, polishAttachment);
-    }
+        List<WordDto> wordDtos =  words.stream()
+                .map(word -> Mapper.mapWordsNoAttachments(word ))
+                .collect(Collectors.toList());
 
-    public List<WordDto> mapWordsToDto(List<Word> words, AttachmentDTO englishAttachment, AttachmentDTO polishAttachment) {
-        List<WordDto> wordsDto = new ArrayList<>();
-
-        for (int i = 0; i < words.size(); i++) {
-            WordDto wordDto = new WordDto();
-            wordDto.setId(words.get(i).getId());
-            wordDto.setEnglish(words.get(i).getEnglish());
-            wordDto.setPolish(words.get(i).getPolish());
-
-            if (i == 0) {
-                wordDto.setEnglishAttachment(englishAttachment);
-                wordDto.setPolishAttachment(polishAttachment);
-            }
-
-            wordsDto.add(wordDto);
-        }
-        return wordsDto;
+        wordDtos.get(0).setEnglishAttachment(englishAttachment);
+        wordDtos.get(0).setPolishAttachment(polishAttachment);
+        return wordDtos;
     }
 
     public Word saveWord(Word word) {
