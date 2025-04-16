@@ -9,7 +9,6 @@ import java.time.LocalDate;
 public class LingoLeapApplication {
 
 	public static void main(String[] args) {
-		System.out.println(LocalDate.now());
 		SpringApplication.run(LingoLeapApplication.class, args);
 
 	}
