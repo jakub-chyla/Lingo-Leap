@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {BuildService} from "../../service/build.service";
 
 @Component({
   selector: 'app-footer',
@@ -8,9 +9,18 @@ import {Component, OnInit} from '@angular/core';
   styleUrl: './footer.component.scss'
 })
 export class FooterComponent implements OnInit {
-  formattedDate?: string;
+  lastUpdate ="";
+
+
+  constructor(private buildService: BuildService) {
+  }
 
   ngOnInit() {
-
+    this.buildService.getBuildTime().subscribe(res=>{
+      if(res){
+        this.lastUpdate = res.split('T')[0] + " " + res.split('T')[1].split('.')[0];
+      }
+    });
   }
+
 }
