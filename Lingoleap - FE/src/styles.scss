@@ -6,25 +6,32 @@ html, body { height: 100%;
 }
 body {
   margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
-  background: #1F2937;
-  color: white;
+  background: var(--background-color);
+  color: var(--text-color);
   text-align: center;
 }
 
-/* styles.css */
-.component-bg-global {
-  background: rgba(68, 87, 106, 0.66) !important;
+:root {
+  --background-color: #d3d3d3;
+  --text-color: #000000;
 }
 
-.card {
-  @extend .component-bg-global;
-  border-radius: 10px !important;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 1) !important;
-  padding: 20px !important;
-  margin: 20px auto !important;
+.dark-theme {
+  --background-color: #1f2937;
+  --text-color: #ffffff;
 }
+
 
 .word {
   font-weight: bold !important;
   font-size: 22px !important;
+}
+
+.card {
+  border-radius: 10px !important;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 1) !important;
+  padding: 20px !important;
+  margin: 20px auto !important;
+  background-color: var(--background-color) !important;
+  color: var(--text-color);
 }

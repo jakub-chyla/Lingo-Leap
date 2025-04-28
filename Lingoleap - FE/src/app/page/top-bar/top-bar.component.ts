@@ -28,6 +28,7 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 export class TopBarComponent implements OnInit {
   user?: User | null;
   isAdmin= false;
+  darkMode = true;
 
   constructor(private router: Router,
               private userService: UserService,
@@ -54,8 +55,6 @@ export class TopBarComponent implements OnInit {
     this.userService.logOut();
   }
 
-
-
   demo(): void {
     this.userService.demo().subscribe((result) => {
       console.log(result);
@@ -66,6 +65,16 @@ export class TopBarComponent implements OnInit {
     this.userService.open().subscribe((result) => {
       console.log(result);
     })
+  }
+
+  switchMode(): void {
+    const body = document.body;
+    this.darkMode = !this.darkMode;
+    if (this.darkMode) {
+      body.classList.add('dark-theme');
+    } else {
+      body.classList.remove('dark-theme');
+    }
   }
 
   navigateToLogin(): void {
