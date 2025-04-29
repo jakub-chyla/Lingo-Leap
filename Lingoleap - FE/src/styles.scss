@@ -12,15 +12,18 @@ body {
 }
 
 :root {
-  --background-color: #d3d3d3;
+  --background-color: #ffffff;
   --text-color: #000000;
+  --pricing-cloud-border: #bfbfbf;
+  --pricing-cloud-border-hoover: #8f8f8f;
 }
 
 .dark-theme {
   --background-color: #1f2937;
   --text-color: #ffffff;
+  --pricing-cloud-border: #7c8ea5;
+  --pricing-cloud-border-hoover: #a2b1c6;
 }
-
 
 .word {
   font-weight: bold !important;
@@ -35,3 +38,22 @@ body {
   background-color: var(--background-color) !important;
   color: var(--text-color);
 }
+
+.pricing-cloud {
+  border-color: var(--pricing-cloud-border) !important;
+
+}
+
+.pricing-cloud:hover {
+  border-color: var(--pricing-cloud-border-hoover) !important;
+}
+
+.menu {
+  background-color: var(--background-color) !important;
+}
+
+.menu .mat-icon-no-color,
+.menu .mat-mdc-menu-item {
+  color: var(--text-color) !important;
+}
+

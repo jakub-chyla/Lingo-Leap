@@ -2,16 +2,6 @@ $primary-color: #673ab7;
 $accent-color: #ffd740;
 $warn-color: #f24236;
 
-::ng-deep .menu {
-  background: rgb(68, 87, 106) !important;
-  opacity: 1 !important;
-  color: white !important;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 1) !important;
-}
-
-.menu-button  ::ng-deep .mat-mdc-menu-item-text {
-  color: white !important; /* Makes the font white */
-}
 
 .wrong-answer {
   background-color: $warn-color !important; /* Override default styles */

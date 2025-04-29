@@ -2,30 +2,12 @@
   flex: 1 1 auto;
 }
 
-.input ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: #425062 !important;
-}
-
-.input ::ng-deep .mdc-text-field__input {
-  color: white !important;
-}
-
-.sign-in {
-  color: white !important;
-}
-
-.input ::ng-deep .mdc-floating-label {
-  color: #f3f3f3 !important;
-}
-
 .pricing-cloud {
   height: 375px;
   width: 250px;
-  border: 2px solid rgba(31, 41, 55, 0.53);
+  border: 1px solid ;
   border-radius: 20px;
-  transition: border-color 0.1s ease-in-out;
 }
 
 .pricing-cloud:hover {
-  border-color: #1f2937;
 }

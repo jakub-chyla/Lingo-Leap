@@ -1,4 +1,4 @@
-<mat-toolbar class="topBar">
+<mat-toolbar class="top-bar">
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
   </button>
@@ -12,13 +12,12 @@
     <button
 
       mat-menu-item (click)="navigateToAbout()">
-      <mat-icon style="color: white; margin-right: 8px;">info</mat-icon>
+      <mat-icon>info</mat-icon>
       About
     </button>
     <button *ngIf="isAdmin"
-
             mat-menu-item (click)="navigateToAdmin()">
-      <mat-icon style="color: white; margin-right: 8px;">person</mat-icon>
+      <mat-icon >person</mat-icon>
       Admin
     </button>
   </mat-menu>
