@@ -2,20 +2,6 @@
   flex: 1 1 auto;
 }
 
-.input ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: #425062 !important;
-}
-
-.input ::ng-deep .mdc-text-field__input {
-  color: white !important;
-}
-
-
-
-.input ::ng-deep .mdc-floating-label {
-  color: #f3f3f3 !important;
-}
-
 .about-cloud {
   border: 2px solid rgba(31, 41, 55, 0.53);
   border-radius: 20px;
