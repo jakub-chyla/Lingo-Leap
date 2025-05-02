@@ -4,8 +4,8 @@ $warn-color: #f24236;
 
 
 .wrong-answer {
-  background-color: $warn-color !important; /* Override default styles */
-  color: white !important; /* Ensure text is readable */
+  background-color: $warn-color !important;
+  color: white !important;
   height: 60px;
   border-radius: 8px;
 
@@ -16,8 +16,8 @@ $warn-color: #f24236;
 }
 
 .good-answer {
-  background-color: green !important; /* Override default styles */
-  color: white !important; /* Ensure text is readable */
+  background-color: green !important;
+  color: white !important;
   height: 60px;
   border-radius: 8px;
 

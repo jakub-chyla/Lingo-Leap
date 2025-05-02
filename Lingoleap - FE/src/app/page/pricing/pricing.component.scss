@@ -5,9 +5,11 @@
 .pricing-cloud {
   height: 375px;
   width: 250px;
-  border: 1px solid ;
+  border: 2px solid ;
   border-radius: 20px;
+  transition: border-color 0.35s ease-in-out;
 }
 
 .pricing-cloud:hover {
+
 }

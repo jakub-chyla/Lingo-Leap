@@ -1,8 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {PurchaseService} from "./purchase.service";
 import {Observable} from "rxjs";
-import {AuthHelper} from "../shared/auth-helper";
 import {environment} from "../../environments/environment";
 
 @Injectable({

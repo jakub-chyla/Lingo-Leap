@@ -44,12 +44,14 @@ body {
   color: var(--text-color);
 }
 
-.pricing-cloud {
+.pricing-cloud,
+.about-cloud {
   border-color: var(--pricing-cloud-border) !important;
 
 }
 
-.pricing-cloud:hover {
+.pricing-cloud:hover,
+.about-cloud:hover{
   border-color: var(--pricing-cloud-border-hoover) !important;
 }
 

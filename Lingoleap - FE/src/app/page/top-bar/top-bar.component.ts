@@ -28,7 +28,7 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 export class TopBarComponent implements OnInit {
   user?: User | null;
   isAdmin= false;
-  darkMode = true;
+  darkMode = false;
 
   constructor(private router: Router,
               private userService: UserService,
@@ -36,6 +36,7 @@ export class TopBarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.switchMode();
     this.userService.refreshToken().subscribe();
 
     this.userService.user$.subscribe((user) => {
@@ -53,18 +54,6 @@ export class TopBarComponent implements OnInit {
 
   logOut() {
     this.userService.logOut();
-  }
-
-  demo(): void {
-    this.userService.demo().subscribe((result) => {
-      console.log(result);
-    })
-  }
-
-  open(): void {
-    this.userService.open().subscribe((result) => {
-      console.log(result);
-    })
   }
 
   switchMode(): void {

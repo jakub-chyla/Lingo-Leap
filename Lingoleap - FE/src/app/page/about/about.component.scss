@@ -3,11 +3,11 @@
 }
 
 .about-cloud {
-  border: 2px solid rgba(31, 41, 55, 0.53);
+  border: 2px solid;
   border-radius: 20px;
-  transition: border-color 0.1s ease-in-out;
+  transition: border-color 0.35s ease-in-out;
 }
 
 .about-cloud:hover {
-  border-color: #1f2937;
+
 }
