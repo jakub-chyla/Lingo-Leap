@@ -55,6 +55,7 @@ User roles
 Dark mode with CSS variable
 
 ![image](https://github.com/user-attachments/assets/46d0b066-caff-4bd7-9265-662a6b75bee6)
+
 ![image](https://github.com/user-attachments/assets/ee5e8377-1788-4bc9-ba41-a3ce4c1398bc)
 
 
