@@ -52,6 +52,9 @@ User roles
 
 ![image](https://github.com/user-attachments/assets/cfd11be5-fa92-4c5a-9f8e-782984b85d59)
 
+Dark mode with CSS variable
+![image](https://github.com/user-attachments/assets/46d0b066-caff-4bd7-9265-662a6b75bee6)
+
 
 ## Backend
 - Java 17
