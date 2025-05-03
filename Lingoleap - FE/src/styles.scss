@@ -64,9 +64,16 @@ body {
   color: var(--text-color) !important;
 }
 
-.input .mdc-text-field--filled,
-.input .mdc-floating-label,
-.input .mdc-text-field__input {
+.input .mdc-floating-label{
+
+  color: var(--text-color) !important;
+}
+
+.input .mdc-text-field__input{
+  color: var(--text-color) !important;
+}
+
+.input .mdc-text-field--filled:not(.mdc-text-field--disabled){
   background-color: var(--background-color) !important;
   color: var(--text-color) !important;
 }
