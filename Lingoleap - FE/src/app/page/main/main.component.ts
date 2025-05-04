@@ -10,6 +10,7 @@ import {AttachmentService} from "../../service/attachment.service";
 import {WordService} from "../../service/word.service";
 import {Progress} from "../../model/progress";
 import {StorageService} from "../../service/storage.service";
+import {MatProgressBar} from "@angular/material/progress-bar";
 
 
 @Component({
@@ -23,7 +24,8 @@ import {StorageService} from "../../service/storage.service";
     NgForOf,
     NgIf,
     FormsModule,
-    NgClass
+    NgClass,
+    MatProgressBar
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
@@ -47,6 +49,7 @@ export class MainComponent implements OnInit {
   readPolish = false;
   readEnglish = true;
   audio = new Audio();
+  progressValue = 0;
   buttonRows: number[][] = [
     [0, 1, 2],
     [3, 4, 5],
@@ -81,7 +84,6 @@ export class MainComponent implements OnInit {
       this.storageService.removeProgress();
     }
   }
-
 
   getWord() {
     this.wordService.getRandomWords().subscribe((res: Word[]) => {
@@ -228,29 +230,16 @@ export class MainComponent implements OnInit {
 
   checkAnswer(answer: string, clickedButton: number) {
     if (this.newShuffle) {
-      const isCorrect = (word: string, answer: string) => word === answer;
-      const updateButtonState = (correctIndex: number) => {
-
-        for (let i = 0; i < this.buttonStatuses.length; i++) {
-          if (i === correctIndex) {
-            this.buttonStatuses[i] = 1; // Correct answer
-          } else if (i === clickedButton && clickedButton !== correctIndex) {
-            this.buttonStatuses[i] = 2; // Wrong answer
-          } else {
-            this.buttonStatuses[i] = 3; // Disabled
-          }
-        }
-      };
 
       if (this.autoRead) {
         this.readText();
       }
-
       const currentWord = this.englishToPolish ? this.currentWord.polish : this.currentWord.english;
+      const isCorrect = (word: string, answer: string) => word === answer;
 
       for (let i = 0; i < this.answers.length; i++) {
         if (isCorrect(currentWord, this.answers[i])) {
-          updateButtonState(i);
+          this.updateButtonState(i, clickedButton);
           break;
         }
       }
@@ -266,6 +255,18 @@ export class MainComponent implements OnInit {
     }
   }
 
+  updateButtonState(correctIndex: number, clickedButton: number) {
+    for (let i = 0; i < this.buttonStatuses.length; i++) {
+      if (i === correctIndex) {
+        this.buttonStatuses[i] = 1; // Correct answer
+      } else if (i === clickedButton && clickedButton !== correctIndex) {
+        this.buttonStatuses[i] = 2; // Wrong answer
+      } else {
+        this.buttonStatuses[i] = 3; // Disabled
+      }
+    }
+  }
+
   countAnswer(answer: string) {
     const currentWord = this.englishToPolish ? this.currentWord.polish : this.currentWord.english;
 
@@ -273,8 +274,17 @@ export class MainComponent implements OnInit {
       this.correctAnswerCounter++;
     } else {
       this.inCorrectAnswerCounter++;
+      this.setProgressBarValue()
     }
     this.saveAnswers();
+  }
+
+  setProgressBarValue() {
+    this.progressValue = this.progressValue + 25;
+    if (this.progressValue === 100) {
+      this.progressValue = 0;
+      this.inCorrectAnswerCounter = 0;
+    }
   }
 
   settingsToggle() {

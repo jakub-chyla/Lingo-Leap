@@ -2,8 +2,13 @@
   <mat-card class="card" appearance="outlined">
     <div class="flex justify-between gap-2 pb-2">
       <div>
-        <span class="font-bold text-[12px] green-text">{{ correctAnswerCounter }}</span> /
-        <span class="font-bold text-[12px] red-text">{{ inCorrectAnswerCounter }}</span>
+        <div>
+          <span class="font-bold text-[12px] green-text">{{ correctAnswerCounter }}</span> /
+          <span class="font-bold text-[12px] red-text">{{ inCorrectAnswerCounter }}</span>
+        </div>
+        <div>
+          <mat-progress-bar mode="determinate" color="accent" [value]="progressValue"></mat-progress-bar>
+        </div>
       </div>
       <div>
         <span *ngIf="settings" class="material-icons settings-close" (click)="settingsToggle()">close</span>
