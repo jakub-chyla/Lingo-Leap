@@ -2,9 +2,9 @@ package com.lingo_leap.controller;
 
 import com.lingo_leap.dto.WordDto;
 import com.lingo_leap.model.Word;
-import com.lingo_leap.service.StartUpTimeService;
 import com.lingo_leap.service.WordService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,20 +17,31 @@ public class WordController {
 
     private final WordService wordService;
 
-
     @PostMapping()
     public ResponseEntity<Word> saveWord(@RequestBody Word word) {
-        return ResponseEntity.ok(wordService.saveWord(word));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(wordService.saveWord(word));
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<WordDto>> findAll() {
-        return ResponseEntity.ok(wordService.findAll());
+        List<WordDto> words = wordService.findAll();
+        if (words.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(words);
+        }
     }
 
     @GetMapping("/random")
     public ResponseEntity<List<WordDto>> getRandom() {
-        return ResponseEntity.ok(wordService.getRandomWords());
+        List<WordDto> randomWords = wordService.getRandomWords();
+        if (randomWords.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(randomWords);
+        }
     }
 
     @DeleteMapping("/{id}")

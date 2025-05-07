@@ -9,6 +9,7 @@ import com.lingo_leap.service.EmailSenderService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,10 +26,13 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthRequest request) {
+        //TODO: move to service
         emailSenderService.sendEmail(request.getEmail(),
                 "Account created",
                 "Hi, " + request.getUsername());
-        return ResponseEntity.ok(authService.register(request));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(authService.register(request));
     }
 
     @PostMapping("/login")

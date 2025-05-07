@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class ProductCheckoutController {
 
     private final StripeService stripeService;
-
     private final PurchaseService purchaseService;
 
     @PostMapping("/checkout")

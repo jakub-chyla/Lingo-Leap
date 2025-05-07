@@ -32,7 +32,7 @@ public class AttachmentController {
         attachment = attachmentService.getAttachment(Long.parseLong(fileId));
 
         if (attachment == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "File not found");
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok()
@@ -41,7 +41,6 @@ public class AttachmentController {
                         "attachment; filename=\"" + attachment.getFileName() + "\"")
                 .body(new ByteArrayResource(attachment.getData()));
     }
-
 
     @DeleteMapping("/{attachmentId}")
     public ResponseEntity<Long> deleteAttachmentsById(@PathVariable Long attachmentId) throws Exception {

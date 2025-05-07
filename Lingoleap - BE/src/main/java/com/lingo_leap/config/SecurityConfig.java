@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/open/**", "/build/**", "/at/download/**", "/word/random/**", "/login/**", "/register/**", "/refresh-token/**").permitAll()
+                        .requestMatchers( "/build/**", "/at/download/**", "/word/random/**", "/login/**", "/register/**", "/refresh-token/**").permitAll()
                         .requestMatchers("/admin_only/**", "/word/**" ,"/at/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
