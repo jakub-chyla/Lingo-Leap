@@ -27,21 +27,14 @@ public class WordController {
     @GetMapping
     public ResponseEntity<List<WordDto>> findAll() {
         List<WordDto> words = wordService.findAll();
-        if (words.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(words);
-        }
+        return words.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(words);
     }
 
     @GetMapping("/random")
     public ResponseEntity<List<WordDto>> getRandom() {
         List<WordDto> randomWords = wordService.getRandomWords();
-        if (randomWords.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(randomWords);
-        }
+        return randomWords.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(randomWords);
+
     }
 
     @DeleteMapping("/{id}")
