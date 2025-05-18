@@ -27,12 +27,12 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 })
 export class TopBarComponent implements OnInit {
   user?: User | null;
-  isAdmin= false;
+  isAdmin = false;
   darkMode = false;
 
-  constructor(private router: Router,
-              private userService: UserService,
-) {
+  constructor(private readonly router: Router,
+              private readonly userService: UserService,
+  ) {
   }
 
   ngOnInit() {
@@ -40,7 +40,7 @@ export class TopBarComponent implements OnInit {
     this.userService.refreshToken().subscribe();
 
     this.userService.user$.subscribe((user) => {
-      if(user) {
+      if (user) {
         this.user = user;
         this.isAdmin = user?.isAdmin();
       }
@@ -52,11 +52,11 @@ export class TopBarComponent implements OnInit {
     });
   }
 
-  logOut() {
+  protected logOut() {
     this.userService.logOut();
   }
 
-  switchMode(): void {
+  protected switchMode(): void {
     const body = document.body;
     this.darkMode = !this.darkMode;
     if (this.darkMode) {
@@ -66,23 +66,23 @@ export class TopBarComponent implements OnInit {
     }
   }
 
-  navigateToLogin(): void {
+  protected navigateToLogin(): void {
     this.router.navigate(['/log-in']);
   }
 
-  navigateToMain(): void {
+  protected navigateToMain(): void {
     this.router.navigate(['/main']);
   }
 
-  navigateToPricing(): void {
+  protected navigateToPricing(): void {
     this.router.navigate(['/pricing']);
   }
 
-  navigateToAbout(): void {
+  protected navigateToAbout(): void {
     this.router.navigate(['/about']);
   }
 
-  navigateToAdmin(): void {
+  protected navigateToAdmin(): void {
     this.router.navigate(['/admin']);
   }
 }

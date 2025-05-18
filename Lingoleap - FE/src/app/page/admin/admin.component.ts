@@ -69,10 +69,10 @@ export class AdminComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private attachmentService: AttachmentService,
-              private formBuilder: FormBuilder,
-              private router: Router,
-              private wordService: WordService) {
+  constructor(private readonly attachmentService: AttachmentService,
+              private readonly formBuilder: FormBuilder,
+              private readonly router: Router,
+              private readonly wordService: WordService) {
   }
 
   ngOnInit() {
@@ -88,7 +88,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  getAllWords() {
+  private getAllWords() {
     this.wordService.getAllWords().subscribe((data) => {
       this.wordsList = data;
       this.dataSource = new MatTableDataSource(this.wordsList);
@@ -107,7 +107,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
   }
 
 
-  applyFilter(event: Event) {
+  protected applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -127,7 +127,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
     }
   }
 
-  add() {
+  protected add() {
     if (this.myForm.valid) {
       const word: Word = {
         english: this.myForm.get('english')?.value,
@@ -147,7 +147,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
     }
   }
 
-  upload(wordId: number, language: Language) {
+  protected upload(wordId: number, language: Language) {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.mp3';
@@ -178,11 +178,11 @@ export class AdminComponent implements OnInit, AfterViewInit {
     };
   }
 
-  navigateToMain(): void {
+  protected navigateToMain(): void {
     this.router.navigate(['/main']);
   }
 
-  deleteWordById(id: number): void {
+  protected deleteWordById(id: number): void {
     this.wordService.deleteWordById(id.toString()).subscribe((response) => {
       const index = this.wordsList.findIndex(word => word.id === response);
       if (index !== -1) {
@@ -193,7 +193,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
 
   }
 
-  deleteAttachmentById(word: Word, language: Language): void {
+  protected deleteAttachmentById(word: Word, language: Language): void {
     const attachment = language === Language.ENGLISH ? word.englishAttachment : word.polishAttachment;
     if (attachment && attachment.id) {
       const attachmentId = attachment.id;
@@ -213,9 +213,6 @@ export class AdminComponent implements OnInit, AfterViewInit {
       });
     }
   }
-
-
-
 
   protected readonly Language = Language;
 }

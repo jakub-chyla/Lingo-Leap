@@ -36,10 +36,9 @@ export class SignInComponent implements OnInit {
   myForm!: FormGroup;
   loading = false;
 
-  constructor(private formBuilder: FormBuilder,
-              private userService:UserService,
-              private router: Router
-
+  constructor(private readonly formBuilder: FormBuilder,
+              private readonly userService: UserService,
+              private readonly router: Router
   ) {
   }
 
@@ -47,11 +46,11 @@ export class SignInComponent implements OnInit {
     this.myForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(9)]],
       password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(9)]],
-      email: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(30) ]]
+      email: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]]
     });
   }
 
-  signIn() {
+  protected signIn() {
     if (this.myForm.valid) {
       this.loading = true;
       const authRequest: AuthRequest = {
@@ -60,19 +59,19 @@ export class SignInComponent implements OnInit {
         email: this.myForm.get('email')?.value
       }
 
-      this.userService.createUser(authRequest).subscribe(() =>{
-        this.navigateToLogin();
+      this.userService.createUser(authRequest).subscribe(() => {
+          this.navigateToLogin();
           this.loading = false;
         },
       );
     }
   }
 
-  navigateToLogin(): void {
+  protected navigateToLogin(): void {
     this.router.navigate(['/log-in']);
   }
 
-  navigateToLMain(): void {
+  protected navigateToLMain(): void {
     this.router.navigate(['/main']);
   }
 

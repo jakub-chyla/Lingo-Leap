@@ -12,35 +12,9 @@ import {AuthHelper} from "../shared/auth-helper";
 })
 export class AttachmentService {
   domain = environment.domain;
-  audio = new Audio();
 
   constructor(private httpClient: HttpClient) {
   }
-
-  uploadFile(wordId: string, language: Language) {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.mp3';
-    input.click();
-
-    input.onchange = () => {
-      if (input.files && input.files.length > 0) {
-        const selectedFile = input.files[0];
-        this.upload(wordId, language, selectedFile).subscribe({
-          next: (response) => console.log('Upload successful:', response),
-          error: (err) => console.error('Upload failed:', err)
-        });
-      }
-    };
-  }
-
-  // downloadFile() {
-  //   this.download().subscribe((blob) => {
-  //     let objectUrl = URL.createObjectURL(blob);
-  //     this.audio.src = objectUrl;
-  //     this.audio.play();
-  //   });
-  // }
 
   download(wordId: string): Observable<Blob> {
     return this.httpClient.get(this.domain + ATTACHMENT + `/download/${wordId}`, {

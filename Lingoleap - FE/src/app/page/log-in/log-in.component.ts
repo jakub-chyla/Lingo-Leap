@@ -28,28 +28,28 @@ import {SnackBarComponent} from "../../snack-bar/snack-bar.component";
 @Component({
   selector: 'app-log-in',
   standalone: true,
-    imports: [
-        MatCard,
-        MatButton,
-        MatCardContent,
-        MatCardFooter,
-        ReactiveFormsModule,
-        MatFormField,
-        MatInput,
+  imports: [
+    MatCard,
+    MatButton,
+    MatCardContent,
+    MatCardFooter,
+    ReactiveFormsModule,
+    MatFormField,
+    MatInput,
 
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        MatCardModule,
-        MatDividerModule,
-        CommonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatDatepickerModule,
-        MatProgressSpinner
-    ],
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatCardModule,
+    MatDividerModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatProgressSpinner
+  ],
   templateUrl: './log-in.component.html',
   styleUrl: './log-in.component.scss'
 })
@@ -70,9 +70,9 @@ export class LogInComponent implements OnInit {
     this.navigateToMain();
   }
 
-  constructor(private formBuilder: FormBuilder,
-              private router: Router,
-              private userService: UserService
+  constructor(private readonly formBuilder: FormBuilder,
+              private readonly router: Router,
+              private readonly userService: UserService
   ) {
   }
 
@@ -89,7 +89,7 @@ export class LogInComponent implements OnInit {
     });
   }
 
-  logIn(): void {
+  protected logIn(): void {
     if (this.myForm.valid) {
       this.loading = true;
       const authRequest: AuthRequest = {
@@ -109,17 +109,17 @@ export class LogInComponent implements OnInit {
     }
   }
 
-  openSnackBar() {
+  private openSnackBar() {
     this._snackBar.openFromComponent(SnackBarComponent, {
       duration: this.durationInSeconds * 1000,
     });
   }
 
-  navigateToMain(): void {
+  protected navigateToMain(): void {
     this.router.navigate(['/main']);
   }
 
-  navigateToSingIn(): void {
+  protected navigateToSingIn(): void {
     this.router.navigate(['/sign-in']);
   }
 

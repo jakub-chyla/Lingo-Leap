@@ -1,5 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
+import {Component, OnInit} from '@angular/core';
 import {Word} from "../../model/word";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent} from "@angular/material/card";
@@ -11,6 +10,7 @@ import {WordService} from "../../service/word.service";
 import {Progress} from "../../model/progress";
 import {StorageService} from "../../service/storage.service";
 import {MatProgressBar} from "@angular/material/progress-bar";
+import {Attachment} from "../../model/attachment";
 
 
 @Component({
@@ -34,7 +34,6 @@ export class MainComponent implements OnInit {
   answers: string[] = [];
   currentWord!: Word;
   displayWord = '';
-  readonly dialog = inject(MatDialog);
   correctAnswerCounter: number = 0;
   inCorrectAnswerCounter: number = 0;
   startCount: number = 3;
@@ -46,8 +45,6 @@ export class MainComponent implements OnInit {
   newShuffle = false;
   buttonStatuses: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
   englishToPolish = true;
-  readPolish = true;
-  readEnglish = true;
   audio = new Audio();
   progressValue = 0;
   buttonRows: number[][] = [
@@ -56,9 +53,9 @@ export class MainComponent implements OnInit {
     [6, 7, 8]
   ];
 
-  constructor(private attachmentService: AttachmentService,
-              private wordService: WordService,
-              private storageService: StorageService) {
+  constructor(private readonly attachmentService: AttachmentService,
+              private readonly wordService: WordService,
+              private readonly storageService: StorageService) {
   }
 
   ngOnInit() {
@@ -67,12 +64,12 @@ export class MainComponent implements OnInit {
     this.getCount();
   }
 
-  getRandom() {
+  protected getRandom() {
     this.setRandLanguage();
     this.getWord()
   }
 
-  getCount() {
+  private getCount() {
     const progress = this.storageService.getProgress();
     if (!progress) return;
 
@@ -85,7 +82,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  getWord() {
+  private getWord() {
     this.wordService.getRandomWords().subscribe((words: Word[]) => {
       this.currentWord = words[0];
 
@@ -95,56 +92,50 @@ export class MainComponent implements OnInit {
     this.newShuffle = true;
   }
 
-  setWords(words: Word[]){
-    if (this.englishToPolish) {
-      this.answers = words.slice(0, 9).map(word => word.polish);
-      this.justifyAnswers();
-      this.clearButtonsState();
-      if (this.currentWord.englishAttachment && this.currentWord.englishAttachment.id) {
-        this.displayWord = this.currentWord.english;
+  private setWords(words: Word[]) {
+    const isEnglishToPolish = this.englishToPolish;
+    const answerKey = isEnglishToPolish ? 'polish' : 'english';
+    const attachmentKey = isEnglishToPolish ? 'englishAttachment' : 'polishAttachment';
+    const displayKey = isEnglishToPolish ? 'english' : 'polish';
 
-      }
-    }
-    if (!this.englishToPolish) {
-      this.answers = words.slice(0, 9).map(word => word.english);
-      this.justifyAnswers();
-      this.clearButtonsState();
-      if (this.currentWord.polishAttachment && this.currentWord.polishAttachment.id) {
-        this.displayWord = this.currentWord.polish;
-      }
+    this.answers = words.slice(0, 9).map(word => word[answerKey]);
+    this.justifyAnswers();
+    this.clearButtonsState();
+
+    const attachment = this.currentWord[attachmentKey];
+    if (attachment && attachment.id) {
+      this.displayWord = this.currentWord[displayKey];
     }
   }
 
-  getSounds() {
-    this.attachmentService.download(this.currentWord.englishAttachment!.id!.toString()).subscribe((blob) => {
-      this.convertBlobToUint8Array(blob, (data) => {
-        if (data) {
-          this.currentWord.polishAttachment!.data = data;
-          if (this.autoRead) {
-            this.readQuestion();
-          }
-        }
-      });
-    });
-    this.attachmentService.download(this.currentWord.polishAttachment!.id!.toString()).subscribe((blob) => {
-      this.convertBlobToUint8Array(blob, (data) => {
-        if (data) {
-          this.currentWord.englishAttachment!.data = data;
-          if (this.autoRead) {
-            this.readQuestion();
-          }
-        }
-      });
-    });
+  private getSounds() {
+    this.download(this.currentWord.englishAttachment!, 'polishAttachment');
+    this.download(this.currentWord.polishAttachment!, 'englishAttachment');
   }
 
-  clearButtonsState() {
+  private download(attachment: Attachment, targetKey: 'englishAttachment' | 'polishAttachment') {
+    if (attachment?.id) {
+      this.attachmentService.download(attachment.id.toString()).subscribe((blob) => {
+        this.convertBlobToUint8Array(blob, (data) => {
+          if (data) {
+            const targetAttachment = this.currentWord[targetKey] as Attachment;
+            targetAttachment.data = data;
+            if (this.autoRead) {
+              this.readQuestion();
+            }
+          }
+        });
+      });
+    }
+  }
+
+  private clearButtonsState() {
     for (let i = 0; i < this.buttonStatuses.length; i++) {
       this.buttonStatuses[i] = 0;
     }
   }
 
-  convertBlobToUint8Array(blob: Blob, callback: (data: Uint8Array | null) => void): void {
+  private convertBlobToUint8Array(blob: Blob, callback: (data: Uint8Array | null) => void): void {
     const reader = new FileReader();
     reader.onloadend = () => {
       if (reader.result instanceof ArrayBuffer) {
@@ -157,7 +148,7 @@ export class MainComponent implements OnInit {
     reader.readAsArrayBuffer(blob);
   }
 
-  playSound(data: Uint8Array) {
+  private playSound(data: Uint8Array) {
     const blob = new Blob([data], {type: 'audio/mp3'});
     let objectUrl = URL.createObjectURL(blob);
     this.audio.src = objectUrl;
@@ -175,7 +166,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  saveAnswers() {
+  private saveAnswers() {
     const today = new Date().toISOString().split('T')[0]; // Formats as "YYYY-MM-DD"
 
     const progress: Progress = {
@@ -186,20 +177,20 @@ export class MainComponent implements OnInit {
     this.storageService.saveObject(progress);
   }
 
-  getRandomIndex(length: number): number {
+  private getRandomIndex(length: number): number {
     return Math.floor(Math.random() * length);
   }
 
-  setRandLanguage() {
+  private setRandLanguage() {
     this.englishToPolish = this.getRandomIndex(100) % 2 === 0;
   }
 
-  settingChanged() {
+  protected settingChanged() {
     localStorage.setItem('autoNext', String(this.autoNext));
     localStorage.setItem('autoRead', String(this.autoRead));
   }
 
-  countdownAfterAnswer() {
+  private countdownAfterAnswer() {
     this.count = this.startCount;
     const interval = setInterval(() => {
       if (this.count > 0) {
@@ -211,12 +202,12 @@ export class MainComponent implements OnInit {
     }, 400);
   }
 
-  justifyAnswers() {
+  private justifyAnswers() {
     const sortAnswer = this.answers.sort((a, b) => a.length - b.length);
     this.answers = [sortAnswer[0], sortAnswer[3], sortAnswer[8], sortAnswer[1], sortAnswer[4], sortAnswer[7], sortAnswer[2], sortAnswer[5], sortAnswer[6]];
   }
 
-  readQuestion() {
+  protected readQuestion() {
     if (this.englishToPolish) {
       this.playSound(this.currentWord!.polishAttachment!.data!);
     } else {
@@ -224,7 +215,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  readAnswer() {
+  private readAnswer() {
     if (this.englishToPolish) {
       this.playSound(this.currentWord!.englishAttachment!.data!);
     } else {
@@ -232,7 +223,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  checkAnswer(answer: string, clickedButton: number) {
+  protected checkAnswer(answer: string, clickedButton: number) {
     if (this.newShuffle) {
       this.readAnswer();
       const currentWord = this.englishToPolish ? this.currentWord.polish : this.currentWord.english;
@@ -256,7 +247,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  updateButtonState(correctIndex: number, clickedButton: number) {
+  private updateButtonState(correctIndex: number, clickedButton: number) {
     for (let i = 0; i < this.buttonStatuses.length; i++) {
       if (i === correctIndex) {
         this.buttonStatuses[i] = 1; // Correct answer
@@ -268,7 +259,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  countAnswer(answer: string) {
+  private countAnswer(answer: string) {
     const currentWord = this.englishToPolish ? this.currentWord.polish : this.currentWord.english;
 
     if (currentWord === answer) {
@@ -280,7 +271,7 @@ export class MainComponent implements OnInit {
     this.saveAnswers();
   }
 
-  setProgressBarValue() {
+  private setProgressBarValue() {
     this.progressValue = this.progressValue + 25;
     if (this.progressValue === 100) {
       this.progressValue = 0;
@@ -288,7 +279,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  settingsToggle() {
+  protected settingsToggle() {
     this.settings = !this.settings;
   }
 }
