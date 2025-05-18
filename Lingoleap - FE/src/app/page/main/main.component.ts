@@ -46,7 +46,7 @@ export class MainComponent implements OnInit {
   newShuffle = false;
   buttonStatuses: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
   englishToPolish = true;
-  readPolish = false;
+  readPolish = true;
   readEnglish = true;
   audio = new Audio();
   progressValue = 0;
@@ -86,47 +86,56 @@ export class MainComponent implements OnInit {
   }
 
   getWord() {
-    this.wordService.getRandomWords().subscribe((res: Word[]) => {
-      this.currentWord = res[0];
+    this.wordService.getRandomWords().subscribe((words: Word[]) => {
+      this.currentWord = words[0];
 
-      if (this.englishToPolish) {
-        this.answers = res.slice(0, 9).map(word => word.polish);
-        this.justifyAnswers();
-        this.clearButtonsState();
-        if (this.currentWord.englishAttachment && this.currentWord.englishAttachment.id) {
-          this.displayWord = this.currentWord.english;
-          this.attachmentService.download(this.currentWord.englishAttachment.id.toString()).subscribe((blob) => {
-            this.convertBlobToUint8Array(blob, (data) => {
-              if (data) {
-                this.currentWord.polishAttachment!.data = data;
-                if (this.autoRead) {
-                  this.playSound(this.currentWord!.polishAttachment!.data!);
-                }
-              }
-            });
-          });
-        }
-      }
-      if (!this.englishToPolish) {
-        this.answers = res.slice(0, 9).map(word => word.english);
-        this.justifyAnswers();
-        this.clearButtonsState();
-        if (this.currentWord.polishAttachment && this.currentWord.polishAttachment.id) {
-          this.displayWord = this.currentWord.polish;
-          this.attachmentService.download(this.currentWord.polishAttachment.id.toString()).subscribe((blob) => {
-            this.convertBlobToUint8Array(blob, (data) => {
-              if (data) {
-                this.currentWord.englishAttachment!.data = data;
-                if (this.autoRead) {
-                  this.playSound(this.currentWord!.englishAttachment!.data!);
-                }
-              }
-            });
-          });
-        }
-      }
+      this.setWords(words);
+      this.getSounds();
     });
     this.newShuffle = true;
+  }
+
+  setWords(words: Word[]){
+    if (this.englishToPolish) {
+      this.answers = words.slice(0, 9).map(word => word.polish);
+      this.justifyAnswers();
+      this.clearButtonsState();
+      if (this.currentWord.englishAttachment && this.currentWord.englishAttachment.id) {
+        this.displayWord = this.currentWord.english;
+
+      }
+    }
+    if (!this.englishToPolish) {
+      this.answers = words.slice(0, 9).map(word => word.english);
+      this.justifyAnswers();
+      this.clearButtonsState();
+      if (this.currentWord.polishAttachment && this.currentWord.polishAttachment.id) {
+        this.displayWord = this.currentWord.polish;
+      }
+    }
+  }
+
+  getSounds() {
+    this.attachmentService.download(this.currentWord.englishAttachment!.id!.toString()).subscribe((blob) => {
+      this.convertBlobToUint8Array(blob, (data) => {
+        if (data) {
+          this.currentWord.polishAttachment!.data = data;
+          if (this.autoRead) {
+            this.readQuestion();
+          }
+        }
+      });
+    });
+    this.attachmentService.download(this.currentWord.polishAttachment!.id!.toString()).subscribe((blob) => {
+      this.convertBlobToUint8Array(blob, (data) => {
+        if (data) {
+          this.currentWord.englishAttachment!.data = data;
+          if (this.autoRead) {
+            this.readQuestion();
+          }
+        }
+      });
+    });
   }
 
   clearButtonsState() {
@@ -190,19 +199,6 @@ export class MainComponent implements OnInit {
     localStorage.setItem('autoRead', String(this.autoRead));
   }
 
-  countdownAfterShuffle() {
-    this.count = this.startCount;
-    this.isLoading = true;
-    const interval = setInterval(() => {
-      if (this.count > 0) {
-        this.count--;
-      } else {
-        clearInterval(interval);
-        this.isLoading = false;
-      }
-    }, 800);
-  }
-
   countdownAfterAnswer() {
     this.count = this.startCount;
     const interval = setInterval(() => {
@@ -220,7 +216,7 @@ export class MainComponent implements OnInit {
     this.answers = [sortAnswer[0], sortAnswer[3], sortAnswer[8], sortAnswer[1], sortAnswer[4], sortAnswer[7], sortAnswer[2], sortAnswer[5], sortAnswer[6]];
   }
 
-  readText() {
+  readQuestion() {
     if (this.englishToPolish) {
       this.playSound(this.currentWord!.polishAttachment!.data!);
     } else {
@@ -228,12 +224,17 @@ export class MainComponent implements OnInit {
     }
   }
 
+  readAnswer() {
+    if (this.englishToPolish) {
+      this.playSound(this.currentWord!.englishAttachment!.data!);
+    } else {
+      this.playSound(this.currentWord!.polishAttachment!.data!);
+    }
+  }
+
   checkAnswer(answer: string, clickedButton: number) {
     if (this.newShuffle) {
-
-      if (this.autoRead) {
-        this.readText();
-      }
+      this.readAnswer();
       const currentWord = this.englishToPolish ? this.currentWord.polish : this.currentWord.english;
       const isCorrect = (word: string, answer: string) => word === answer;
 
