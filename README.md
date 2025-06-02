@@ -10,7 +10,7 @@
 
 ## General info
 
-Link to deployed application >>> http://srv10.mikr.us:30201/main <<<
+Link to deployed application >>> https://www.lingoleap.com.pl/main <<<
 
 Lingo Leap – A Gamified Approach to Language Learning
 
