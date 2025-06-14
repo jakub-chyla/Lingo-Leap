@@ -78,8 +78,8 @@ export class AdminComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.settingInit();
     this.myForm = this.formBuilder.group({
-      polish: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
-      english: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
+      polish: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
+      english: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
     });
     this.getAllWords()
   }
