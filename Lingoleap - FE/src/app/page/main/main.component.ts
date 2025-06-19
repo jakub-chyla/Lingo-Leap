@@ -40,7 +40,7 @@ export class MainComponent implements OnInit {
   count!: number;
   settings = false;
   autoNext = true;
-  autoRead = false;
+  autoRead = true;
   isLoading = false;
   newShuffle = false;
   buttonStatuses: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
