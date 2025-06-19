@@ -31,7 +31,7 @@
     <mat-card-footer>
       <div class="flex justify-center">
         <div class="pr-[55px]">
-          <button mat-raised-button color="primary" (click)="navigateToSingIn()" [disabled]="loading">Sign in</button>
+          <button mat-stroked-button color="primary" (click)="navigateToSingIn()" [disabled]="loading">Sign in</button>
         </div>
         <div>
           <ng-container *ngIf="!loading; else loadingTemplate">
