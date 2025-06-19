@@ -86,7 +86,6 @@ export class UserService {
     localStorage.removeItem('token');
     localStorage.removeItem('refresh_token');
     this.emitUser(this.user);
-
   }
 
   emitUser(user: User) {
