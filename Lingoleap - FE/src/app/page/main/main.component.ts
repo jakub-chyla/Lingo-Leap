@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Word} from "../../model/word";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent} from "@angular/material/card";
@@ -34,7 +34,8 @@ import {StorageKey} from "../../enum/storage-key";
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, AfterViewInit {
+  @ViewChild('spotlightDiv') spotlightDiv!: ElementRef;
   user?: User | null;
   answers: string[] = [];
   currentWord!: Word;
@@ -73,6 +74,16 @@ export class MainComponent implements OnInit {
     this.userService.user$.subscribe((user) => {
       this.user = user;
     });
+  }
+
+  ngAfterViewInit() {
+    // Add the spotlight effect on init
+    this.spotlightDiv.nativeElement.classList.add('spotlight');
+
+    // Optional: remove spotlight after a few seconds
+    setTimeout(() => {
+      this.spotlightDiv.nativeElement.classList.remove('spotlight');
+    }, 5000);
   }
 
   getUser() {

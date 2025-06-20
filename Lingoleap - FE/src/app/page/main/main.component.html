@@ -15,7 +15,7 @@
           <mat-progress-bar mode="determinate" color="accent" [value]="progressValue"></mat-progress-bar>
         </div>
       </div>
-      <div>
+      <div #spotlightDiv>
         <span *ngIf="settings" class="material-icons settings-close" (click)="settingsToggle()">close</span>
         <span *ngIf="!settings" class="material-icons settings-open" (click)="settingsToggle()">settings</span>
       </div>
