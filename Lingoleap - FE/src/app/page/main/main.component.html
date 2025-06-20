@@ -2,11 +2,16 @@
   <mat-card class="card" appearance="outlined">
     <div class="flex justify-between gap-2 pb-2">
       <div>
-        <div>
-          <span class="font-bold text-[12px] green-text">{{ correctAnswerCounter }}</span> /
-          <span class="font-bold text-[12px] red-text">{{ inCorrectAnswerCounter }}</span>
+        <div class="flex justify-between gap-0.5 items-end">
+          <div class="font-bold text-[16px] green-text">
+            <span>{{ correctAnswerCounter }}</span>
+          </div>
+          <div class="text-[10px] mb-[-2px]"> /</div>
+          <div class="text-[10px] mb-[-2px]">
+            <span>{{ allAnswerCounter }}</span>
+          </div>
         </div>
-        <div>
+        <div *ngIf="user?.username">
           <mat-progress-bar mode="determinate" color="accent" [value]="progressValue"></mat-progress-bar>
         </div>
       </div>

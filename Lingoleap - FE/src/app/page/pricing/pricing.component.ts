@@ -46,8 +46,11 @@ export class PricingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.refreshToken().subscribe();
+    // this.userService.refreshToken().subscribe();
+    this.getUser();
+  }
 
+  getUser(){
     this.userService.user$.subscribe((user) => {
       this.user = user;
     });

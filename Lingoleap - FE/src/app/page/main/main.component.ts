@@ -11,6 +11,10 @@ import {Progress} from "../../model/progress";
 import {StorageService} from "../../service/storage.service";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {Attachment} from "../../model/attachment";
+import {UserService} from "../../service/user.service";
+import {User} from "../../model/user";
+import {Settings} from "../../model/settings";
+import {StorageKey} from "../../enum/storage-key";
 
 
 @Component({
@@ -31,11 +35,13 @@ import {Attachment} from "../../model/attachment";
   styleUrl: './main.component.scss'
 })
 export class MainComponent implements OnInit {
+  user?: User | null;
   answers: string[] = [];
   currentWord!: Word;
   displayWord = '';
   correctAnswerCounter: number = 0;
   inCorrectAnswerCounter: number = 0;
+  allAnswerCounter: number = 0;
   startCount: number = 3;
   count!: number;
   settings = false;
@@ -55,13 +61,24 @@ export class MainComponent implements OnInit {
 
   constructor(private readonly attachmentService: AttachmentService,
               private readonly wordService: WordService,
+              private readonly userService: UserService,
               private readonly storageService: StorageService) {
   }
 
   ngOnInit() {
+    this.getUser();
     this.settingInit();
     this.getRandom();
     this.getCount();
+    this.userService.user$.subscribe((user) => {
+      this.user = user;
+    });
+  }
+
+  getUser() {
+    this.userService.user$.subscribe((user) => {
+      this.user = user;
+    });
   }
 
   protected getRandom() {
@@ -71,10 +88,11 @@ export class MainComponent implements OnInit {
 
   private getCount() {
     const progress = this.storageService.getProgress();
-    if (!progress) return;
 
+    if (!progress) return;
     this.correctAnswerCounter = progress.correct;
     this.inCorrectAnswerCounter = progress.inCorrect;
+    this.allAnswerCounter = progress.allAnswerCounter;
 
     const today = new Date().toISOString().split('T')[0];
     if (today > progress.date) {
@@ -156,25 +174,28 @@ export class MainComponent implements OnInit {
   }
 
   private settingInit() {
-    const storedAutoNext = localStorage.getItem('autoNext');
-    if (storedAutoNext !== null) {
-      this.autoNext = storedAutoNext === 'true';
-    }
-    const storedAutoRead = localStorage.getItem('autoRead');
-    if (storedAutoRead !== null) {
-      this.autoRead = storedAutoRead === 'true';
-    }
+    const settings = this.storageService.getSettings();
+    if (!settings) return;
+    this.autoNext = settings.autoNext;
+    this.autoRead = settings.autoRead;
   }
 
   private saveAnswers() {
     const today = new Date().toISOString().split('T')[0]; // Formats as "YYYY-MM-DD"
 
+    let username = ''
+    if(this.user?.username){
+      username = this.user?.username;
+    }
+
     const progress: Progress = {
+      username: username,
       correct: this.correctAnswerCounter,
       inCorrect: this.inCorrectAnswerCounter,
+      allAnswerCounter: this.allAnswerCounter,
       date: today
     };
-    this.storageService.saveObject(progress);
+    this.storageService.saveObject(StorageKey.Progress, progress);
   }
 
   private getRandomIndex(length: number): number {
@@ -186,8 +207,15 @@ export class MainComponent implements OnInit {
   }
 
   protected settingChanged() {
-    localStorage.setItem('autoNext', String(this.autoNext));
-    localStorage.setItem('autoRead', String(this.autoRead));
+    this.setSettings();
+  }
+
+  setSettings() {
+    const settings: Settings = {
+      autoNext: this.autoNext,
+      autoRead: this.autoRead
+    };
+    this.storageService.saveObject(StorageKey.Settings, settings);
   }
 
   private countdownAfterAnswer() {
@@ -268,6 +296,7 @@ export class MainComponent implements OnInit {
       this.inCorrectAnswerCounter++;
       this.setProgressBarValue()
     }
+    this.allAnswerCounter++;
     this.saveAnswers();
   }
 
