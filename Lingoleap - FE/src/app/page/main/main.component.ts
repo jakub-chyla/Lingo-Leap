@@ -227,7 +227,7 @@ export class MainComponent implements OnInit {
         clearInterval(interval);
         this.getRandom();
       }
-    }, 400);
+    }, 500);
   }
 
   private justifyAnswers() {
@@ -256,20 +256,19 @@ export class MainComponent implements OnInit {
       this.readAnswer();
       const currentWord = this.englishToPolish ? this.currentWord.polish : this.currentWord.english;
       const isCorrect = (word: string, answer: string) => word === answer;
-
       for (let i = 0; i < this.answers.length; i++) {
         if (isCorrect(currentWord, this.answers[i])) {
           this.updateButtonState(i, clickedButton);
           break;
         }
       }
-
       if (this.newShuffle) {
         this.countAnswer(answer);
         this.newShuffle = false;
       }
 
       if (this.autoNext) {
+        console.log('here')
         this.countdownAfterAnswer();
       }
     }

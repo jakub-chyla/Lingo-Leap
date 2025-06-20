@@ -5,7 +5,7 @@ import {SignInComponent} from "./page/sign-in/sign-in.component";
 import {AdminComponent} from "./page/admin/admin.component";
 import {AboutComponent} from "./page/about/about.component";
 import {PricingComponent} from "./page/pricing/pricing.component";
-import {Role} from "./enum/Role";
+import {Role} from "./enum/role";
 import {AuthGuard} from "./AuthGuard";
 
 export const routes: Routes = [
