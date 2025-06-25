@@ -36,6 +36,7 @@ import {StorageKey} from "../../enum/storage-key";
 })
 export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild('spotlightDiv') spotlightDiv!: ElementRef;
+  showSpotlight = true;
   user?: User | null;
   answers: string[] = [];
   currentWord!: Word;
@@ -77,12 +78,15 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Add the spotlight effect on init
-    this.spotlightDiv.nativeElement.classList.add('spotlight');
+    if (this.spotlightDiv) {
+      this.spotlightDiv.nativeElement.classList.add('spotlight-highlight');
+    }
 
-    // Optional: remove spotlight after a few seconds
     setTimeout(() => {
-      this.spotlightDiv.nativeElement.classList.remove('spotlight');
+      this.showSpotlight = false;
+      if (this.spotlightDiv) {
+        this.spotlightDiv.nativeElement.classList.remove('spotlight-highlight');
+      }
     }, 5000);
   }
 

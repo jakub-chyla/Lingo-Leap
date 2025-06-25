@@ -15,11 +15,14 @@
           <mat-progress-bar mode="determinate" color="accent" [value]="progressValue"></mat-progress-bar>
         </div>
       </div>
+
+      <!-- 🔆 Spotlight Target -->
       <div #spotlightDiv>
         <span *ngIf="settings" class="material-icons settings-close" (click)="settingsToggle()">close</span>
         <span *ngIf="!settings" class="material-icons settings-open" (click)="settingsToggle()">settings</span>
       </div>
     </div>
+
     <mat-card-content class="flex flex-col justify-between w-[30vw] min-w-[400px] h-[340px] !ml-[-20px] !mr-[-20px]">
       <ng-template [ngIf]="!settings">
         <ng-template [ngIf]="!englishToPolish">
@@ -36,14 +39,19 @@
         <ng-container *ngIf="!isLoading">
           <div class="flex justify-center gap-2 pt-[14px]" *ngFor="let row of buttonRows">
             <button *ngFor="let i of row" [disabled]="buttonStatuses[i] === 3" mat-raised-button
-                    [ngClass]="{'answer-button': buttonStatuses[i] === 0,'good-answer': buttonStatuses[i] === 1,
-                    'wrong-answer': buttonStatuses[i] === 2, 'disable-button': buttonStatuses[i] === 3}"
+                    [ngClass]="{
+                      'answer-button': buttonStatuses[i] === 0,
+                      'good-answer': buttonStatuses[i] === 1,
+                      'wrong-answer': buttonStatuses[i] === 2,
+                      'disable-button': buttonStatuses[i] === 3
+                    }"
                     (click)="checkAnswer(answers[i], i)">
               {{ answers[i] }}
             </button>
           </div>
         </ng-container>
       </ng-template>
+
       <ng-template [ngIf]="settings">
         <div class="word py-5">
           {{ 'auto next' }}
@@ -54,10 +62,10 @@
           <mat-slide-toggle [(ngModel)]="autoRead" (ngModelChange)="settingChanged()"></mat-slide-toggle>
         </div>
       </ng-template>
+
       <div *ngIf="!settings" class="flex justify-center gap-2 pt-[25px]">
         <div>
-          <button [disabled]="settings || isLoading" mat-raised-button color="accent" (click)="getRandom()">Shuffle
-          </button>
+          <button [disabled]="settings || isLoading" mat-raised-button color="accent" (click)="getRandom()">Shuffle</button>
         </div>
         <div>
           <button [disabled]="settings" mat-raised-button color="accent" (click)="readQuestion()">
@@ -68,3 +76,10 @@
     </mat-card-content>
   </mat-card>
 </div>
+
+<!-- 🔲 Spotlight Overlay -->
+<div *ngIf="showSpotlight" class="spotlight-overlay">
+  <div class="spotlight-backdrop"></div>
+  <div class="spotlight-message">{{ 'hello world' }}</div>
+</div>
+
