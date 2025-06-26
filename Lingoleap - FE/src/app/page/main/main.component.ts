@@ -15,6 +15,7 @@ import {UserService} from "../../service/user.service";
 import {User} from "../../model/user";
 import {Settings} from "../../model/settings";
 import {StorageKey} from "../../enum/storage-key";
+import {SoundService} from "../../service/sound.service";
 
 
 @Component({
@@ -62,7 +63,8 @@ export class MainComponent implements OnInit {
   constructor(private readonly attachmentService: AttachmentService,
               private readonly wordService: WordService,
               private readonly userService: UserService,
-              private readonly storageService: StorageService) {
+              private readonly storageService: StorageService,
+              private readonly soundService: SoundService) {
   }
 
   ngOnInit() {
@@ -166,23 +168,6 @@ export class MainComponent implements OnInit {
     reader.readAsArrayBuffer(blob);
   }
 
-  private playSound(data: Uint8Array) {
-    const blob = new Blob([data], { type: 'audio/mp3' });
-    const objectUrl = URL.createObjectURL(blob);
-
-    this.audio.pause();
-    this.audio.currentTime = 0;
-
-    this.audio.src = objectUrl;
-    this.audio.load();
-
-    this.audio.oncanplaythrough = () => {
-      this.audio.play().catch(err => {
-        console.warn('Audio playback error:', err);
-      });
-    };
-  }
-
   private settingInit() {
     const settings = this.storageService.getSettings();
     if (!settings) return;
@@ -247,17 +232,17 @@ export class MainComponent implements OnInit {
 
   protected readQuestion() {
     if (this.englishToPolish) {
-      this.playSound(this.currentWord!.polishAttachment!.data!);
+      this.soundService.playSound(this.currentWord.polishAttachment!.data!);
     } else {
-      this.playSound(this.currentWord!.englishAttachment!.data!);
+      this.soundService.playSound(this.currentWord.englishAttachment!.data!);
     }
   }
 
   private readAnswer() {
     if (this.englishToPolish) {
-      this.playSound(this.currentWord!.englishAttachment!.data!);
+      this.soundService.playSound(this.currentWord!.englishAttachment!.data!);
     } else {
-      this.playSound(this.currentWord!.polishAttachment!.data!);
+      this.soundService.playSound(this.currentWord!.polishAttachment!.data!);
     }
   }
 
@@ -278,7 +263,6 @@ export class MainComponent implements OnInit {
       }
 
       if (this.autoNext) {
-        console.log('here')
         this.countdownAfterAnswer();
       }
     }
