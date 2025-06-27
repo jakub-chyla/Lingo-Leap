@@ -52,7 +52,6 @@ export class MainComponent implements OnInit {
   newShuffle = false;
   buttonStatuses: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
   englishToPolish = true;
-  audio = new Audio();
   progressValue = 0;
   buttonRows: number[][] = [
     [0, 1, 2],
@@ -232,17 +231,17 @@ export class MainComponent implements OnInit {
 
   protected readQuestion() {
     if (this.englishToPolish) {
-      this.soundService.playSound(this.currentWord.polishAttachment!.data!);
+      this.soundService.playSoundWithId(this.currentWord.polishAttachment!.id! ,this.currentWord.polishAttachment!.data!);
     } else {
-      this.soundService.playSound(this.currentWord.englishAttachment!.data!);
+      this.soundService.playSoundWithId(this.currentWord.englishAttachment!.id!, this.currentWord.englishAttachment!.data!);
     }
   }
 
   private readAnswer() {
     if (this.englishToPolish) {
-      this.soundService.playSound(this.currentWord!.englishAttachment!.data!);
+      this.soundService.playSoundWithId(this.currentWord.englishAttachment!.id!,this.currentWord!.englishAttachment!.data!);
     } else {
-      this.soundService.playSound(this.currentWord!.polishAttachment!.data!);
+      this.soundService.playSoundWithId(this.currentWord.polishAttachment!.id!, this.currentWord!.polishAttachment!.data!);
     }
   }
 
