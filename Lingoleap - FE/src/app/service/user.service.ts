@@ -13,8 +13,6 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 export class UserService {
-  // domain = 'http://localhost:8080'
-  // domain = 'http://srv10.mikr.us:20201'
   domain = environment.domain;
   private userSource = new BehaviorSubject<User | null>(null);
   user$ = this.userSource.asObservable();
@@ -28,14 +26,6 @@ export class UserService {
     return this.httpClient.post(this.domain + REGISTER, authRequest, {
       responseType: 'text'
     });
-  }
-
-  demo(): Observable<string> {
-    return this.httpClient.get<string>(this.domain +'/demo', AuthHelper.getHeaderWithToken());
-  }
-
-  open(): Observable<string> {
-    return this.httpClient.get<string>(this.domain +'/open', AuthHelper.getHeaderWithToken());
   }
 
   private setUserData(response: AuthResponse): void {
