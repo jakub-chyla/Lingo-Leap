@@ -21,10 +21,10 @@ public interface AttachmentRepository extends JpaRepository<Attachment, Long> {
     @Query("SELECT a FROM Attachment a WHERE a.wordId = :wordId")
     List<Attachment> findByWordId(@Param("wordId") Long wordId);
 
-    @Query("SELECT new com.lingo_leap.dto.AttachmentDTO(a.id, a.fileName, a.wordId) FROM Attachment a")
+    @Query("SELECT new com.lingo_leap.dto.AttachmentDTO(a.id, a.fileName, a.wordId, a.language) FROM Attachment a")
     List<AttachmentDTO> findAllWithOutData();
 
-    @Query("SELECT new com.lingo_leap.dto.AttachmentDTO(a.id, a.fileName, a.wordId) FROM Attachment a WHERE a.wordId = :wordId AND a.language = :language")
+    @Query("SELECT new com.lingo_leap.dto.AttachmentDTO(a.id, a.fileName, a.wordId, a.language) FROM Attachment a WHERE a.wordId = :wordId AND a.language = :language")
     AttachmentDTO findByWordIdAndLanguageWithOutData(@Param("wordId") Long wordId, @Param("language") Language language);;
 
 }

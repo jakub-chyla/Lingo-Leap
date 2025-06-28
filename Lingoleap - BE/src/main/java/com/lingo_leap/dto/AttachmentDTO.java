@@ -1,5 +1,6 @@
 package com.lingo_leap.dto;
 
+import com.lingo_leap.enums.Language;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,4 +13,5 @@ public class AttachmentDTO {
     private Long id;
     private String fileName;
     private Long wordId;
+    private Language language;
 }

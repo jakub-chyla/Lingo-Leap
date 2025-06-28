@@ -5,6 +5,7 @@ import com.lingo_leap.dto.WordDto;
 import com.lingo_leap.model.Word;
 import lombok.experimental.UtilityClass;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,7 @@ public class Mapper {
 
         List<AttachmentDTO> filteredAttachments = attachments.stream()
                 .filter(a -> a.getWordId().equals(word.getId()))
+                .sorted(Comparator.comparing(AttachmentDTO::getLanguage))
                 .collect(Collectors.toList());
 
         if (!filteredAttachments.isEmpty()) {
