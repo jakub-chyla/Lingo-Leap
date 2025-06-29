@@ -2,6 +2,7 @@ package com.lingo_leap;
 
 import com.lingo_leap.dto.AttachmentDTO;
 import com.lingo_leap.dto.WordDto;
+import com.lingo_leap.enums.Language;
 import com.lingo_leap.model.Word;
 import com.lingo_leap.repository.WordRepository;
 import com.lingo_leap.service.AttachmentService;
@@ -56,8 +57,8 @@ class WordServiceTest {
         // Given
         Word word = new Word(1L, "Cześć","Hello");
 
-        AttachmentDTO attachment1 = new AttachmentDTO(1L,"hello.mp3",1L);
-        AttachmentDTO attachment2 = new AttachmentDTO(2L,"czesc.mp3",1L);
+        AttachmentDTO attachment1 = new AttachmentDTO(1L,"hello.mp3",1L, Language.ENGLISH);
+        AttachmentDTO attachment2 = new AttachmentDTO(2L,"czesc.mp3",1L, Language.POLISH);
         List<AttachmentDTO> attachments = List.of(attachment1, attachment2);
 
         // When
@@ -78,8 +79,8 @@ class WordServiceTest {
         Word word = new Word(1L, "Hello", "Cześć");
         List<Word> words = List.of(word);
 
-        AttachmentDTO attachment1 = new AttachmentDTO(1L, "hello.mp3", 1L);
-        AttachmentDTO attachment2 = new AttachmentDTO(2L, "czesc.mp3", 1L);
+        AttachmentDTO attachment1 = new AttachmentDTO(1L, "hello.mp3", 1L,Language.ENGLISH);
+        AttachmentDTO attachment2 = new AttachmentDTO(2L, "czesc.mp3", 1L, Language.POLISH);
         List<AttachmentDTO> attachments = List.of(attachment1, attachment2);
 
         //mock the calls

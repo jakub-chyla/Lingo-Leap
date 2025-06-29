@@ -20,7 +20,7 @@ public class AttachmentController {
     private final AttachmentService attachmentService;
 
     @PostMapping("/upload/{wordId}/{language}")
-    public ResponseEntity<Attachment> uploadFile(@PathVariable String wordId, @PathVariable Language language, @RequestParam("file") MultipartFile file) throws Exception {
+    public ResponseEntity<Attachment> uploadFile(@PathVariable Long wordId, @PathVariable Language language, @RequestParam("file") MultipartFile file) throws Exception {
         return ResponseEntity.ok(attachmentService.saveAttachment(wordId, language, file));
     }
 
