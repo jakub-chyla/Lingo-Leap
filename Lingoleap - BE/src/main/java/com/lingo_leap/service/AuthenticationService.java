@@ -49,7 +49,6 @@ public class AuthenticationService {
         saveUserToken(accessToken, refreshToken, user);
 
         return new AuthenticationResponse(accessToken, refreshToken, "User registration was successful");
-
     }
 
     public AuthenticationResponseDto authenticate(User request) {
@@ -76,7 +75,6 @@ public class AuthenticationService {
         authenticationResponseDto.setMessage(authenticationResponse.getMessage());
 
         return authenticationResponseDto;
-
     }
 
     private void revokeAllTokenByUser(User user) {
@@ -90,15 +88,6 @@ public class AuthenticationService {
         });
 
         tokenRepository.saveAll(validTokens);
-    }
-
-    private void saveUserToken(String accessToken, String refreshToken, User user) {
-        Token token = new Token();
-        token.setAccessToken(accessToken);
-        token.setRefreshToken(refreshToken);
-        token.setLoggedOut(false);
-        token.setUser(user);
-        tokenRepository.save(token);
     }
 
     public ResponseEntity refreshToken(
@@ -128,6 +117,14 @@ public class AuthenticationService {
         }
 
         return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+    }
 
+    private Token saveUserToken(String accessToken, String refreshToken, User user) {
+        Token token = new Token();
+        token.setAccessToken(accessToken);
+        token.setRefreshToken(refreshToken);
+        token.setLoggedOut(false);
+        token.setUser(user);
+        return tokenRepository.save(token);
     }
 }

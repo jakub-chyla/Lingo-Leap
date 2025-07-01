@@ -5,25 +5,8 @@ import {Injectable} from '@angular/core';
 })
 export class SoundService {
   private audio = new Audio();
-  private audioCache = new Map<string, Uint8Array>(); // key: attachment ID
 
-  private MAX_CACHE_SIZE = 4;
-
-  playSoundWithId(id: number, data: Uint8Array) {
-    const stringId = id.toString();
-    if (!this.audioCache.has(stringId)) {
-      if (this.audioCache.size >= this.MAX_CACHE_SIZE) {
-        const oldestKey = this.audioCache.keys().next().value;
-        this.audioCache.delete(oldestKey);
-      }
-      this.audioCache.set(stringId, data);
-    }
-
-    this.playSound(data);
-  }
-
-  private playSound(data: Uint8Array) {
-    const blob = new Blob([data], { type: 'audio/mp3' });
+  public playSound(blob: Blob) {
     const objectUrl = URL.createObjectURL(blob);
 
     this.audio.pause();
@@ -38,7 +21,4 @@ export class SoundService {
     };
   }
 
-  getCachedAudio(id: string): Uint8Array | null {
-    return this.audioCache.get(id) || null;
-  }
 }

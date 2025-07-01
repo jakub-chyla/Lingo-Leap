@@ -36,6 +36,10 @@ import {SoundService} from "../../service/sound.service";
   styleUrl: './main.component.scss'
 })
 export class MainComponent implements OnInit {
+  private MAX_CACHE_SIZE = 4;
+  private audioCache = new Map<string, Uint8Array>();
+  polishBlobSound = new Blob();
+  englishBlobSound = new Blob();
   user?: User | null;
   answers: string[] = [];
   currentWord!: Word;
@@ -139,6 +143,15 @@ export class MainComponent implements OnInit {
           if (data) {
             const targetAttachment = this.currentWord[targetKey] as Attachment;
             targetAttachment.data = data;
+            this.addToCache(attachment.id!.toString(), data);
+            const blobSound = new Blob([data], { type: 'audio/mp3' });
+
+            if (targetKey === 'polishAttachment') {
+              this.polishBlobSound = blobSound;
+            } else if (targetKey === 'englishAttachment') {
+              this.englishBlobSound = blobSound;
+            }
+
             if (this.autoRead) {
               this.readQuestion();
             }
@@ -146,6 +159,15 @@ export class MainComponent implements OnInit {
         });
       });
     }
+  }
+
+  private addToCache(key: string, data: Uint8Array) {
+    if (this.audioCache.size >= this.MAX_CACHE_SIZE) {
+      const oldestKey = this.audioCache.keys().next().value;
+      this.audioCache.delete(oldestKey);
+    }
+
+    this.audioCache.set(key, data);
   }
 
   private clearButtonsState() {
@@ -178,7 +200,7 @@ export class MainComponent implements OnInit {
     const today = new Date().toISOString().split('T')[0]; // Formats as "YYYY-MM-DD"
 
     let username = ''
-    if(this.user?.username){
+    if (this.user?.username) {
       username = this.user?.username;
     }
 
@@ -231,17 +253,17 @@ export class MainComponent implements OnInit {
 
   protected readQuestion() {
     if (this.englishToPolish) {
-      this.soundService.playSoundWithId(this.currentWord.polishAttachment!.id! ,this.currentWord.polishAttachment!.data!);
+      this.soundService.playSound(this.polishBlobSound);
     } else {
-      this.soundService.playSoundWithId(this.currentWord.englishAttachment!.id!, this.currentWord.englishAttachment!.data!);
+      this.soundService.playSound(this.englishBlobSound);
     }
   }
 
   private readAnswer() {
     if (this.englishToPolish) {
-      this.soundService.playSoundWithId(this.currentWord.englishAttachment!.id!,this.currentWord!.englishAttachment!.data!);
+      this.soundService.playSound(this.englishBlobSound);
     } else {
-      this.soundService.playSoundWithId(this.currentWord.polishAttachment!.id!, this.currentWord!.polishAttachment!.data!);
+      this.soundService.playSound(this.polishBlobSound);
     }
   }
 
@@ -303,4 +325,5 @@ export class MainComponent implements OnInit {
   protected settingsToggle() {
     this.settings = !this.settings;
   }
+
 }

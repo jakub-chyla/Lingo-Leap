@@ -2,13 +2,10 @@ package com.lingo_leap.service;
 
 import com.lingo_leap.model.Purchase;
 import com.lingo_leap.repository.PurchaseRepository;
-import com.stripe.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -29,7 +26,7 @@ public class PurchaseService {
         return LocalDateTime.now().isBefore(expiryDate);
     }
 
-    void buy(Long userId) {
+    public void buy(Long userId) {
         Purchase purchase = new Purchase();
         purchase.setUserId(userId);
         purchaseRepository.save(purchase);
