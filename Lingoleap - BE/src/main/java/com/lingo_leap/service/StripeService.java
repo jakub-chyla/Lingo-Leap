@@ -57,8 +57,7 @@ public class StripeService {
         Session session = null;
         try {
             session = Session.create(params);
-        } catch (StripeException e) {
-        }
+        } catch (StripeException e) {}
 
         return StripeResponse
                 .builder()

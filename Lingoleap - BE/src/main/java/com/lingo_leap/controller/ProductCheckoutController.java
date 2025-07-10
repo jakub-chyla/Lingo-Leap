@@ -19,7 +19,7 @@ public class ProductCheckoutController {
 
     @PostMapping("/checkout")
     public ResponseEntity<StripeResponse> checkoutProducts(@RequestBody ProductRequest productRequest) {
-        StripeResponse stripeResponse = stripeService.checkoutProducts(productRequest);
+        var stripeResponse = stripeService.checkoutProducts(productRequest);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(stripeResponse);
@@ -27,7 +27,7 @@ public class ProductCheckoutController {
 
     @GetMapping("/premium/{userId}")
     public ResponseEntity<Boolean> isPremium(@PathVariable Long userId) {
-        Boolean isPremium = purchaseService.isPremiumByLogin(userId);
+        var isPremium = purchaseService.isPremiumByLogin(userId);
         return ResponseEntity.ok(isPremium);
     }
 }

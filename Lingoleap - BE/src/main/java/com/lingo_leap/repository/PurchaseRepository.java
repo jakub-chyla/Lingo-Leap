@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
+    Optional<Purchase> findFirstByUserIdOrderByCreatedDesc(Long userId);
 
-    @Query("SELECT p FROM Purchase p WHERE p.userId = :userId")
-    List<Purchase> findLastPurchaseByUserId(Long userId);
 }

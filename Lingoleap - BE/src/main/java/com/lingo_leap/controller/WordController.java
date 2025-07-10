@@ -26,13 +26,13 @@ public class WordController {
 
     @GetMapping
     public ResponseEntity<List<WordDto>> findAll() {
-        List<WordDto> words = wordService.findAll();
+        var words = wordService.findAll();
         return words.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(words);
     }
 
     @GetMapping("/random")
     public ResponseEntity<List<WordDto>> getRandom() {
-        List<WordDto> randomWords = wordService.getRandomWords();
+        var randomWords = wordService.getRandomWords();
         return randomWords.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(randomWords);
 
     }

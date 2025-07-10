@@ -22,13 +22,13 @@ public class WordService {
     private final AttachmentService attachmentService;
 
     public List<WordDto> getRandomWords() {
-        List<Word> words = wordRepository.findRandomWords();
-        AttachmentDTO englishAttachment = attachmentService
+        var words = wordRepository.findRandomWords();
+        var englishAttachment = attachmentService
                 .findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.ENGLISH);
-        AttachmentDTO polishAttachment = attachmentService
+        var polishAttachment = attachmentService
                 .findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.POLISH);
 
-        List<WordDto> wordDtos =  words.stream()
+        var wordDtos =  words.stream()
                 .map(word -> Mapper.mapWordsNoAttachments(word ))
                 .collect(Collectors.toList());
 
@@ -42,8 +42,8 @@ public class WordService {
     }
 
     public List<WordDto> findAll() {
-        List<Word> words = wordRepository.findAllByOrderByEnglishAsc();
-        List<AttachmentDTO> attachments = attachmentService.findAll();
+        var words = wordRepository.findAllByOrderByEnglishAsc();
+        var attachments = attachmentService.findAll();
 
         return words.stream()
                 .map(word -> Mapper.mapWordWithAttachmentsName(word, attachments))

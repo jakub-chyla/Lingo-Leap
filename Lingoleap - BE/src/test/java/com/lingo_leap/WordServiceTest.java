@@ -35,7 +35,6 @@ class WordServiceTest {
 
     @Test
     void testMapWordsNoAttachments() {
-
         // Given
         Word word = new Word();
         word.setId(1L);
@@ -53,12 +52,11 @@ class WordServiceTest {
 
     @Test
     void testMapWordWithAttachmentsName() {
-
         // Given
-        Word word = new Word(1L, "Cześć","Hello");
+        Word word = new Word(1L, "Cześć", "Hello");
 
-        AttachmentDTO attachment1 = new AttachmentDTO(1L,"hello.mp3",1L, Language.ENGLISH);
-        AttachmentDTO attachment2 = new AttachmentDTO(2L,"czesc.mp3",1L, Language.POLISH);
+        AttachmentDTO attachment1 = new AttachmentDTO(1L, "hello.mp3", 1L, Language.ENGLISH);
+        AttachmentDTO attachment2 = new AttachmentDTO(2L, "czesc.mp3", 1L, Language.POLISH);
         List<AttachmentDTO> attachments = List.of(attachment1, attachment2);
 
         // When
@@ -74,12 +72,11 @@ class WordServiceTest {
 
     @Test
     void testGetRandomWords() {
-
         //given
         Word word = new Word(1L, "Hello", "Cześć");
         List<Word> words = List.of(word);
 
-        AttachmentDTO attachment1 = new AttachmentDTO(1L, "hello.mp3", 1L,Language.ENGLISH);
+        AttachmentDTO attachment1 = new AttachmentDTO(1L, "hello.mp3", 1L, Language.ENGLISH);
         AttachmentDTO attachment2 = new AttachmentDTO(2L, "czesc.mp3", 1L, Language.POLISH);
         List<AttachmentDTO> attachments = List.of(attachment1, attachment2);
 

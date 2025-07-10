@@ -6,28 +6,27 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PurchaseService {
 
+    public static final int PREMIUM_DAYS = 7;
     private final PurchaseRepository purchaseRepository;
 
     //TODO test
     public Boolean isPremiumByLogin(Long userId) {
-        List<Purchase> purchases = purchaseRepository.findLastPurchaseByUserId(userId);
-        if (purchases.size() == 0) {
+        var purchasesOptional = purchaseRepository.findFirstByUserIdOrderByCreatedDesc(userId);
+        if (!purchasesOptional.isPresent()) {
             return false;
+        } else {
+            var expiryDate = purchasesOptional.get().getCreated().plusDays(PREMIUM_DAYS);
+            return LocalDateTime.now().isBefore(expiryDate);
         }
-
-        Purchase lastPurchase = purchases.get(purchases.size() - 1);
-        LocalDateTime expiryDate = lastPurchase.getCreated().plusDays(7);
-        return LocalDateTime.now().isBefore(expiryDate);
     }
 
     public void buy(Long userId) {
-        Purchase purchase = new Purchase();
+        var purchase = new Purchase();
         purchase.setUserId(userId);
         purchaseRepository.save(purchase);
     }

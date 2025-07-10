@@ -86,7 +86,7 @@ export class MainComponent implements OnInit {
     });
   }
 
-  protected getRandom() {
+  getRandom() {
     this.setRandLanguage();
     this.getWord()
   }
@@ -144,7 +144,7 @@ export class MainComponent implements OnInit {
             const targetAttachment = this.currentWord[targetKey] as Attachment;
             targetAttachment.data = data;
             this.addToCache(attachment.id!.toString(), data);
-            const blobSound = new Blob([data], { type: 'audio/mp3' });
+            const blobSound = new Blob([data], {type: 'audio/mp3'});
 
             if (targetKey === 'polishAttachment') {
               this.polishBlobSound = blobSound;

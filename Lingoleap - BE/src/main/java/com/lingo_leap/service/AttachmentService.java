@@ -21,7 +21,7 @@ public class AttachmentService {
 
     @Transactional
     public Attachment saveAttachment(Long wordId, Language language, MultipartFile file) throws Exception {
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        var fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
             if (fileName.contains("..")) {
