@@ -16,6 +16,7 @@ import {User} from "../../model/user";
 import {Settings} from "../../model/settings";
 import {StorageKey} from "../../enum/storage-key";
 import {SoundService} from "../../service/sound.service";
+import {HistoryService} from "../../service/history.service";
 
 
 @Component({
@@ -55,6 +56,8 @@ export class MainComponent implements OnInit {
   isLoading = false;
   newShuffle = false;
   buttonStatuses: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+  reinforcementRepetitionCount: number = 5
+  actualWrongAnswersCount: number = 0
   englishToPolish = true;
   progressValue = 0;
   buttonRows: number[][] = [
@@ -67,6 +70,7 @@ export class MainComponent implements OnInit {
               private readonly wordService: WordService,
               private readonly userService: UserService,
               private readonly storageService: StorageService,
+              private readonly historyService: HistoryService,
               private readonly soundService: SoundService) {
   }
 
@@ -75,15 +79,23 @@ export class MainComponent implements OnInit {
     this.settingInit();
     this.getRandom();
     this.getCount();
-    this.userService.user$.subscribe((user) => {
-      this.user = user;
-    });
   }
 
   getUser() {
     this.userService.user$.subscribe((user) => {
       this.user = user;
+      this.getActualWrongAnswersCount();
     });
+  }
+
+  getActualWrongAnswersCount() {
+    if (this.user!.id! > 0) {
+      console.log('here')
+      this.historyService.getActualWrongAnswersCount(this.getUserId()).subscribe(res => {
+        this.actualWrongAnswersCount = res;
+        this.setProgressBarValue();
+      })
+    }
   }
 
   getRandom() {
@@ -106,13 +118,20 @@ export class MainComponent implements OnInit {
   }
 
   private getWord() {
-    this.wordService.getRandomWords().subscribe((words: Word[]) => {
+    this.wordService.getRandomWords(this.getUserId(), this.reinforcementRepetitionCount).subscribe((words: Word[]) => {
       this.currentWord = words[0];
-
       this.setWords(words);
       this.getSounds();
     });
     this.newShuffle = true;
+  }
+
+  private getUserId() {
+    let userId = 0;
+    if (this.user?.id) {
+      userId = this.user.id;
+    }
+    return userId;
   }
 
   private setWords(words: Word[]) {
@@ -196,7 +215,7 @@ export class MainComponent implements OnInit {
     this.autoRead = settings.autoRead;
   }
 
-  private saveAnswers() {
+  private saveAnswersToLocalStorage() {
     const today = new Date().toISOString().split('T')[0]; // Formats as "YYYY-MM-DD"
 
     let username = ''
@@ -306,19 +325,28 @@ export class MainComponent implements OnInit {
 
     if (currentWord === answer) {
       this.correctAnswerCounter++;
+      this.saveAnswerToHistoryIfLoggedIn(true);
     } else {
       this.inCorrectAnswerCounter++;
-      this.setProgressBarValue()
+      this.saveAnswerToHistoryIfLoggedIn(false);
     }
     this.allAnswerCounter++;
-    this.saveAnswers();
+    this.saveAnswersToLocalStorage();
   }
 
   private setProgressBarValue() {
-    this.progressValue = this.progressValue + 25;
-    if (this.progressValue === 100) {
-      this.progressValue = 0;
-      this.inCorrectAnswerCounter = 0;
+    this.progressValue = this.actualWrongAnswersCount / this.reinforcementRepetitionCount * 100;
+  }
+
+  saveAnswerToHistoryIfLoggedIn(isCorrect: boolean) {
+    if (this.user?.id) {
+      const id = this.currentWord.id;
+      if (id) {
+        this.historyService.saveWord(id, this.user.id, isCorrect).subscribe((res) => {
+          this.actualWrongAnswersCount = res;
+          this.setProgressBarValue();
+        });
+      }
     }
   }
 

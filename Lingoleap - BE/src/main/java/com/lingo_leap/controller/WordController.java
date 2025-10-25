@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/word")
+@RequestMapping("/word") //TODO: refactor name
 @RequiredArgsConstructor
 public class WordController {
 
@@ -31,8 +31,8 @@ public class WordController {
     }
 
     @GetMapping("/random")
-    public ResponseEntity<List<WordDto>> getRandom() {
-        var randomWords = wordService.getRandomWords();
+    public ResponseEntity<List<WordDto>> getRandom(Long userId, Integer reinforcementRepetitionCount) {
+        var randomWords = wordService.getRandomWordsForUser(userId, reinforcementRepetitionCount);
         return randomWords.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(randomWords);
 
     }

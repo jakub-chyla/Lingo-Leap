@@ -61,8 +61,8 @@ export class UserService {
   isPremium() {
     let isPremium = false;
     if (this.user?.id) {
-      this.purchaseService.isPremium(this.user.id).subscribe(respone => {
-        isPremium = respone;
+      this.purchaseService.isPremium(this.user.id).subscribe(response => {
+        isPremium = response;
         this.user!.premium = isPremium;
         localStorage.setItem('premium', String(isPremium));
         this.emitUser(this.user!);

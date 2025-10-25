@@ -6,6 +6,7 @@ import com.lingo_leap.enums.Language;
 import com.lingo_leap.model.Word;
 import com.lingo_leap.repository.WordRepository;
 import com.lingo_leap.utils.Mapper;
+import com.lingo_leap.utils.Random;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,21 +20,38 @@ public class WordService {
 
     private final WordRepository wordRepository;
 
+    private final HistoryService historyService;
+
     private final AttachmentService attachmentService;
 
-    public List<WordDto> getRandomWords() {
-        var words = wordRepository.findRandomWords();
-        var englishAttachment = attachmentService
-                .findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.ENGLISH);
-        var polishAttachment = attachmentService
-                .findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.POLISH);
+    private final ReinforcementService reinforcementService;
 
-        var wordDtos =  words.stream()
-                .map(word -> Mapper.mapWordsNoAttachments(word ))
-                .collect(Collectors.toList());
+    public List<WordDto> getRandomWordsForUser(Long userId, Integer reinforcementRepetitionCount) {
+        var wordsInCorrectIds = historyService.findByUserIdAndWordIdLastInCorrect(userId, reinforcementRepetitionCount);
+        var isReinforcement = reinforcementService.handleReinforcement(userId, wordsInCorrectIds.size(), reinforcementRepetitionCount);
+        var englishAttachment = new AttachmentDTO();
+        var polishAttachment = new AttachmentDTO();
 
+        List<Word> words;
+        List<WordDto> wordDtos;
+
+        if (isReinforcement) {
+            Integer randIndex = Random.getRandomFromRange(0, wordsInCorrectIds.size() -1);
+            var inCorrectWord = wordRepository.findById(wordsInCorrectIds.get(randIndex));
+            words = wordRepository.findRandomWordsForUser();
+            words.set(0, inCorrectWord.get());
+        } else {
+            words = wordRepository.findRandomWordsForUser();
+
+        }
+
+        englishAttachment = attachmentService.findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.ENGLISH);
+        polishAttachment = attachmentService.findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.POLISH);
+
+        wordDtos = words.stream().map(word -> Mapper.mapWordsNoAttachments(word)).collect(Collectors.toList());
         wordDtos.get(0).setEnglishAttachment(englishAttachment);
         wordDtos.get(0).setPolishAttachment(polishAttachment);
+
         return wordDtos;
     }
 

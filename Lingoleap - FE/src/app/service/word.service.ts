@@ -11,6 +11,7 @@ import {Word} from "../model/word";
 })
 export class WordService {
   domain = environment.domain;
+
   constructor(private httpClient: HttpClient) {
   }
 
@@ -22,11 +23,12 @@ export class WordService {
     return this.httpClient.get<Word[]>(this.domain + WORD, AuthHelper.getHeaderWithToken());
   }
 
-  getRandomWords(): Observable<Word[]> {
-    return this.httpClient.get<Word[]>(this.domain + RANDOM_WORD);
+  getRandomWords(userId: number, reinforcementRepetitionCount: number): Observable<Word[]> {
+    const params = {userId: userId, reinforcementRepetitionCount: reinforcementRepetitionCount}
+    return this.httpClient.get<Word[]>(this.domain + RANDOM_WORD, {params});
   }
 
-  deleteWordById(wordId: string): Observable<number>{
+  deleteWordById(wordId: string): Observable<number> {
     return this.httpClient.delete<number>(this.domain + WORD + `/${wordId}`, AuthHelper.getHeaderWithToken());
   }
 }
