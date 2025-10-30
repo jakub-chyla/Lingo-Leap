@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Word} from "../../model/word";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent} from "@angular/material/card";
@@ -17,6 +17,7 @@ import {Settings} from "../../model/settings";
 import {StorageKey} from "../../enum/storage-key";
 import {SoundService} from "../../service/sound.service";
 import {HistoryService} from "../../service/history.service";
+import {Subscription} from "rxjs";
 
 
 @Component({
@@ -36,9 +37,10 @@ import {HistoryService} from "../../service/history.service";
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy  {
   private MAX_CACHE_SIZE = 4;
   private audioCache = new Map<string, Uint8Array>();
+  private soundSub?: Subscription;
   polishBlobSound = new Blob();
   englishBlobSound = new Blob();
   user?: User | null;
@@ -79,6 +81,10 @@ export class MainComponent implements OnInit {
     this.settingInit();
     this.getRandom();
     this.getCount();
+  }
+
+  ngOnDestroy() {
+    this.soundSub?.unsubscribe();
   }
 
   getUser() {
@@ -262,7 +268,7 @@ export class MainComponent implements OnInit {
         clearInterval(interval);
         this.getRandom();
       }
-    }, 500);
+    }, 250);
   }
 
   private justifyAnswers() {
@@ -303,7 +309,10 @@ export class MainComponent implements OnInit {
       }
 
       if (this.autoNext) {
-        this.countdownAfterAnswer();
+        const sub = this.soundService.soundEnded$.subscribe(() => {
+          this.countdownAfterAnswer();
+          sub.unsubscribe(); // prevent memory leaks
+        });
       }
     }
   }
