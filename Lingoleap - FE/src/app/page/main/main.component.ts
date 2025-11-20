@@ -58,7 +58,7 @@ export class MainComponent implements OnInit, OnDestroy  {
   isLoading = false;
   newShuffle = false;
   buttonStatuses: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-  reinforcementRepetitionCount: number = 5
+  reinforcementRepetitionCount: number = 10
   actualWrongAnswersCount: number = 0
   englishToPolish = true;
   progressValue = 0;
@@ -80,7 +80,6 @@ export class MainComponent implements OnInit, OnDestroy  {
     this.getUser();
     this.settingInit();
     this.getRandom();
-    this.getCount();
   }
 
   ngOnDestroy() {
@@ -96,7 +95,6 @@ export class MainComponent implements OnInit, OnDestroy  {
 
   getActualWrongAnswersCount() {
     if (this.user!.id! > 0) {
-      console.log('here')
       this.historyService.getActualWrongAnswersCount(this.getUserId()).subscribe(res => {
         this.actualWrongAnswersCount = res;
         this.setProgressBarValue();
@@ -128,6 +126,7 @@ export class MainComponent implements OnInit, OnDestroy  {
       this.currentWord = words[0];
       this.setWords(words);
       this.getSounds();
+      this.getCount();
     });
     this.newShuffle = true;
   }
