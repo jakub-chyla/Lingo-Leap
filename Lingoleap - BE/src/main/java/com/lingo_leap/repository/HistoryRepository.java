@@ -15,7 +15,7 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
     @Query("SELECT h FROM History h WHERE h.userId = :userId AND h.isCorrect = false")
     List<History> findIncorrectByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT h FROM History h WHERE h.userId = :userId AND h.wordAskedId = :wordId")
+    @Query("SELECT h FROM History h WHERE h.userId = :userId AND h.wordAskedId = :wordId AND h.created >= CURRENT_DATE")
     Optional<History> findByUserIdAndWordId(@Param("userId") Long userId, @Param("wordId") Long wordId);
 
     @Query(value = "SELECT h.word_asked_id FROM histories h WHERE h.user_id = :userId AND" +
