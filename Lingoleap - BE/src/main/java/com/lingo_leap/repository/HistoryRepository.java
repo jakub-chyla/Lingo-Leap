@@ -26,6 +26,6 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
             @Param("limit") Integer limit
     );
 
-    @Query(value = "SELECT COUNT(*) FROM histories h WHERE h.user_id = :userId AND h.is_correct = false AND h.created >= NOW() - INTERVAL '1 day'", nativeQuery = true)
+    @Query(value = "SELECT COUNT(*) FROM histories h WHERE h.user_id = :userId AND h.is_correct = false AND h.created >= CURRENT_DATE", nativeQuery = true)
     Integer findCountOfIncorrect(@Param("userId") Long userId);
 }

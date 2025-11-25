@@ -42,7 +42,6 @@ public class WordService {
             words.set(0, inCorrectWord.get());
         } else {
             words = wordRepository.findRandomWordsForUser();
-
         }
 
         englishAttachment = attachmentService.findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.ENGLISH);

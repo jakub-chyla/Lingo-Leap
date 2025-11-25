@@ -26,6 +26,7 @@ public class HistoryService {
     }
 
     public Integer findCountOfIncorrect(Long userId){
+        Integer count = historyRepository.findCountOfIncorrect(userId);
         return historyRepository.findCountOfIncorrect(userId);
     }
 

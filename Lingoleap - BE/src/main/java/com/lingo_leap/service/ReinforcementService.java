@@ -36,4 +36,8 @@ public class ReinforcementService {
         }
     }
 
+    public void resetAll() {
+        reinforcementRepository.deleteAll();
+    }
+
 }
