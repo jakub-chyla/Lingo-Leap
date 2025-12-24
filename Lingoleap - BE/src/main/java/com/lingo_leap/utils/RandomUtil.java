@@ -5,7 +5,7 @@ import lombok.experimental.UtilityClass;
 import java.util.concurrent.ThreadLocalRandom;
 
 @UtilityClass
-public class Random {
+public class RandomUtil {
 
     public Integer getRandomFromRange(Integer start, Integer end) {
         if (start == null || end == null) {
@@ -19,5 +19,11 @@ public class Random {
         }
 
         return ThreadLocalRandom.current().nextInt(start, end);
+    }
+
+    public boolean percentChance(int chance) {
+        int randomValue = ThreadLocalRandom.current().nextInt(100);
+        boolean changeFinal = randomValue < chance;
+        return changeFinal;
     }
 }

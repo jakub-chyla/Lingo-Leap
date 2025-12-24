@@ -11,7 +11,12 @@
           </div>
         </div>
         <div *ngIf="user?.username">
-          <mat-progress-bar mode="determinate" color="accent" [value]="progressValue"></mat-progress-bar>
+          <mat-progress-bar
+            mode="determinate"
+            color="accent"
+            [value]="progressValue"
+            class="glowing-bar">
+          </mat-progress-bar>
         </div>
       </div>
       <div>

@@ -6,7 +6,7 @@ import com.lingo_leap.enums.Language;
 import com.lingo_leap.model.Word;
 import com.lingo_leap.repository.WordRepository;
 import com.lingo_leap.utils.Mapper;
-import com.lingo_leap.utils.Random;
+import com.lingo_leap.utils.RandomUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class WordService {
         List<WordDto> wordDtos;
 
         if (isReinforcement) {
-            Integer randIndex = Random.getRandomFromRange(0, wordsInCorrectIds.size() -1);
+            Integer randIndex = RandomUtil.getRandomFromRange(0, wordsInCorrectIds.size() -1);
             var inCorrectWord = wordRepository.findById(wordsInCorrectIds.get(randIndex));
             words = wordRepository.findRandomWordsForUser();
             words.set(0, inCorrectWord.get());

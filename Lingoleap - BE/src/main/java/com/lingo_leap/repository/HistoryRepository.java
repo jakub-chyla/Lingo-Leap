@@ -21,11 +21,55 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
     @Query(value = "SELECT h.word_asked_id FROM histories h WHERE h.user_id = :userId AND" +
             " h.is_correct = false AND h.created >= CURRENT_DATE ORDER BY h.created ASC LIMIT :limit"
             , nativeQuery = true)
+    List<Long> findByUserIdTodaysInCorrect(
+            @Param("userId") Long userId,
+            @Param("limit") Integer limit
+    );
+    @Query(value = "SELECT h.* FROM histories h WHERE h.user_id = :userId ORDER BY h.created DESC"
+            , nativeQuery = true)
+    List<History> findByUserId(@Param("userId") Long userId);
+
+    @Query(value = "SELECT h.* FROM histories h WHERE h.user_id = :userId AND h.created < CURRENT_DATE ORDER BY h.created DESC"
+            , nativeQuery = true)
+    List<History> findByUserIdOlderThanToday(@Param("userId") Long userId);
+
+    @Query(value = "SELECT COUNT(*) FROM histories h WHERE h.user_id = :userId AND h.is_correct = false AND h.created >= CURRENT_DATE", nativeQuery = true)
+    Integer findCountOfIncorrect(@Param("userId") Long userId);
+
+    @Query(value = """
+        SELECT h.word_asked_id
+        FROM histories h
+        WHERE h.user_id = :userId
+          AND h.created >= NOW() - INTERVAL '30 days'
+        ORDER BY h.created DESC
+        """, nativeQuery = true)
+    List<Long> findLastMonthByUserId(@Param("userId") Long userId);
+
+    @Query(value = """
+              SELECT h.* FROM histories h WHERE h.user_id = :userId 
+              AND h.created >= CURRENT_DATE ORDER BY word_asked_id
+              """
+            , nativeQuery = true)
+    List<History> findTodayHistoryByUser(@Param("userId") Long userId);
+
+    @Query(value = "SELECT h.word_asked_id FROM histories h WHERE h.user_id = :userId AND" +
+            " h.is_correct = false AND h.created >= CURRENT_DATE ORDER BY h.created ASC LIMIT :limit"
+            , nativeQuery = true)
     List<Long> findByUserIdAndWordIdLastInCorrect(
             @Param("userId") Long userId,
             @Param("limit") Integer limit
     );
 
-    @Query(value = "SELECT COUNT(*) FROM histories h WHERE h.user_id = :userId AND h.is_correct = false AND h.created >= CURRENT_DATE", nativeQuery = true)
-    Integer findCountOfIncorrect(@Param("userId") Long userId);
+    @Query(value = """
+            SELECT DISTINCT ON (h.word_asked_id)
+                   h.word_asked_id
+            FROM histories h
+            WHERE h.user_id = :userId
+              AND h.is_correct = false
+            ORDER BY h.word_asked_id, h.created ASC
+            """,
+            nativeQuery = true
+    )
+    List<Long> findLatestDistinctWordAskedIds(@Param("userId") Long userId);
+
 }
