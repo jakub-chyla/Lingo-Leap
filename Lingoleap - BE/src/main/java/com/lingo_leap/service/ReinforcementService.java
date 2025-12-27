@@ -40,4 +40,7 @@ public class ReinforcementService {
         reinforcementRepository.deleteAll();
     }
 
+    public boolean isReinforcement(Long userId) {
+        return reinforcementRepository.findByUserId(userId).isPresent();
+    }
 }

@@ -27,8 +27,9 @@ public class WordService {
     private final ReinforcementService reinforcementService;
 
     public List<WordDto> getRandomWordsForUser(Long userId, Integer reinforcementRepetitionCount) {
-        var wordsInCorrectIds = historyService.findByUserIdAndWordIdLastInCorrect(userId, reinforcementRepetitionCount);
-        var isReinforcement = reinforcementService.handleReinforcement(userId, wordsInCorrectIds.size(), reinforcementRepetitionCount);
+        var findTodayHistoryByUser = historyService.findTodayHistoryByUser(userId);
+        var isReinforcement = reinforcementService.handleReinforcement(userId, findTodayHistoryByUser.size(), reinforcementRepetitionCount);
+
         var englishAttachment = new AttachmentDTO();
         var polishAttachment = new AttachmentDTO();
 
@@ -36,8 +37,8 @@ public class WordService {
         List<WordDto> wordDtos;
 
         if (isReinforcement) {
-            Integer randIndex = RandomUtil.getRandomFromRange(0, wordsInCorrectIds.size() -1);
-            var inCorrectWord = wordRepository.findById(wordsInCorrectIds.get(randIndex));
+            Integer randIndex = RandomUtil.getRandomFromRange(0, findTodayHistoryByUser.size() -1);
+            var inCorrectWord = wordRepository.findById(findTodayHistoryByUser.get(randIndex));
             words = wordRepository.findRandomWordsForUser();
             words.set(0, inCorrectWord.get());
         } else {

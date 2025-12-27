@@ -47,7 +47,7 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
 
     @Query(value = """
               SELECT h.* FROM histories h WHERE h.user_id = :userId 
-              AND h.created >= CURRENT_DATE ORDER BY word_asked_id
+              AND h.created >= CURRENT_DATE ORDER BY h.created DESC
               """
             , nativeQuery = true)
     List<History> findTodayHistoryByUser(@Param("userId") Long userId);
