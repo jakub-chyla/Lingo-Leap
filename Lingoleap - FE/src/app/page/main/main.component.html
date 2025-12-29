@@ -1,5 +1,5 @@
 <mat-card class="card" appearance="outlined">
-    <div class="flex justify-between gap-2 pb-2">
+    <div class="flex justify-between gap-2">
       <div>
         <div class="flex justify-between gap-0.5 items-end">
           <div class="font-bold text-[16px] green-text">
@@ -18,13 +18,14 @@
             class="glowing-bar">
           </mat-progress-bar>
         </div>
+        <span *ngIf="true" class="material-icons reinforcement mt-2" (click)="settingsToggle()">bolt</span>
       </div>
       <div>
         <span *ngIf="settings" class="material-icons settings-close" (click)="settingsToggle()">close</span>
         <span *ngIf="!settings" class="material-icons settings-open" (click)="settingsToggle()">settings</span>
       </div>
     </div>
-    <mat-card-content class="flex flex-col justify-between w-[30vw] min-w-[400px] max-w-[700px] h-[340px] !ml-[-20px] !mr-[-20px]">
+    <mat-card-content class="flex flex-col justify-between w-[30vw] min-w-[400px] max-w-[700px] h-[340px] !ml-[-20px] !mr-[-20px] mt-[-12px]" >
       <ng-template [ngIf]="!settings">
         <ng-template [ngIf]="!englishToPolish">
           <div class="word"> {{ displayWord }}</div>
