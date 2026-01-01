@@ -18,6 +18,7 @@ import {StorageKey} from "../../enum/storage-key";
 import {SoundService} from "../../service/sound.service";
 import {HistoryService} from "../../service/history.service";
 import {Subscription} from "rxjs";
+import {ReinforcementService} from "../../service/reinforcement.service";
 
 
 @Component({
@@ -37,7 +38,7 @@ import {Subscription} from "rxjs";
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
-export class MainComponent implements OnInit, OnDestroy  {
+export class MainComponent implements OnInit, OnDestroy {
   private MAX_CACHE_SIZE = 4;
   private audioCache = new Map<string, Uint8Array>();
   private soundSub?: Subscription;
@@ -51,6 +52,7 @@ export class MainComponent implements OnInit, OnDestroy  {
   inCorrectAnswerCounter: number = 0;
   allAnswerCounter: number = 0;
   startCount: number = 3;
+  isReinforcement = false;
   count!: number;
   settings = false;
   autoNext = true;
@@ -73,6 +75,7 @@ export class MainComponent implements OnInit, OnDestroy  {
               private readonly userService: UserService,
               private readonly storageService: StorageService,
               private readonly historyService: HistoryService,
+              private readonly reinforcementService: ReinforcementService,
               private readonly soundService: SoundService) {
   }
 
@@ -119,6 +122,7 @@ export class MainComponent implements OnInit, OnDestroy  {
     if (today > progress.date) {
       this.storageService.removeProgress();
     }
+
   }
 
   private getWord() {
@@ -127,6 +131,7 @@ export class MainComponent implements OnInit, OnDestroy  {
       this.setWords(words);
       this.getSounds();
       this.getCount();
+      this.getReinforcement();
     });
     this.newShuffle = true;
   }
@@ -362,4 +367,17 @@ export class MainComponent implements OnInit, OnDestroy  {
     this.settings = !this.settings;
   }
 
+  protected setReinforcement() {
+    this.reinforcementService.setReinforcement(this.user!.id!, true).subscribe((res) => {
+      this.isReinforcement = res
+    });
+  }
+
+  protected getReinforcement() {
+    if (this.user?.id) {
+      this.reinforcementService.getReinforcement(this.user!.id!).subscribe((res) => {
+        this.isReinforcement = res
+      });
+    }
+  }
 }

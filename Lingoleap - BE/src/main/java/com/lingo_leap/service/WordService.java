@@ -37,7 +37,7 @@ public class WordService {
         List<WordDto> wordDtos;
 
         if (isReinforcement) {
-            Integer randIndex = RandomUtil.getRandomFromRange(0, findTodayHistoryByUser.size() -1);
+            Integer randIndex = RandomUtil.getRandomFromRange(0, findTodayHistoryByUser.size());
             var inCorrectWord = wordRepository.findById(findTodayHistoryByUser.get(randIndex));
             words = wordRepository.findRandomWordsForUser();
             words.set(0, inCorrectWord.get());

@@ -5,6 +5,7 @@ export const WORD: string = '/word';
 export const RANDOM_WORD: string = WORD + '/random';
 export const HISTORY: string = '/history';
 export const REGISTER: string = '/register';
+export const REINFORCEMENT: string = '/reinforcement';
 export const LOG_IN: string = '/login';
 export const REFRESH_TOKEN: string = '/refresh-token';
 export const CHECKOUT: string = '/purchase/checkout';

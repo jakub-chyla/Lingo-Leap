@@ -40,9 +40,14 @@ $warn-color: #f24236;
   }
 }
 
-.reinforcement {
+.bolt{
+  cursor: pointer;
+}
+
+.is-reinforcement {
   color: $accent-color;
 }
+
 
 .green-text {
   color: #00b500;
@@ -60,6 +65,10 @@ $warn-color: #f24236;
     margin-left: -6px;
     margin-right: -6px;
   }
+}
+
+.icon-spacer {
+  flex: 1 1 auto;
 }
 
 .answer-button {
