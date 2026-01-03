@@ -33,7 +33,7 @@ public class HistoryService {
             historyRepository.save(history);
         }
 
-        return findTodayHistoryByUser(answer.userId()).size();
+        return findHistoryByUser(answer.userId()).size();
     }
 
     public Integer findCountOfIncorrect(Long userId){
@@ -44,15 +44,18 @@ public class HistoryService {
         return historyRepository.findByUserIdAndWordIdLastInCorrect(userId, limit);
     }
 
-    public List<Long> findTodayHistoryByUser(Long userId) {
-        var todayHistory = historyRepository.findTodayHistoryByUser(userId);
-        if(todayHistory.size() < 1){
+    public List<Long> findHistoryByUser(Long userId) {
+        return findHistoryByUser(historyRepository.findTodayHistoryByUser(userId));
+    }
+
+    public List<Long> findHistoryByUser(List<History> histories) {
+        if(histories.size() < 1){
             return new ArrayList<>();
         }
 
         Map<Long, List<History>> map = new HashMap<>();
 
-        for (History history : todayHistory) {
+        for (History history : histories) {
             Long key = history.getWordAskedId();
 
             List<History> list = map.get(key);
