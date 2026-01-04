@@ -34,13 +34,17 @@
     </div>
   </div>
   <mat-card-content
-    class="flex flex-col justify-between w-[30vw] min-w-[400px] max-w-[700px] h-[340px] !ml-[-20px] !mr-[-20px] mt-[-12px]">
+    class="flex flex-col justify-between w-[30vw] min-w-[400px] max-w-[700px] h-[340px] !ml-[-20px] !mr-[-20px]">
     <ng-template [ngIf]="!settings">
       <ng-template [ngIf]="!englishToPolish">
-        <div class="word"> {{ displayWord }}</div>
+        <div class="flex justify-center">
+          <div class="word w-[200px]"> {{ displayWord }}</div>
+        </div>
       </ng-template>
       <ng-template [ngIf]="englishToPolish">
-        <div class="word"> {{ displayWord }}</div>
+        <div class="flex justify-center">
+          <div class="word w-[200px]"> {{ displayWord }}</div>
+        </div>
       </ng-template>
       <div class="flex justify-center gap-2 pt-[14px]" style="padding-top: 14px">
         <ng-template [ngIf]="isLoading">
