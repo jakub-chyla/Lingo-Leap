@@ -272,7 +272,7 @@ export class MainComponent implements OnInit, OnDestroy {
         clearInterval(interval);
         this.getRandom();
       }
-    }, 250);
+    }, 150);
   }
 
   private justifyAnswers() {
