@@ -3,6 +3,7 @@ package com.lingo_leap.service;
 import com.lingo_leap.dto.AttachmentDTO;
 import com.lingo_leap.dto.WordDto;
 import com.lingo_leap.enums.Language;
+import com.lingo_leap.model.History;
 import com.lingo_leap.model.Word;
 import com.lingo_leap.repository.WordRepository;
 import com.lingo_leap.utils.Mapper;
@@ -36,13 +37,23 @@ public class WordService {
         List<Word> words;
         List<WordDto> wordDtos;
 
+        words = wordRepository.findRandomWords();
+
         if (isReinforcement) {
             Integer randIndex = RandomUtil.getRandomFromRange(0, findTodayHistoryByUser.size());
             var inCorrectWord = wordRepository.findById(findTodayHistoryByUser.get(randIndex));
-            words = wordRepository.findRandomWords();
             words.set(0, inCorrectWord.get());
         } else {
-            words = wordRepository.findRandomWords();
+
+            Boolean getFromHistory = RandomUtil.percentChance(33);
+            List<History> allHistories = historyService.findAllHistoryByUser(userId);
+
+            if(userId != 0 && getFromHistory && allHistories.size() > 50){
+                Long inCorrectWordId = historyService.findMostCommonWrongHistoryByUser(userId);
+                var inCorrectWord = wordRepository.findById(inCorrectWordId);
+                words = wordRepository.findRandomWords();
+                words.set(0, inCorrectWord.get());
+            }
         }
 
         englishAttachment = attachmentService.findByWordIdAndLanguageWithOutData(words.get(0).getId(), Language.ENGLISH);

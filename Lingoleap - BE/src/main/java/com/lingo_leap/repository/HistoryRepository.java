@@ -52,6 +52,20 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
             , nativeQuery = true)
     List<History> findTodayHistoryByUser(@Param("userId") Long userId);
 
+    @Query(value = """
+              SELECT h.* FROM histories h WHERE h.user_id = :userId 
+              AND is_correct = false;
+              """
+            , nativeQuery = true)
+    List<History> findAllWrongHistoryByUser(@Param("userId") Long userId);
+
+    @Query(value = """
+              SELECT h.* FROM histories h WHERE h.user_id = :userId 
+              ORDER BY word_asked_id ASC;
+              """
+            , nativeQuery = true)
+    List<History> findAllHistoryByUser(@Param("userId") Long userId);
+
     @Query(value = "SELECT h.word_asked_id FROM histories h WHERE h.user_id = :userId AND" +
             " h.is_correct = false AND h.created >= CURRENT_DATE ORDER BY h.created ASC LIMIT :limit"
             , nativeQuery = true)
