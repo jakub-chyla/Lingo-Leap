@@ -40,7 +40,7 @@ public class HistoryService {
     }
 
     public Integer findCountOfIncorrect(Long userId) {
-        return historyRepository.findCountOfIncorrect(userId);
+        return findHistoryByUser(userId).size();
     }
 
     public List<Long> findByUserIdAndWordIdLastInCorrect(Long userId, Integer limit) {
