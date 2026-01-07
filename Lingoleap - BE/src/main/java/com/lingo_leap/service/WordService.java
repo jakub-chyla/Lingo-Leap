@@ -46,7 +46,7 @@ public class WordService {
         } else {
 
             Boolean getFromHistory = RandomUtil.percentChance(33);
-            List<History> allHistories = historyService.findAllHistoryByUser(userId);
+            List<History> allHistories = historyService.findAllExceptTodayHistoryByUser(userId);
 
             if(userId != 0 && getFromHistory && allHistories.size() > 50){
                 Long inCorrectWordId = historyService.findMostCommonWrongHistoryByUser(userId);

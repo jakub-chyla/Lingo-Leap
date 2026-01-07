@@ -83,8 +83,8 @@ public class HistoryService {
         return ids;
     }
 
-    public List<History> findAllHistoryByUser(Long userId) {
-    return historyRepository.findAllHistoryByUser(userId);
+    public List<History> findAllExceptTodayHistoryByUser(Long userId) {
+    return historyRepository.findAllExceptTodayHistoryByUser(userId);
     }
 
     public Long findMostCommonWrongHistoryByUser(Long userId) {
