@@ -3,6 +3,7 @@ package com.lingo_leap.service;
 import com.lingo_leap.dto.Answer;
 import com.lingo_leap.model.History;
 import com.lingo_leap.repository.HistoryRepository;
+import com.lingo_leap.utils.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 @Service
@@ -113,11 +115,21 @@ public class HistoryService {
             correctRatio.put(entry.getKey(), ratio);
         }
 
-        return correctRatio.entrySet()
+        Map<Long, Double> top10 = correctRatio.entrySet()
                 .stream()
-                .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
-                .orElse(0L);
+                .sorted(Map.Entry.<Long, Double>comparingByValue().reversed())
+                .limit(15)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (a, b) -> a,
+                        LinkedHashMap::new
+                ));
+
+        List<Long> keys = new ArrayList<>(top10.keySet());
+        Long randomKey = keys.get(ThreadLocalRandom.current().nextInt(keys.size()));
+
+        return randomKey;
     }
 
     public List<Long> findLatestDistinctWordAskedIds(Long userId) {
