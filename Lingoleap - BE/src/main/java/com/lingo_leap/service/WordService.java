@@ -45,13 +45,12 @@ public class WordService {
             words.set(0, inCorrectWord.get());
         } else {
 
-            Boolean getFromHistory = RandomUtil.percentChance(33);
-            List<History> allHistories = historyService.findAllExceptTodayHistoryByUser(userId);
+            Boolean getFromHistory = RandomUtil.percentChance(40);
+            List<History> allHistory = historyService.findAllHistory(userId);
 
-            if(userId != 0 && getFromHistory && allHistories.size() > 50){
-                Long inCorrectWordId = historyService.findMostCommonWrongHistoryByUser(userId);
+            if(userId != 0 && getFromHistory && allHistory.size() > 50){
+                Long inCorrectWordId = historyService.findMostCommonWrongHistoryByUser(allHistory);
                 var inCorrectWord = wordRepository.findById(inCorrectWordId);
-                words = wordRepository.findRandomWords();
                 words.set(0, inCorrectWord.get());
             }
         }
