@@ -84,8 +84,12 @@ public class HistoryService {
         return ids;
     }
 
-    public List<History> findAllHistory(Long userId) {
-    return historyRepository.findAllHistoryByUser(userId);
+    public List<History> findAllExceptTodayHistoryByUser(Long userId) {
+        return historyRepository.findAllExceptTodayHistoryByUser(userId);
+    }
+
+    public List<History> findAllOnlyCorrectTodayByUser(Long userId) {
+        return historyRepository.findAllOnlyCorrectTodayByUser(userId);
     }
 
     public Long findMostCommonWrongHistoryByUser(List<History> allExceptTodayHistory) {
@@ -115,7 +119,7 @@ public class HistoryService {
         Map<Long, Double> top10 = correctRatio.entrySet()
                 .stream()
                 .sorted(Map.Entry.<Long, Double>comparingByValue().reversed())
-                .limit(40)
+                .limit(20)
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,

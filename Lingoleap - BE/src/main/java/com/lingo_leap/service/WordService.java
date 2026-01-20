@@ -44,9 +44,10 @@ public class WordService {
             var inCorrectWord = wordRepository.findById(findTodayHistoryByUser.get(randIndex));
             words.set(0, inCorrectWord.get());
         } else {
-
             Boolean getFromHistory = RandomUtil.percentChance(40);
-            List<History> allHistory = historyService.findAllHistory(userId);
+            List<History> todayCorrect = historyService.findAllOnlyCorrectTodayByUser(userId);
+            List<History> allHistory = historyService.findAllExceptTodayHistoryByUser(userId);
+            allHistory.addAll(todayCorrect);
 
             if(userId != 0 && getFromHistory && allHistory.size() > 50){
                 Long inCorrectWordId = historyService.findMostCommonWrongHistoryByUser(allHistory);
