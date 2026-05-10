@@ -30,6 +30,11 @@ public class WordController {
         return words.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(words);
     }
 
+    @GetMapping("/most-wrong/{userId}")
+    public ResponseEntity<List<WordDto>> getMostCommonWrongHistoryByUser(@PathVariable Long userId){
+        return ResponseEntity.ok(wordService.findMostCommonWrongHistoryByUser(userId));
+    }
+
     @GetMapping("/random")
     public ResponseEntity<List<WordDto>> getRandom(Long userId, Integer reinforcementRepetitionCount) {
         var randomWords = wordService.getRandomWordsForUser(userId, reinforcementRepetitionCount);
@@ -41,4 +46,5 @@ public class WordController {
     public ResponseEntity<Long> deleteById(@PathVariable String id) {
         return ResponseEntity.ok(wordService.deleteById(Long.parseLong(id)));
     }
+
 }

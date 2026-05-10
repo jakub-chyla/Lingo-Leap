@@ -133,6 +133,9 @@ export class MainComponent implements OnInit, OnDestroy {
       this.getCount();
       this.getReinforcement();
     });
+    this.wordService.getMostCommonWrongHistoryByUser(this.getUserId()).subscribe((words: Word[]) => {
+      console.log(words)
+    });
     this.newShuffle = true;
   }
 

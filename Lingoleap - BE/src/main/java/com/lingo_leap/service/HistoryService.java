@@ -1,6 +1,7 @@
 package com.lingo_leap.service;
 
 import com.lingo_leap.dto.Answer;
+import com.lingo_leap.dto.WordDto;
 import com.lingo_leap.model.History;
 import com.lingo_leap.repository.HistoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -92,10 +93,15 @@ public class HistoryService {
         return historyRepository.findAllOnlyCorrectTodayByUser(userId);
     }
 
-    public Long findMostCommonWrongHistoryByUser(List<History> allExceptTodayHistory) {
+    public Long findRandomWordMostCommonWrongHistoryByUser(List<History> historyInput,  int count) {
+        List<Long> keys = findMostCommonWrongHistoryByUser(historyInput, count);
+        return keys.get(ThreadLocalRandom.current().nextInt(keys.size()));
+    }
+
+    public List<Long> findMostCommonWrongHistoryByUser(List<History> historyInput, int count) {
         Map<Long, List<History>> map = new HashMap<>();
 
-        for (History history : allExceptTodayHistory) {
+        for (History history : historyInput) {
             Long key = history.getWordAskedId();
 
             List<History> list = map.get(key);
@@ -116,10 +122,10 @@ public class HistoryService {
             correctRatio.put(entry.getKey(), ratio);
         }
 
-        Map<Long, Double> top10 = correctRatio.entrySet()
+        Map<Long, Double> topWrongAnswers = correctRatio.entrySet()
                 .stream()
                 .sorted(Map.Entry.<Long, Double>comparingByValue().reversed())
-                .limit(20)
+                .limit(count)
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
@@ -127,10 +133,7 @@ public class HistoryService {
                         LinkedHashMap::new
                 ));
 
-        List<Long> keys = new ArrayList<>(top10.keySet());
-        Long randomKey = keys.get(ThreadLocalRandom.current().nextInt(keys.size()));
-
-        return randomKey;
+        return new ArrayList<>(topWrongAnswers.keySet());
     }
 
     public List<Long> findLatestDistinctWordAskedIds(Long userId) {

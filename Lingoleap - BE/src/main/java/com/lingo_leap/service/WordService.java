@@ -50,7 +50,7 @@ public class WordService {
             allHistory.addAll(todayCorrect);
 
             if(userId != 0 && getFromHistory && allHistory.size() > 50){
-                Long inCorrectWordId = historyService.findMostCommonWrongHistoryByUser(allHistory);
+                Long inCorrectWordId = historyService.findRandomWordMostCommonWrongHistoryByUser(allHistory, 20);
                 var inCorrectWord = wordRepository.findById(inCorrectWordId);
                 words.set(0, inCorrectWord.get());
             }
@@ -84,5 +84,19 @@ public class WordService {
         wordRepository.deleteById(id);
         attachmentService.deleteAttachmentsByWordId(id);
         return id;
+    }
+
+    public List<WordDto> findAllByWordIds(List<Long> ids) {
+        var words = wordRepository.findByIdIn(ids);
+
+        return words.stream()
+                .map(word -> Mapper.mapWordsNoAttachments(word))
+                .collect(Collectors.toList());
+    }
+
+    public List<WordDto> findMostCommonWrongHistoryByUser(Long userId) {
+        List<History> allHistory = historyService.findAllExceptTodayHistoryByUser(userId);
+        List<Long> wordIds = historyService.findMostCommonWrongHistoryByUser(allHistory, 20);
+        return findAllByWordIds(wordIds);
     }
 }

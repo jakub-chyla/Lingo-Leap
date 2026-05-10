@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {RANDOM_WORD, WORD} from "../shared/api-url";
+import {MOST_WRONG, RANDOM, WORD} from "../shared/api-url";
 import {AuthHelper} from "../shared/auth-helper";
 import {Word} from "../model/word";
 
@@ -25,7 +25,11 @@ export class WordService {
 
   getRandomWords(userId: number, reinforcementRepetitionCount: number): Observable<Word[]> {
     const params = {userId: userId, reinforcementRepetitionCount: reinforcementRepetitionCount}
-    return this.httpClient.get<Word[]>(this.domain + RANDOM_WORD, {params});
+    return this.httpClient.get<Word[]>(this.domain + RANDOM, {params});
+  }
+
+  getMostCommonWrongHistoryByUser(userId: number): Observable<Word[]> {
+    return this.httpClient.get<Word[]>(this.domain + MOST_WRONG + `/${userId}`, AuthHelper.getHeaderWithToken());
   }
 
   deleteWordById(wordId: string): Observable<number> {
