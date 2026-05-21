@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers( "/build/**", "/at/download/**", "/word/random/**", "/login/**", "/register/**", "/refresh-token/**").permitAll()
+                        .requestMatchers( "/build/**", "/at/download/**", "/word/random/**", "/word/get-sounds-for-empty-words/**",  "/login/**", "/register/**", "/refresh-token/**").permitAll()
                         .requestMatchers("/admin_only/**", "/word/**" ,"/at/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -72,7 +72,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(allowedOrigins));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
 

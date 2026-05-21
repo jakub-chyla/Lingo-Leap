@@ -1,6 +1,5 @@
 package com.lingo_leap.dto;
 
-import com.lingo_leap.model.Attachment;
 import lombok.Data;
 
 @Data

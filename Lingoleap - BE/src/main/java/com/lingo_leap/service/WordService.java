@@ -5,6 +5,7 @@ import com.lingo_leap.dto.WordDto;
 import com.lingo_leap.enums.Language;
 import com.lingo_leap.model.History;
 import com.lingo_leap.model.Word;
+import com.lingo_leap.repository.AttachmentRepository;
 import com.lingo_leap.repository.WordRepository;
 import com.lingo_leap.utils.Mapper;
 import com.lingo_leap.utils.RandomUtil;
@@ -12,6 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +27,11 @@ public class WordService {
 
     private final AttachmentService attachmentService;
 
+    private final AttachmentRepository attachmentRepository;
+
     private final ReinforcementService reinforcementService;
+
+    private final TtsService ttsService;
 
     public List<WordDto> getRandomWordsForUser(Long userId, Integer reinforcementRepetitionCount) {
         var findTodayHistoryByUser = historyService.findHistoryByUser(userId);
@@ -49,7 +55,7 @@ public class WordService {
             List<History> allHistory = historyService.findAllExceptTodayHistoryByUser(userId);
             allHistory.addAll(todayCorrect);
 
-            if(userId != 0 && getFromHistory && allHistory.size() > 50){
+            if (userId != 0 && getFromHistory && allHistory.size() > 50) {
                 Long inCorrectWordId = historyService.findRandomWordMostCommonWrongHistoryByUser(allHistory, 20);
                 var inCorrectWord = wordRepository.findById(inCorrectWordId);
                 words.set(0, inCorrectWord.get());
@@ -99,4 +105,38 @@ public class WordService {
         List<Long> wordIds = historyService.findMostCommonWrongHistoryByUser(allHistory, 20);
         return findAllByWordIds(wordIds);
     }
+
+
+    public void replaceWord(int wordIdStart, int wordIdEnd) {
+        List<Long> ids = getIdsFromRange(wordIdStart, wordIdEnd);
+        List<Word> words = wordRepository.findByIdIn(ids);
+
+        for (Word word : words) {
+            ttsService.getSoundExistenceWord(word);
+        }
+    }
+
+    public Boolean getAttachmentsForEmptyWords() {
+        List<Word> words = wordRepository.findWordsWithOutAttachments();
+
+        for (Word word : words) {
+            ttsService.getSoundForEmptyWord(word);
+        }
+
+        attachmentService.replacePolishLettersInAttachmentFileNames();
+        return true;
+    }
+
+
+    List<Long> getIdsFromRange(int wordIdStart, int wordIdEnd) {
+        List<Long> ids = new ArrayList<>();
+        for (int i = wordIdStart; i <= wordIdEnd; i++) {
+            ids.add((long) i);
+        }
+        return ids;
+    }
+
+
+
+
 }

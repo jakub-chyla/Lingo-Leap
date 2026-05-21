@@ -47,4 +47,14 @@ public class WordController {
         return ResponseEntity.ok(wordService.deleteById(Long.parseLong(id)));
     }
 
+    @GetMapping("/replace-word/{wordIdStart}/{wordIdEnd}")
+    public void replaceWords(@PathVariable int wordIdStart, @PathVariable int wordIdEnd){
+        wordService.replaceWord(wordIdStart, wordIdEnd);
+    }
+
+    @GetMapping("/get-sounds-for-empty-words")
+    public boolean getSoundForEmpty(){
+        return wordService.getAttachmentsForEmptyWords();
+    }
+
 }
