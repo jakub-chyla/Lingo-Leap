@@ -29,8 +29,11 @@
             <button mat-raised-button [disabled]="!myForm.valid" (click)="add()" color="accent">Add</button>
           </div>
         </div>
+        <div>
+          <button mat-raised-button [disabled]="isGettingSounds" (click)="getSounds()" color="accent">Get sounds for new words</button>
+        </div>
       </form>
-      <div class="grid grid-cols-1 gap-4 pt-4">
+      <div class="grid grid-cols-1 pt-4">
         <div>
           <mat-form-field class="input w-full">
             <mat-label>Filter</mat-label>

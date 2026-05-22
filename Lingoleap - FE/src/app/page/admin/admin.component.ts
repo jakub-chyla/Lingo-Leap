@@ -26,6 +26,7 @@ import {
 import {Language} from "../../enum/Language";
 import {Attachment} from "../../model/attachment";
 import {MatSort, MatSortModule} from "@angular/material/sort";
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'app-admin',
@@ -64,6 +65,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
   countDown = false;
   autoNext = true;
   autoRead = false;
+  isGettingSounds = false;
   displayedColumns: string[] = ['english', 'polish', 'action'];
   dataSource = new MatTableDataSource(this.wordsList);
 
@@ -144,6 +146,17 @@ export class AdminComponent implements OnInit, AfterViewInit {
         },
       );
     }
+  }
+
+  getSounds() {
+    if (this.isGettingSounds) {
+      return;
+    }
+
+    this.isGettingSounds = true;
+    this.wordService.getSoundsForEmptyWords()
+      .pipe(finalize(() => this.isGettingSounds = false))
+      .subscribe();
   }
 
   protected upload(wordId: number, language: Language) {
