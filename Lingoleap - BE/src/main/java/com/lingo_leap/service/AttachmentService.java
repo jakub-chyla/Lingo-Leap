@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,7 +23,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 @RequiredArgsConstructor
@@ -185,6 +190,23 @@ public class AttachmentService {
                         () -> new Exception("File not found with Id: " + fileId));
     }
 
+    public void writeAttachmentsZip(OutputStream outputStream) throws IOException {
+        Set<String> usedEntryNames = new HashSet<>();
+
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream)) {
+            for (Attachment attachment : attachmentRepository.findAll()) {
+                if (attachment.getData() == null) {
+                    continue;
+                }
+
+                String entryName = createZipEntryName(attachment, usedEntryNames);
+                zipOutputStream.putNextEntry(new ZipEntry(entryName));
+                zipOutputStream.write(attachment.getData());
+                zipOutputStream.closeEntry();
+            }
+        }
+    }
+
     public Long deleteAttachmentsByWordId(Long id) {
         attachmentRepository.deleteAttachmentsByWordId(id);
         return id;
@@ -203,6 +225,31 @@ public class AttachmentService {
 
     public AttachmentDTO findByWordIdAndLanguageWithOutData(Long wordId, Language language) {
         return attachmentRepository.findByWordIdAndLanguageWithOutData(wordId, language);
+    }
+
+    private String createZipEntryName(Attachment attachment, Set<String> usedEntryNames) {
+        String fileName = replacePolishLetters(attachment.getFileName());
+
+        if (!StringUtils.hasText(fileName)) {
+            fileName = "attachment-" + attachment.getId() + ".mp3";
+        }
+
+        fileName = Paths.get(fileName).getFileName().toString();
+
+        if (!fileName.toLowerCase().endsWith(".mp3")) {
+            fileName = fileName + ".mp3";
+        }
+
+        String entryName = fileName;
+
+        if (usedEntryNames.contains(entryName)) {
+            int extensionIndex = fileName.toLowerCase().lastIndexOf(".mp3");
+            String baseName = fileName.substring(0, extensionIndex);
+            entryName = baseName + "-" + attachment.getId() + ".mp3";
+        }
+
+        usedEntryNames.add(entryName);
+        return entryName;
     }
 
     String replacePolishLetters(String value) {
