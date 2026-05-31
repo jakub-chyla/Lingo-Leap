@@ -66,6 +66,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
   autoNext = true;
   autoRead = false;
   isGettingSounds = false;
+  isTrimmingAttachments = false;
   displayedColumns: string[] = ['english', 'polish', 'action'];
   dataSource = new MatTableDataSource(this.wordsList);
 
@@ -156,6 +157,17 @@ export class AdminComponent implements OnInit, AfterViewInit {
     this.isGettingSounds = true;
     this.wordService.getSoundsForEmptyWords()
       .pipe(finalize(() => this.isGettingSounds = false))
+      .subscribe();
+  }
+
+  trimLastSecondFromAllAttachments() {
+    if (this.isTrimmingAttachments) {
+      return;
+    }
+
+    this.isTrimmingAttachments = true;
+    this.attachmentService.trimLastSecondFromAllAttachments()
+      .pipe(finalize(() => this.isTrimmingAttachments = false))
       .subscribe();
   }
 

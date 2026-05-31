@@ -32,4 +32,8 @@ export class AttachmentService {
     return this.httpClient.delete<number>(this.domain + ATTACHMENT + `/${attachmentId}`, AuthHelper.getHeaderWithToken());
   }
 
+  trimLastSecondFromAllAttachments(): Observable<number> {
+    return this.httpClient.patch<number>(this.domain + ATTACHMENT + '/trim-last-second', null, AuthHelper.getHeaderWithToken());
+  }
+
 }

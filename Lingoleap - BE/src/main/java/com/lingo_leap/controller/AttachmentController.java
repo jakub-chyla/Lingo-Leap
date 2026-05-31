@@ -79,4 +79,9 @@ public class AttachmentController {
     public ResponseEntity<Integer> replacePolishLettersInAttachmentFileNames() {
         return ResponseEntity.ok(attachmentService.replacePolishLettersInAttachmentFileNames());
     }
+
+    @PatchMapping("/trim-last-second")
+    public ResponseEntity<Integer> trimLastSecondFromAllAttachments() throws Exception {
+        return ResponseEntity.ok(attachmentService.trimLastSecondFromAllAttachments());
+    }
 }
