@@ -22,6 +22,13 @@ export class AttachmentService {
     });
   }
 
+  downloadAll(): Observable<Blob> {
+    return this.httpClient.get(this.domain + ATTACHMENT + '/download-all', {
+      ...AuthHelper.getHeaderWithToken(),
+      responseType: 'blob',
+    });
+  }
+
   upload(wordId: string, language: Language, file: File): Observable<Attachment> {
     const formData = new FormData();
     formData.append('file', file);
