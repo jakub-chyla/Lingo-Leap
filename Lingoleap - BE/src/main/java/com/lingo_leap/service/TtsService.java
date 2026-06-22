@@ -23,6 +23,8 @@ public class TtsService {
 
     private final AttachmentRepository attachmentRepository;
 
+    private final AttachmentService attachmentService;
+
 
 //    private final String apiKey = "esk_lmUnfA0gxJpKEii-nNhx_tCzWfoNsIlu";
 //    private final String apiKey = "esk_BkX4lNSlmDxXDKr6MdxadElxJIQIapp5";
@@ -39,11 +41,12 @@ public class TtsService {
 //    private final String apiKey = "esk_RbZe2dw6VJO4q7VJekiddyjxeg1-dSyG";
 //    private final String apiKey = "esk_Tcu6vIx7p3hjnkSSwbLDB_oZ_6A6JlOz";
 
-    public TtsService(WebClient.Builder builder, AttachmentRepository attachmentRepository) {
+    public TtsService(WebClient.Builder builder, AttachmentRepository attachmentRepository, AttachmentService attachmentService) {
         this.webClient = builder
                 .baseUrl("https://eidosspeech.xyz")
                 .build();
         this.attachmentRepository = attachmentRepository;
+        this.attachmentService = attachmentService;
     }
 
     public Mono<byte[]> generateSpeech(TtsRequest request) {
@@ -119,6 +122,8 @@ public class TtsService {
                         .build()
         ).block();
 
+        englishAudio = trimGeneratedAudio(englishAudio);
+
         Attachment englishAt = new Attachment();
         englishAt.setFileName(word.getEnglish());
         englishAt.setWordId(word.getId());
@@ -144,6 +149,8 @@ public class TtsService {
                         .build()
         ).block();
 
+        polishAudio = trimGeneratedAudio(polishAudio);
+
         Attachment polishAt = new Attachment();
         polishAt.setFileName(word.getPolish());
         polishAt.setWordId(word.getId());
@@ -167,6 +174,14 @@ public class TtsService {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    private byte[] trimGeneratedAudio(byte[] audio) {
+        if (audio == null || audio.length == 0) {
+            return audio;
+        }
+
+        return attachmentService.trimLastSecondFromMp3(audio);
     }
 
     private void saveMp3ToDisk(byte[] audio, String fileName) {
