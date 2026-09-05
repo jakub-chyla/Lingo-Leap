@@ -52,9 +52,4 @@ public class WordController {
         wordService.replaceWord(wordIdStart, wordIdEnd);
     }
 
-    @GetMapping("/get-sounds-for-empty-words")
-    public boolean getSoundForEmpty(){
-        return wordService.getAttachmentsForEmptyWords();
-    }
-
 }

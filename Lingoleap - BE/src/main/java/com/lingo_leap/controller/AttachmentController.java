@@ -4,6 +4,7 @@ import com.lingo_leap.dto.AttachmentDTO;
 import com.lingo_leap.enums.Language;
 import com.lingo_leap.model.Attachment;
 import com.lingo_leap.service.AttachmentService;
+import com.lingo_leap.service.WordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -22,6 +23,7 @@ import java.util.List;
 public class AttachmentController {
 
     private final AttachmentService attachmentService;
+    private final WordService wordService;
 
     @PostMapping("/upload/{wordId}/{language}")
     public ResponseEntity<Attachment> uploadFile(@PathVariable Long wordId, @PathVariable Language language, @RequestParam("file") MultipartFile file) throws Exception {
@@ -52,6 +54,11 @@ public class AttachmentController {
     @GetMapping("/sounds/replace")
     public ResponseEntity<List<String>> replaceSoundFilesFromSoundsFolder() throws Exception {
         return ResponseEntity.ok(attachmentService.replaceAttachmentsFromSoundsFolder());
+    }
+
+    @GetMapping("/get-sounds-for-empty-words")
+    public boolean getSoundForEmpty() {
+        return wordService.getAttachmentsForEmptyWords();
     }
 
     @GetMapping("/download/{fileId}")
