@@ -116,17 +116,6 @@ public class WordService {
         }
     }
 
-    public Boolean getAttachmentsForEmptyWords() {
-        List<Word> words = wordRepository.findWordsWithOutAttachments();
-
-        for (Word word : words) {
-            ttsService.getSoundForEmptyWord(word);
-        }
-
-        attachmentService.replacePolishLettersInAttachmentFileNames();
-        return true;
-    }
-
 
     List<Long> getIdsFromRange(int wordIdStart, int wordIdEnd) {
         List<Long> ids = new ArrayList<>();

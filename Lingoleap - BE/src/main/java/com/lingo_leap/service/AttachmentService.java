@@ -3,7 +3,9 @@ package com.lingo_leap.service;
 import com.lingo_leap.dto.AttachmentDTO;
 import com.lingo_leap.enums.Language;
 import com.lingo_leap.model.Attachment;
+import com.lingo_leap.model.Word;
 import com.lingo_leap.repository.AttachmentRepository;
+import com.lingo_leap.repository.WordRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,6 +53,8 @@ public class AttachmentService {
     };
 
     private final AttachmentRepository attachmentRepository;
+    private final WordRepository wordRepository;
+    private final TtsService ttsService;
 
     @Transactional
     public Attachment saveAttachment(Long wordId, Language language, MultipartFile file) throws Exception {
@@ -197,6 +201,10 @@ public class AttachmentService {
     }
 
     byte[] trimLastSecondFromMp3(byte[] data) {
+        return trimMp3Data(data);
+    }
+
+    static byte[] trimMp3Data(byte[] data) {
         int audioStart = findAudioStart(data);
         int audioEnd = findAudioEnd(data);
 
@@ -248,7 +256,7 @@ public class AttachmentService {
         return trimmedData;
     }
 
-    private int findAudioStart(byte[] data) {
+    private static int findAudioStart(byte[] data) {
         if (data.length < 10 || data[0] != 'I' || data[1] != 'D' || data[2] != '3') {
             return 0;
         }
@@ -260,7 +268,7 @@ public class AttachmentService {
         return Math.min(data.length, 10 + tagSize);
     }
 
-    private int findAudioEnd(byte[] data) {
+    private static int findAudioEnd(byte[] data) {
         if (data.length >= ID3V1_TAG_SIZE
                 && data[data.length - ID3V1_TAG_SIZE] == 'T'
                 && data[data.length - ID3V1_TAG_SIZE + 1] == 'A'
@@ -271,7 +279,7 @@ public class AttachmentService {
         return data.length;
     }
 
-    private Mp3Frame readMp3Frame(byte[] data, int offset, int audioEnd) {
+    private static Mp3Frame readMp3Frame(byte[] data, int offset, int audioEnd) {
         if ((data[offset] & 0xFF) != 0xFF || (data[offset + 1] & 0xE0) != 0xE0) {
             return null;
         }
@@ -298,7 +306,7 @@ public class AttachmentService {
         return new Mp3Frame(offset, frameSize, samplesPerFrame * 1000.0 / sampleRate);
     }
 
-    private int bitrateTableIndex(int version, int layer) {
+    private static int bitrateTableIndex(int version, int layer) {
         if (version == 3) {
             return 3 - layer;
         }
@@ -306,7 +314,7 @@ public class AttachmentService {
         return 6 - layer;
     }
 
-    private int samplesPerFrame(int version, int layer) {
+    private static int samplesPerFrame(int version, int layer) {
         if (layer == 3) {
             return 384;
         }
@@ -318,7 +326,7 @@ public class AttachmentService {
         return 576;
     }
 
-    private int frameSize(int version, int layer, int bitrate, int sampleRate, int padding) {
+    private static int frameSize(int version, int layer, int bitrate, int sampleRate, int padding) {
         if (layer == 3) {
             return (12 * bitrate / sampleRate + padding) * 4;
         }
@@ -360,5 +368,16 @@ public class AttachmentService {
     }
 
     private record Mp3Frame(int offset, int size, double durationMilliseconds) {
+    }
+
+    public Boolean getAttachmentsForEmptyWords() {
+        List<Word> words = wordRepository.findWordsWithOutAttachments();
+
+        for (Word word : words) {
+            ttsService.getSoundForEmptyWord(word);
+        }
+
+        replacePolishLettersInAttachmentFileNames();
+        return true;
     }
 }

@@ -23,8 +23,6 @@ public class TtsService {
 
     private final AttachmentRepository attachmentRepository;
 
-    private final AttachmentService attachmentService;
-
 
 //    private final String apiKey = "esk_lmUnfA0gxJpKEii-nNhx_tCzWfoNsIlu";
 //    private final String apiKey = "esk_BkX4lNSlmDxXDKr6MdxadElxJIQIapp5";
@@ -41,12 +39,11 @@ public class TtsService {
 //    private final String apiKey = "esk_RbZe2dw6VJO4q7VJekiddyjxeg1-dSyG";
 //    private final String apiKey = "esk_Tcu6vIx7p3hjnkSSwbLDB_oZ_6A6JlOz";
 
-    public TtsService(WebClient.Builder builder, AttachmentRepository attachmentRepository, AttachmentService attachmentService) {
+    public TtsService(WebClient.Builder builder, AttachmentRepository attachmentRepository) {
         this.webClient = builder
                 .baseUrl("https://eidosspeech.xyz")
                 .build();
         this.attachmentRepository = attachmentRepository;
-        this.attachmentService = attachmentService;
     }
 
     public Mono<byte[]> generateSpeech(TtsRequest request) {
@@ -181,7 +178,7 @@ public class TtsService {
             return audio;
         }
 
-        return attachmentService.trimLastSecondFromMp3(audio);
+        return AttachmentService.trimMp3Data(audio);
     }
 
     private void saveMp3ToDisk(byte[] audio, String fileName) {
