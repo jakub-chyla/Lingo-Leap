@@ -65,13 +65,4 @@ public class AttachmentController {
         return ResponseEntity.ok(attachmentService.deleteAttachmentsById(attachmentId));
     }
 
-    @PatchMapping("/replace-polish-letters")
-    public ResponseEntity<Integer> replacePolishLettersInAttachmentFileNames() {
-        return ResponseEntity.ok(attachmentService.replacePolishLettersInAttachmentFileNames());
-    }
-
-    @PatchMapping("/trim-last-second")
-    public ResponseEntity<Integer> trimLastSecondFromAllAttachments() throws Exception {
-        return ResponseEntity.ok(attachmentService.trimLastSecondFromAllAttachments());
-    }
 }
