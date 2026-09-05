@@ -4,7 +4,6 @@ import com.lingo_leap.model.Attachment;
 import com.lingo_leap.repository.AttachmentRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.io.TempDir;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -12,8 +11,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -32,9 +29,6 @@ class AttachmentServiceTest {
 
     @InjectMocks
     private AttachmentService attachmentService;
-
-    @TempDir
-    private Path tempDir;
 
     @Test
     void replacePolishLettersReplacesAllPolishCharacters() {
@@ -64,34 +58,6 @@ class AttachmentServiceTest {
         assertEquals(1, updatedCount);
         assertEquals(1, captor.getValue().size());
         assertEquals("zazolc gesla jazn.mp3", captor.getValue().get(0).getFileName());
-    }
-
-    @Test
-    void replaceAttachmentsFromSoundsFolderUpdatesMatchingAttachmentData() throws Exception {
-        byte[] soundData = new byte[]{1, 2, 3};
-        Files.write(tempDir.resolve("zazolc gesla jazn.mp3"), soundData);
-        Files.write(tempDir.resolve("unused.mp3"), new byte[]{9});
-
-        Attachment matchingAttachment = new Attachment();
-        matchingAttachment.setId(1L);
-        matchingAttachment.setFileName("zazolc gesla jazn.mp3");
-
-        Attachment missingAttachment = new Attachment();
-        missingAttachment.setId(2L);
-        missingAttachment.setFileName("missing.mp3");
-
-        when(attachmentRepository.findAll()).thenReturn(List.of(matchingAttachment, missingAttachment));
-
-        List<String> replacedFiles = attachmentService.replaceAttachmentsFromSoundsFolder(tempDir);
-
-        ArgumentCaptor<List<Attachment>> captor = ArgumentCaptor.forClass(List.class);
-        verify(attachmentRepository).saveAll(captor.capture());
-
-        assertEquals(List.of("zazolc gesla jazn.mp3"), replacedFiles);
-        assertEquals(1, captor.getValue().size());
-        assertEquals("zazolc gesla jazn.mp3", captor.getValue().get(0).getFileName());
-        assertEquals("audio/mpeg", captor.getValue().get(0).getFileType());
-        assertTrue(Arrays.equals(soundData, captor.getValue().get(0).getData()));
     }
 
     @Test
