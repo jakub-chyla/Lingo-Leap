@@ -41,21 +41,6 @@ public class AttachmentController {
                 .body(responseBody);
     }
 
-    @PostMapping("/sounds/replace")
-    public ResponseEntity<List<String>> replaceSoundFiles() throws Exception {
-        return ResponseEntity.ok(attachmentService.replaceAttachmentsFromSoundsFolder());
-    }
-
-    @PostMapping("/sounds/upload-replace")
-    public ResponseEntity<List<String>> replaceUploadedSoundFiles(@RequestParam("files") List<MultipartFile> files) throws Exception {
-        return ResponseEntity.ok(attachmentService.replaceSoundFiles(files));
-    }
-
-    @GetMapping("/sounds/replace")
-    public ResponseEntity<List<String>> replaceSoundFilesFromSoundsFolder() throws Exception {
-        return ResponseEntity.ok(attachmentService.replaceAttachmentsFromSoundsFolder());
-    }
-
     @GetMapping("/get-sounds-for-empty-words")
     public boolean getSoundForEmpty() {
         return wordService.getAttachmentsForEmptyWords();
