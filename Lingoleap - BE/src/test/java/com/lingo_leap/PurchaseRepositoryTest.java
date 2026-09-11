@@ -22,6 +22,7 @@ class PurchaseRepositoryTest {
     static PostgreSQLContainer<?> postgres =
             new PostgreSQLContainer<>("postgres:17");
 
+
     @Autowired
     private PurchaseRepository purchaseRepository;
 
